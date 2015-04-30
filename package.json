@@ -1,0 +1,26 @@
+{
+  "name": "nodercms",
+  "version": "0.0.1",
+  "description": "CMS内容管理系统",
+  "main": "bin/www",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dgtmtx/nodercms.git"
+  },
+  "keywords": [
+    "NoderCMS",
+    "CMS"
+  ],
+  "author": {
+    "name": "Welkin Wong",
+    "email": "welkin.wong@Me.com"
+  },
+  "license": "AGPL",
+  "bugs": {
+    "url": "https://github.com/dgtmtx/nodercms/issues"
+  },
+  "homepage": "https://github.com/dgtmtx/nodercms"
+}
+
