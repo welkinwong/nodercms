@@ -4,9 +4,9 @@
  * 读入主模块
  */
 
-var app = require('../app');
-
 var http = require('http');
+var app = require('../app');
+var logger = require('../lib/logger');
 
 /**
  * 设置端口
@@ -59,17 +59,17 @@ function onError(error) {
   }
 
   var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+    ? 'pipe ' + port
+    : 'port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
+      logger.system().error(bind + ' 需要有更高的权限');
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
+      logger.system().error(bind + ' 已被使用');
       process.exit(1);
       break;
     default:
@@ -86,5 +86,5 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  logger.system().info('正在监听 ' + bind);
 }

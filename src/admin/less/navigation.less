@@ -1,0 +1,110 @@
+.navigation {
+  position:fixed; left: 0; top: 0; bottom: 0;
+  overflow-y: auto;
+  width: 220px;
+  background-color: #2d353c;
+  box-shadow: -4px 0 6px rgba(0, 0, 0, .15) inset;
+
+  > .brand {
+    display: block;
+    max-width: 100%;
+    margin: 25px auto;
+  }
+
+  > .list {
+    padding-left: 0;
+
+    > li {
+      > .item {
+        display: block;
+        padding: 10px 20px;
+        line-height: 20px;
+        color: #a8acb1;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #232a2f;
+        }
+
+        &.active {
+          color: #fff;
+          background-image: linear-gradient(to bottom,  rgba(103,176,240,1) 0%,rgba(52,143,226,1) 100%);
+
+          > .fa {
+            color: #fff;
+          }
+        }
+
+        &.select {
+          ~ .sub-list {
+            display: block;
+          }
+        }
+
+        > .fa {
+          margin-right: 10px;
+        }
+
+        > .caret {
+          float: right;
+          margin-top: 8px;
+        }
+      }
+
+      > .sub-list {
+        display: none;
+        position: relative;
+        padding: 10px 20px;
+        background-color: #1a2229;
+        list-style-type: none;
+
+        .item {
+          display: block;
+          padding: 5px 0;
+          font-weight: 300;
+          color: #889097;
+
+          &:hover,
+          &.active {
+            color: #fff;
+
+            > .fa {
+              color: #348fe2;
+            }
+          }
+
+          > .fa {
+            margin-right: 10px;
+            transform: scale(.5);
+          }
+        }
+      }
+    }
+  }
+
+  .notification {
+    position: fixed; z-index: 1; bottom: 10px; left: 10px;
+    width: 200px;
+    padding: 8px 15px;
+    background: #283037;
+    border-radius: 4px;
+
+    &.ng-hide-remove {
+      transition: transform 300ms ease-out;
+      transform: translateY(100%);
+
+      &.ng-hide-remove-active {
+        transform: translateY(0%);
+      }
+    }
+
+    &.ng-hide-add {
+      transition: transform 300ms ease-in;
+      transform: translateY(0%);
+
+      &.ng-hide-add-active {
+        transform: translateY(100%);
+      }
+    }
+  }
+}

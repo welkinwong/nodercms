@@ -1,0 +1,61 @@
+<!-- 删除模态 -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="关闭"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="deleteModalTitle">警告</h4>
+      </div>
+      <div class="modal-body">
+        <h4 class="text-center">您确定要删除该角色？</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button ng-click="deleteRole()" type="button" class="btn btn-danger">确认删除</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 主体 -->
+<div ui-view class="view">
+  <div class="page-header clearfix">
+    <h1 class="heading pull-left">权限角色</h1>
+    <a ui-sref="main.roles.create" class="btn btn-primary btn-sm pull-right"><i class="fa fa-pencil"></i> 创建角色</a>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th class="text-center">名称</th>
+            <th class="text-center">模块</th>
+            <th class="text-center">备注</th>
+            <th class="text-center">操作</th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+          <tr>
+            <td>管理员</td>
+            <td>
+              <span class="label label-info margin-0303">所有权限</span>
+            </td>
+            <td>系统内置</td>
+            <td>-</td>
+          </tr>
+          <tr ng-repeat="role in roles">
+            <td>{{role.name}}</td>
+            <td>
+              <span ng-repeat="authority in role.authorities" class="label label-info margin-0303">{{translate(authority)}}</span>
+            </td>
+            <td>{{role.description}}</td>
+            <td>
+              <a ui-sref="main.roles.update({ _id: role._id })" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> 修改</a>
+              <button ng-click="$parent.$parent.deleteRoleId = role._id" class="btn btn-default btn-xs" type="button" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash-o"></i> 删除</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
