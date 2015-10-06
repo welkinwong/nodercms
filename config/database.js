@@ -12,8 +12,8 @@ module.exports = {
   db: 'nodercms',
 
   // 数据库用户名
-  user: 'nodercms',
+  //user: 'nodercms',
 
   // 数据库密码
-  password: 'nodercms'
+  //password: 'nodercms'
 };

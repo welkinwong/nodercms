@@ -7,27 +7,38 @@ module.exports = {
       type: 'dateFile',
       category: 'access',
       filename: 'logs/access/access',
-      pattern: '-yyyy-MM-dd.log'
+      pattern: '-yyyy-MM-dd.log',
+      alwaysIncludePattern: true
     },
     {
       type: 'dateFile',
       category: 'system',
       filename: 'logs/system/system',
-      pattern: '-yyyy-MM-dd.log'
+      pattern: '-yyyy-MM-dd.log',
+      alwaysIncludePattern: true
+    },
+    {
+      type: 'dateFile',
+      category: 'database',
+      filename: 'logs/database/database',
+      pattern: '-yyyy-MM-dd.log',
+      alwaysIncludePattern: true
     },
     {
       type: 'dateFile',
       category: 'admin',
       filename: 'logs/admin/admin',
-      pattern: '-yyyy-MM-dd.log'
+      pattern: '-yyyy-MM-dd.log',
+      alwaysIncludePattern: true
     },
     {
       type: 'logLevelFilter',
       level: 'ERROR',
       appender: {
-        type: 'file', 
-        filename: 'logs/errors',
-        pattern: '-yyyy-MM-dd.log'
+        type: 'dateFile',
+        filename: 'logs/errors/error',
+        pattern: '-yyyy-MM-dd.log',
+        alwaysIncludePattern: true
       }
     }
   ],
