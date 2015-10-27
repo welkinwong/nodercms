@@ -20,8 +20,8 @@ function error (event) {
 /**
  * 清除 public/assets_admin
  */
-gulp.task('clean', function() {
-  return del(['./public/assets/admin/**/*']);
+gulp.task('clean', function(cb) {
+  return del(['./public/assets/admin/**/*'], cb);
 });
 
 /**

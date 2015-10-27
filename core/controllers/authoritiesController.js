@@ -16,8 +16,16 @@ var authorities = [
     name: '用户管理'
   },
   {
-    authority: 14000,
-    name: '设置'
+    authority: 14001,
+    name: '网站配置'
+  },
+  {
+    authority: 14002,
+    name: '栏目管理'
+  },
+  {
+    authority: 14003,
+    name: '内容模型'
   }
 ];
 
