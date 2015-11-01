@@ -6,6 +6,7 @@ var less = require('gulp-less');
 var autoprefixer = require('gulp-autoprefixer');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
+var minify = require('gulp-minify-css');
 var plumber = require( 'gulp-plumber' );
 var del = require('del');
 
@@ -31,11 +32,12 @@ gulp.task('build-assets-admin-less', ['clean'], function () {
   return gulp.src('./src/admin/less/import.less')
     .pipe(plumber({ errorHandler: error }))
     .pipe(less())
-    .pipe(concat('main.css'))
+    .pipe(concat('main.min.css'))
     .pipe(autoprefixer({
       browsers: ['last 2 versions'],
       cascade: false
     }))
+    .pipe(minify())
     .pipe(gulp.dest('./public/assets/admin/'));
 });
 
@@ -45,7 +47,7 @@ gulp.task('build-assets-admin-less', ['clean'], function () {
 gulp.task('concat-assets-admin', ['clean'], function () {
   return gulp.src(['./src/admin/main.js', './src/admin/controllers/*.js', './src/admin/services/*.js', './src/admin/directives/*.js'])
     .pipe(plumber({ errorHandler: error }))
-    .pipe(concat('main.js'))
+    .pipe(concat('main.min.js'))
     .pipe(uglify())
     .pipe(gulp.dest('./public/assets/admin/'));
 });

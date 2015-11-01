@@ -37,6 +37,7 @@ angular.module('controllers').controller('categoriesController', ['$scope', '$ht
       function tree (callback) {
         var _categories = [];
         var count = 0;
+        var callbackFlag = false;
 
         for (var i = 0; i < categories.length; i++) {
           if (!categories[i].parentCategory) {
@@ -57,8 +58,14 @@ angular.module('controllers').controller('categoriesController', ['$scope', '$ht
                 if (count < categories.length) {
                   loop(nodes[i]._node);
                 } else if (count === categories.length) {
+                  callbackFlag = true;
                   callback(_categories);
                 }
+              }
+
+              // 循环至最后一个且没有返回树（只有顶级分类情况）
+              if (!callbackFlag && count === categories.length && _i === categories.length - 1 && i === nodes.length -1) {
+                callback(_categories);
               }
             }
           }
@@ -67,7 +74,6 @@ angular.module('controllers').controller('categoriesController', ['$scope', '$ht
 
       // 按树进行排序
       tree(function (categories) {
-
         // 递归栏目
         (function loop (list, directory, layer) {
           list.sort(function (a, b) {
@@ -141,6 +147,14 @@ angular.module('controllers').controller('categoriesController', ['$scope', '$ht
           for (var i = 0; i < $scope.categories.length; i++) {
             if ($scope.deleteCategoryId === $scope.categories[i]._id) {
               $scope.categories.splice(i, 1);
+
+              for (var _i = $scope.categories.length - 1; _i > 0; _i--) {
+                if ($scope.categories[_i].parentCategory === $scope.deleteCategoryId) {
+                  $scope.categories[_i].parentCategory = null;
+                }
+              }
+
+              $scope.categoriesSort();
 
               $scope.$emit('notification', {
                 type: 'success',

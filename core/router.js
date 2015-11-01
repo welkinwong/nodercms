@@ -33,31 +33,31 @@ module.exports = {
 
     // 网站配置
     '/siteInfo': {
-      get: 'siteInfoController.query',
-      put: [10000, 'siteInfoController.update']
+      get: [140010, 'siteInfoController.query'],
+      put: [140011, 'siteInfoController.update']
     },
 
-    // 栏目
+    // 分类管理
     '/categories': {
       get: 'categoriesController.query',
-      post: [10000, 'categoriesController.create'],
+      post: [140021, 'categoriesController.create'],
 
       '/:_id': {
         get: 'categoriesController.query',
-        put: [10000, 'categoriesController.update'],
-        delete: [10000, 'categoriesController.remove']
+        put: [140021, 'categoriesController.update'],
+        delete: [140021, 'categoriesController.remove']
       }
     },
 
     // 内容模型
     '/models': {
-      get: 'modelsController.query',
-      post: [10000, 'modelsController.create'],
+      get: [140030, 'modelsController.query'],
+      post: [140031, 'modelsController.create'],
 
       '/:_id': {
-        get: 'modelsController.query',
-        put: [10000, 'modelsController.update'],
-        delete: [10000, 'modelsController.remove']
+        get: [140030, 'modelsController.query'],
+        put: [140031, 'modelsController.update'],
+        delete: [140031, 'modelsController.remove']
       }
     },
 
@@ -68,26 +68,25 @@ module.exports = {
 
     // 权限管理
     '/roles': {
-      all: [10000],
+      all: [100000],
       get: 'rolesController.query',
       post: 'rolesController.create',
 
       '/:_id': {
-        all: [10000],
         get: 'rolesController.query',
-        put: 'rolesController.update',
-        delete: 'rolesController.remove'
+        put: [100000, 'rolesController.update'],
+        delete: [100000, 'rolesController.remove']
       }
     },
 
     // 后台用户
     '/adminUsers': {
-      all: [10000],
+      all: [100000],
       get: 'adminUsersController.query',
       post: 'adminUsersController.create',
 
       '/:_id': {
-        all: [10000],
+        all: [100000],
         get: 'adminUsersController.query',
         put: 'adminUsersController.update',
         delete: 'adminUsersController.remove'
@@ -96,7 +95,7 @@ module.exports = {
 
     // 模板
     '/views': {
-      get: [10000, 'viewsController']
+      get: 'viewsController'
     }
   }
 };

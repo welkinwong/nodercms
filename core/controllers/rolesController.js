@@ -53,9 +53,9 @@ module.exports = {
       return res.status(400).end();
     }
 
-    // 不允许创建权限存在 0 的角色
+    // 不允许创建权限存在 100000 的角色
     for (var i = 0; i < req.body.authorities.length; i++) {
-      if (req.body.authorities[i] === 10000) return res.status(400).end();
+      if (req.body.authorities[i] === 100000) return res.status(400).end();
     }
 
     new rolesModel({
@@ -91,9 +91,9 @@ module.exports = {
       return res.status(400).end();
     }
 
-    // 不允许更新后权限存在 10000 的角色
+    // 不允许更新后权限存在 100000 的角色
     for (var i = 0; i < req.body.authorities.length; i++) {
-      if (req.body.authorities[i] === 10000) return res.status(400).end();
+      if (req.body.authorities[i] === 100000) return res.status(400).end();
     }
 
     rolesModel.update({ _id: req.params._id }, {
@@ -127,9 +127,9 @@ module.exports = {
         return res.status(500).end();
       }
 
-      // 不允许删除权限存在 10000 的角色
+      // 不允许删除权限存在 100000 的角色
       for (var i = 0; i < role.authorities.length; i++) {
-        if (role.authorities[i] === 10000) return res.status(400).end();
+        if (role.authorities[i] === 100000) return res.status(400).end();
       }
 
       role.remove(function (err) {

@@ -6,7 +6,8 @@ angular.module('controllers').controller('mainController', ['$scope', '$state', 
     /**
      * 初始化变量
      */
-    
+
+
 
 	}
 ]);

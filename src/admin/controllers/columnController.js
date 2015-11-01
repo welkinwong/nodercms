@@ -16,6 +16,7 @@ angular.module('controllers').controller('columnController', ['$scope', '$stateP
     $http.get('/api/categories/' + $stateParams._id)
       .success(function (data) {
         $scope.category = data;
+        console.log(data);
       });
 
   }

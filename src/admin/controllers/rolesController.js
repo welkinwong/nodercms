@@ -34,7 +34,7 @@ angular.module('controllers').controller('rolesController', ['$scope', '$http',
             var deleteRoleIndex;
             for (var i = 0; i < data.length; i++) {
               for (var _i = 0; _i < data[i].authorities.length; _i++) {
-                if (data[i].authorities[_i] === 10000) {
+                if (data[i].authorities[_i] === 100000) {
                   deleteRoleIndex = i;
 
                   break;

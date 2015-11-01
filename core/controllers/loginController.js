@@ -3,7 +3,6 @@ var crypto = require('crypto');
 var logger = require('../../lib/logger');
 var sha1 = require('../services/sha1Service');
 var usersModel = require('../models/usersModel');
-var rolesModel = require('../models/rolesModel');
 
 module.exports = {
   // 检查是否登录
@@ -39,20 +38,17 @@ module.exports = {
         }
 
         if (user && sha1(req.body.password) === user.password) {
-          req.session.user = {
+          var _user = {
             _id: user._id,
             type: user.type,
             nickname: user.nickname,
             email: user.email,
-            role: {
-              _id: user.role._id,
-              name: user.role.name,
-              description: user.role.description,
-              authorities: user.role.authorities
-            }
+            role: user.role
           };
 
-          res.status(204).end();
+          req.session.user = _user;
+
+          res.status(200).json(_user);
         } else {
           res.status(401).json({
             error: {

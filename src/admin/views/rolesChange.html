@@ -12,19 +12,25 @@
         <table class="table table-hover">
           <thead>
             <tr>
-              <th class="text-center">权限代码</th>
               <th class="text-center">名称</th>
-              <th class="text-center">操作</th>
+              <th class="text-center">权限</th>
             </tr>
           </thead>
           <tbody class="text-center">
             <tr ng-repeat="item in authorities">
-              <td>{{item.authority}}</td>
               <td>{{item.name}}</td>
               <td>
-                <button ng-hide="item.required" ng-click="item.required = true" class="btn btn-default btn-xs" type="button"><i class="fa fa-square-o fa-fw"></i>  查看和编辑   </button>
-                <!--<button ng-hide="item.required" ng-click="item.required = true" class="btn btn-default btn-xs" type="button"><i class="fa fa-square-o fa-fw"></i> 未选择</button>-->
-                <!--<button ng-show="item.required" ng-click="item.required = false" class="btn btn-success btn-xs" type="button"><i class="fa fa-check-square-o fa-fw"></i> 已选中</button>-->
+                <div class="btn-group btn-group-xs" data-toggle="buttons">
+                  <label ng-click="item.option = 0" ng-class="{ 'active': item.option === 0 }" class="btn btn-default">
+                    <input type="radio" autocomplete="off" checked> 无权限
+                  </label>
+                  <label ng-click="item.option = 1" ng-class="{ 'active': item.option === 1 }" class="btn btn-default">
+                    <input type="radio" autocomplete="off"> 仅查看
+                  </label>
+                  <label ng-click="item.option = 2" ng-class="{ 'active': item.option === 2 }" class="btn btn-default">
+                    <input type="radio" autocomplete="off"> 查看和编辑
+                  </label>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -45,7 +51,7 @@
             <label class="control-label" for="description">角色备注：</label>
             <input ng-model="description" ng-disabled="transmitting" class="form-control" id="description" name="description" type="text" placeholder="请输入角色备注">
           </div>
-          <button ng-disabled="transmitting || roleForm.$invalid" class="btn btn-primary btn-block" type="submit" form="roleForm"><i class="fa fa-save"></i> 保存角色</button>
+          <button ng-disabled="transmitting || name === '管理员' || roleForm.$invalid" class="btn btn-primary btn-block" type="submit" form="roleForm"><i class="fa fa-save"></i> 保存角色</button>
         </form>
       </div>
     </div>

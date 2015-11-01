@@ -58,9 +58,16 @@ angular.module('nodercms', [
 
       // 栏目列表
       .state('main.column', {
-        url: '^/admin/column/:name',
+        url: '^/admin/column/:_id',
         templateUrl: '/assets/admin/views/column.html',
         controller: 'columnController'
+      })
+
+      // 栏目列表 - 新建内容
+      .state('main.column.content', {
+        url: '^/admin/column/:_id/create',
+        templateUrl: '/assets/admin/views/columnChange.html',
+        controller: 'columnChangeController'
       })
 
       // 网站配置

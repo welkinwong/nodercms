@@ -1,0 +1,73 @@
+<!-- 删除模态 -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="关闭"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="deleteModalTitle">警告</h4>
+      </div>
+      <div class="modal-body">
+        <h4 class="text-center">您确定要删除该分类？</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button ng-click="deleteModel()" type="button" class="btn btn-danger">确认删除</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 主体 -->
+
+<div class="page-header clearfix">
+  <h1 ng-if="action === 'create'" class="heading pull-left">{{$parent.category.name}} - 创建内容</h1>
+  <h1 ng-if="action === 'update'" class="heading pull-left">{{$parent.category.name}} - 更新内容</h1>
+  &nbsp;
+  <a ui-sref="main.column" class="btn btn-default btn-sm">返回</a>
+</div>
+<form ng-submit="" id="" name="" novalidate>
+  <div class="row">
+    <div class="col-md-9">
+      <div class="panel panel-default">
+        <div class="panel-body table-responsive">
+          <div ng-class="{ 'has-error': siteInfoForm.title.$touched && siteInfoForm.title.$invalid }" class="form-group">
+            <label class="sr-only" for="inputTitle">标题</label>
+            <div class="input-group">
+              <div class="input-group-addon">* 标题</div>
+              <input ng-model="title" ng-disabled="transmitting" class="form-control" id="inputTitle" type="text" name="title" placeholder="请输入内容标题" required>
+            </div>
+          </div>
+          <div ng-class="{ 'has-error': siteInfoForm.title.$touched && siteInfoForm.title.$invalid }" class="form-group">
+            <label class="sr-only" for="inputTitle">URL</label>
+            <div class="input-group">
+              <div class="input-group-addon">* URL</div>
+              <input ng-model="url" ng-disabled="transmitting" class="form-control" id="inputUrl" type="url" name="url" placeholder="请输入内容URL" required>
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">从标题翻译</button>
+              </span>
+            </div>
+          </div>
+          <textarea id="content" name="content" data-provide="markdown" rows="14"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="panel panel-default">
+        <div class="panel-heading">角色信息</div>
+        <div class="panel-body">
+          <form ng-submit="saveRole()" id="roleForm" name="roleForm" novalidate>
+            <div ng-class="{ 'has-error': roleForm.name.$touched && roleForm.name.$invalid }" class="form-group">
+              <label class="control-label" for="name">* 角色名称：</label>
+              <input ng-model="name" ng-disabled="transmitting" class="form-control" id="name" type="text" name="name" placeholder="请输入角色名称" required>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="description">角色备注：</label>
+              <input ng-model="description" ng-disabled="transmitting" class="form-control" id="description" name="description" type="text" placeholder="请输入角色备注">
+            </div>
+            <button ng-disabled="transmitting || name === '管理员' || roleForm.$invalid" class="btn btn-primary btn-block" type="submit" form="roleForm"><i class="fa fa-save"></i> 保存角色</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

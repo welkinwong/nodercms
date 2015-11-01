@@ -41,6 +41,7 @@ angular.module('controllers').controller('categoriesChangeController', ['$scope'
     $scope.parentCategory = undefined;
     $scope.keywords =  '';
     $scope.description = '';
+    $scope._id = $stateParams._id ? $stateParams._id : 'null';
 
     /**
      * 读取内容模型

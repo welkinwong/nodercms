@@ -27,4 +27,6 @@ build/Release
 node_modules
 
 Thumbs.db
+.DS_Store
 public
+.idea

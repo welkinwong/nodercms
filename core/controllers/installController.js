@@ -64,7 +64,7 @@ module.exports = {
         new rolesModel({
           name: '管理员',
           description: '系统内置',
-          authorities: [10000]
+          authorities: [100000]
         }).save(function (err, data) {
           callback(err, data);
         });
