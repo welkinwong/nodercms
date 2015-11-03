@@ -29,7 +29,6 @@
         <thead>
           <tr>
             <th class="text-center">名称</th>
-            <th class="text-center">模块</th>
             <th class="text-center">备注</th>
             <th class="text-center">操作</th>
           </tr>
@@ -37,17 +36,11 @@
         <tbody class="text-center">
           <tr>
             <td>管理员</td>
-            <td>
-              <span class="label label-info margin-0303">所有权限</span>
-            </td>
-            <td>系统内置</td>
+            <td>所有权限（系统内置）</td>
             <td>-</td>
           </tr>
           <tr ng-repeat="role in roles">
             <td>{{role.name}}</td>
-            <td>
-              <span ng-repeat="authority in role.authorities" class="label label-info margin-0303">{{translate(authority)}}</span>
-            </td>
             <td>{{role.description}}</td>
             <td>
               <a ui-sref="main.roles.update({ _id: role._id })" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> 修改</a>

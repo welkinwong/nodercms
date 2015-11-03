@@ -8,63 +8,40 @@ angular.module('controllers').controller('rolesController', ['$scope', '$http',
     /**
      * 初始化变量
      */
-    $scope.authorities = [];
     $scope.roles = [];
     $scope.deleteRoleId = '';
 
     /**
-     * 获取权限列表&角色列表
+     * 获取角色列表
      */
-    async.parallel({
-      // 获取权限列表
-      authorities: function (callback) {
-        $http.get('/api/authorities')
-          .success(function (data) {
-            callback(null, data);
-          })
-          .error(function () {
-            callback('获取权限失败');
-          });
-      },
+    $http.get('/api/roles')
+      .success(function (data) {
+        var deleteRoleIndex;
 
-      // 获取角色列表
-      roles: function (callback) {
-        $http.get('/api/roles')
-          .success(function (data) {
-            var deleteRoleIndex;
-            for (var i = 0; i < data.length; i++) {
-              for (var _i = 0; _i < data[i].authorities.length; _i++) {
-                if (data[i].authorities[_i] === 100000) {
-                  deleteRoleIndex = i;
+        for (var i = 0; i < data.length; i++) {
+          for (var _i = 0; _i < data[i].authorities.length; _i++) {
+            if (data[i].authorities[_i] === 100000) {
+              deleteRoleIndex = i;
 
-                  break;
-                }
-              }
-
-              if (!isNaN(deleteRoleIndex)) {
-                data.splice(deleteRoleIndex, 1);
-
-                break;
-              }
+              break;
             }
+          }
 
-            callback(null, data);
-          })
-          .error(function () {
-            callback('获取角色列表失败');
-          });
-      }
-    }, function (err, results) {
-      if (err) {
-        return $scope.$emit('notification', {
+          if (!isNaN(deleteRoleIndex)) {
+            data.splice(deleteRoleIndex, 1);
+
+            break;
+          }
+        }
+
+        $scope.roles = data;
+      })
+      .error(function () {
+        $scope.$emit('notification', {
           type: 'danger',
-          message: err
+          message: '获取角色列表失败'
         });
-      }
-
-      $scope.authorities = results.authorities;
-      $scope.roles = results.roles;
-    });
+      });
 
     /**
      * 翻译系统键
