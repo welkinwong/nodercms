@@ -35,5 +35,14 @@ angular.module('controllers').controller('columnChangeController', ['$scope', '$
       ]
     });
 
+	  /**
+	   * 配置 Datepicker 控件
+	   */
+	  $('.input-group.date').datepicker({
+		  todayBtn: "linked",
+		  language: "zh-CN",
+		  autoclose: true,
+		  todayHighlight: true
+	  });
   }
 ]);

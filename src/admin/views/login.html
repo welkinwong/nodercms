@@ -11,7 +11,7 @@
             <label class="sr-only" for="inputEmail">Email：</label>
             <div class="input-group">
               <span class="input-group-addon" id="inputIconUser"><i class="fa fa-user"></i></span>
-              <input ng-model="email" ng-pattern="/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/" ng-disabled="transmitting" class="form-control" id="inputEmail" type="email" name="email" placeholder="请输入Email" aria-describedby="inputIconUser" required>
+              <input ng-model="email" ng-pattern="/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/" ng-disabled="transmitting" class="form-control" id="inputEmail" type="email" name="email" placeholder="请输入Email" aria-describedby="inputIconUser" autofocus="autofocus" required>
             </div>
           </div>
           <div ng-class="{ 'has-error': loginForm.password.touched && loginForm.password.$invalid }" class="form-group">

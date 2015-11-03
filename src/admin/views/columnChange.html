@@ -34,7 +34,7 @@
             <label class="sr-only" for="inputTitle">标题</label>
             <div class="input-group">
               <div class="input-group-addon">* 标题</div>
-              <input ng-model="title" ng-disabled="transmitting" class="form-control" id="inputTitle" type="text" name="title" placeholder="请输入内容标题" required>
+              <input ng-model="title" ng-disabled="transmitting" class="form-control" id="inputTitle" type="text" name="title" placeholder="请输入内容标题" autofocus="autofocus" required>
             </div>
           </div>
           <div ng-class="{ 'has-error': siteInfoForm.title.$touched && siteInfoForm.title.$invalid }" class="form-group">
@@ -52,20 +52,49 @@
       </div>
     </div>
     <div class="col-md-3">
+			<div class="panel panel-default">
+				<div class="panel-heading">缩略图</div>
+				<div class="panel-body">
+					dd
+				</div>
+			</div>
       <div class="panel panel-default">
-        <div class="panel-heading">角色信息</div>
+        <div class="panel-heading">发布</div>
         <div class="panel-body">
-          <form ng-submit="saveRole()" id="roleForm" name="roleForm" novalidate>
             <div ng-class="{ 'has-error': roleForm.name.$touched && roleForm.name.$invalid }" class="form-group">
-              <label class="control-label" for="name">* 角色名称：</label>
-              <input ng-model="name" ng-disabled="transmitting" class="form-control" id="name" type="text" name="name" placeholder="请输入角色名称" required>
+              <label class="control-label" for="name">状态：</label>
+							<select class="form-control">
+								<option>草稿</option>
+								<option>发布</option>
+							</select>
+              <!--<input ng-model="name" ng-disabled="transmitting" class="form-control" id="name" type="text" name="name" placeholder="请输入角色名称" required>-->
             </div>
             <div class="form-group">
-              <label class="control-label" for="description">角色备注：</label>
-              <input ng-model="description" ng-disabled="transmitting" class="form-control" id="description" name="description" type="text" placeholder="请输入角色备注">
+              <label class="control-label" for="inputDate">发布时间：</label>
+							<div class="input-group date">
+								<input class="form-control" id="inputDate" type="text" name="date" placeholder="请选择日期" readonly><span class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button></span>
+							</div>
             </div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="sr-only" for="exampleInputEmail1">Email address</label>
+									<select class="form-control">
+										<option>11 时</option>
+										<option>12 时</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="sr-only" for="exampleInputEmail1">Email address</label>
+									<select class="form-control">
+										<option>31 分</option>
+										<option>32 分</option>
+									</select>
+								</div>
+							</div>
             <button ng-disabled="transmitting || name === '管理员' || roleForm.$invalid" class="btn btn-primary btn-block" type="submit" form="roleForm"><i class="fa fa-save"></i> 保存角色</button>
-          </form>
         </div>
       </div>
     </div>
