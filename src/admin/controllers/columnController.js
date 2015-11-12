@@ -14,9 +14,9 @@ angular.module('controllers').controller('columnController', ['$scope', '$stateP
      * 读取栏目
      */
     $http.get('/api/categories/' + $stateParams._id)
-      .success(function (data) {
-        $scope.category = data;
-        console.log(data);
+      .success(function (result) {
+        $scope.category = result;
+        console.log(result);
       });
 
   }

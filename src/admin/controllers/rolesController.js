@@ -15,12 +15,12 @@ angular.module('controllers').controller('rolesController', ['$scope', '$http',
      * 获取角色列表
      */
     $http.get('/api/roles')
-      .success(function (data) {
+      .success(function (result) {
         var deleteRoleIndex;
 
-        for (var i = 0; i < data.length; i++) {
-          for (var _i = 0; _i < data[i].authorities.length; _i++) {
-            if (data[i].authorities[_i] === 100000) {
+        for (var i = 0; i < result.length; i++) {
+          for (var _i = 0; _i < result[i].authorities.length; _i++) {
+            if (result[i].authorities[_i] === 100000) {
               deleteRoleIndex = i;
 
               break;
@@ -28,13 +28,13 @@ angular.module('controllers').controller('rolesController', ['$scope', '$http',
           }
 
           if (!isNaN(deleteRoleIndex)) {
-            data.splice(deleteRoleIndex, 1);
+            result.splice(deleteRoleIndex, 1);
 
             break;
           }
         }
 
-        $scope.roles = data;
+        $scope.roles = result;
       })
       .error(function () {
         $scope.$emit('notification', {

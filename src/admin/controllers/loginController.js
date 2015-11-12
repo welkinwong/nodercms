@@ -1,20 +1,17 @@
 /**
  * Login Controller
  */
-angular.module('controllers').controller('loginController', ['$scope', '$timeout', '$state', '$http', 'ipCookie',
-  function ($scope, $timeout, $state, $http, ipCookie) {
+angular.module('controllers').controller('loginController', ['$scope', '$timeout', '$state', '$http',
+  function ($scope, $timeout, $state, $http) {
     'use strict';
 
     $scope.submitLogin = function () {
       $scope.transmitting = true;
 
-      $http.post('/api/login', {
+      $http.put('/api/login', {
         email: $scope.email,
         password: $scope.password
       }).success(function (result, status) {
-        //存储用户信息
-        ipCookie('userInfo', result);
-
         $state.go('main');
       }).error(function (result, status) {
         if (result && result.error && result.error.code === 'WRONG_EMAIL_OR_PASSWORD') {

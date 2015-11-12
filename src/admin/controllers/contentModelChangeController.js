@@ -51,17 +51,17 @@ angular.module('controllers').controller('contentModelChangeController', ['$scop
       $scope.action = 'update';
 
       $http.get('/api/models/' + $stateParams._id)
-        .success(function (data) {
-          if (data) {
-            $scope.name = data.name;
-            $scope.description = data.description;
+        .success(function (result) {
+          if (result) {
+            $scope.name = result.name;
+            $scope.description = result.description;
             $scope.system = {
-              thumbnail: data.system.thumbnail,
-              content: data.system.content,
-              tags: data.system.tags,
-              gallery: data.system.gallery
+              thumbnail: result.system.thumbnail,
+              content: result.system.content,
+              tags: result.system.tags,
+              gallery: result.system.gallery
             }
-            $scope.extensions = data.extensions;
+            $scope.extensions = result.extensions;
           } else {
             $state.go('main.contentModels')
           }
@@ -164,8 +164,8 @@ angular.module('controllers').controller('contentModelChangeController', ['$scop
           });
       } else {
         $http.post('/api/models', model)
-          .success(function (data) {
-            model._id = data._id;
+          .success(function (result) {
+            model._id = result._id;
             
             $scope.$parent.models.push(model);
 

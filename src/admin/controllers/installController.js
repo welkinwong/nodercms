@@ -22,12 +22,12 @@ angular.module('controllers').controller('installController', ['$scope', '$state
         nickname: $scope.nickname,
         password: $scope.password
       })
-      .success(function (data, status) {
+      .success(function (result, status) {
         $state.go('main');
       })
-      .error(function (data, status) {
-        if (data.message) {
-          console.log(data.message);
+      .error(function (result, status) {
+        if (result.message) {
+          console.log(result.message);
         }
       });
     };

@@ -53,7 +53,10 @@ angular.module('nodercms', [
       .state('main', {
         url: '^/admin',
         templateUrl: '/assets/admin/views/main.html',
-        controller: 'mainController'
+        controller: 'mainController',
+		    resolve: {
+			    currentUser: 'currentUserService'
+		    }
       })
 
       // 栏目列表

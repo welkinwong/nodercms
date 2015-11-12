@@ -23,16 +23,16 @@ angular.module('controllers').controller('siteInfoController', ['$scope', '$http
      * 获取网站配置
      */
     $http.get('/api/siteInfo')
-      .success(function (data) {
-        $scope.title = data.title;
-        $scope.keywords = data.keywords;
-        $scope.description = data.description;
+      .success(function (result) {
+        $scope.title = result.title;
+        $scope.keywords = result.keywords;
+        $scope.description = result.description;
         $scope.translate = {
-          on: data.translate && data.translate.on ? data.translate.on : false,
-          key: data.translate && data.translate.key ? data.translate.key : ''
+          on: result.translate && result.translate.on ? result.translate.on : false,
+          key: result.translate && result.translate.key ? result.translate.key : ''
         };
-        $scope.codeHeader = data.codeHeader;
-        $scope.codeFooter = data.codeFooter;
+        $scope.codeHeader = result.codeHeader;
+        $scope.codeFooter = result.codeFooter;
       })
       .error(function () {
         $scope.$emit('notification', {

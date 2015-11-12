@@ -15,8 +15,8 @@ angular.module('controllers').controller('adminUsersController', ['$scope', '$ti
      * 读取后台用户
      */
     $http.get('/api/adminUsers')
-      .success(function (data) {
-        $scope.users = data;
+      .success(function (result) {
+        $scope.users = result;
       })
       .error(function () {
         $scope.$emit('notification', {

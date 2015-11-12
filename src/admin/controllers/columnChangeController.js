@@ -10,6 +10,10 @@ angular.module('controllers').controller('columnChangeController', ['$scope', '$
      */
     $scope.transmitting = false;
     $scope.action = 'create';
+	  $scope.translate = {
+		  on: false,
+		  key: ''
+	  };
 
     /**
      * 配置 Markdown 编辑器
@@ -22,7 +26,7 @@ angular.module('controllers').controller('columnChangeController', ['$scope', '$
         [
           {},
           {
-            data: [
+            result: [
               {},
               {
                 callback: function (e) {
@@ -44,5 +48,19 @@ angular.module('controllers').controller('columnChangeController', ['$scope', '$
 		  autoclose: true,
 		  todayHighlight: true
 	  });
+
+	  /**
+	   *
+	   */
+	  $http.get('/api/translate')
+		  .success(function (resulat) {
+			  $scope.translate = result;
+		  })
+		  .error(function () {
+			  $scope.$emit('notification', {
+				  type: 'danger',
+				  message: '读取内容模型失败'
+			  });
+		  });
   }
 ]);

@@ -51,8 +51,8 @@ angular.module('controllers').controller('categoriesChangeController', ['$scope'
         type: 'content'
       }
     })
-    .success(function (data) {
-      $scope.models = data;
+    .success(function (result) {
+      $scope.models = result;
     })
     .error(function () {
       $scope.$emit('notification', {
@@ -65,8 +65,8 @@ angular.module('controllers').controller('categoriesChangeController', ['$scope'
      * 读取模板列表
      */
     $http.get('/api/views')
-    .success(function (data) {
-      $scope.viewfiles = data;
+    .success(function (result) {
+      $scope.viewfiles = result;
     })
     .error(function () {
       $scope.$emit('notification', {
@@ -83,19 +83,19 @@ angular.module('controllers').controller('categoriesChangeController', ['$scope'
       $scope.action = 'update';
 
       $http.get('/api/categories/' + $stateParams._id)
-        .success(function (data) {
-          if (data) {
-            $scope.type = data.type;
-            $scope.name = data.name;
-            $scope.oldDirectory = angular.copy(data.directory);
-            $scope.directory = data.directory;
-            $scope.isShow = data.isShow;
-            $scope.sort = data.sort;
-            $scope.model = data.model && data.model._id || ''; 
-            $scope.views = data.views;
-            $scope.parentCategory = data.parentCategory || undefined;
-            $scope.keywords =  data.keywords || '';
-            $scope.description = data.description || '';
+        .success(function (result) {
+          if (result) {
+            $scope.type = result.type;
+            $scope.name = result.name;
+            $scope.oldDirectory = angular.copy(result.directory);
+            $scope.directory = result.directory;
+            $scope.isShow = result.isShow;
+            $scope.sort = result.sort;
+            $scope.model = result.model && result.model._id || '';
+            $scope.views = result.views;
+            $scope.parentCategory = result.parentCategory || undefined;
+            $scope.keywords =  result.keywords || '';
+            $scope.description = result.description || '';
           } else {
             $state.go('main.categories');
           }
@@ -190,8 +190,8 @@ angular.module('controllers').controller('categoriesChangeController', ['$scope'
           });
       } else {
         $http.post('/api/categories', category)
-          .success(function (data) {
-            category._id = data._id;
+          .success(function (result) {
+            category._id = result._id;
 
             if (category.model) {
               for (var i = 0; i < $scope.models.length; i++) {

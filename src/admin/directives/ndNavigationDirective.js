@@ -1,9 +1,12 @@
 /**
  * ndNavigation Directives
  */
-angular.module('directives').directive('ndNavigation', ['$timeout', '$http', '$filter', 'ipCookie',
-  function ($timeout, $http, $filter, ipCookie) {
+angular.module('directives').directive('ndNavigation', ['$rootScope', '$timeout', '$http', '$filter', 'currentUserService',
+  function ($rootScope, $timeout, $http, $filter, currentUserService) {
     return {
+	    restrict: 'E',
+	    templateUrl: '/assets/admin/views/navigation.html',
+	    replace: true,
       link: function (scope, element) {
         /**
          * 初始化变量
@@ -19,7 +22,7 @@ angular.module('directives').directive('ndNavigation', ['$timeout', '$http', '$f
           adminUsers: false
         };
         scope.categories = [];
-        scope.user = ipCookie('userInfo');
+	      scope.user = $rootScope.currentUser;
 
         /**
          * 按用户权限设置可见性
@@ -92,8 +95,8 @@ angular.module('directives').directive('ndNavigation', ['$timeout', '$http', '$f
          * 读取栏目列表
          */
         $http.get('/api/categories')
-          .success(function (data) {
-            scope.categories = $filter('filter')(data, function (value, index) {
+          .success(function (result) {
+            scope.categories = $filter('filter')(result, function (value, index) {
               if (value.type !== 'channel' && value.type !== 'link') {
                 return true;
               }

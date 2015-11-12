@@ -47,18 +47,18 @@ angular.module('controllers').controller('rolesChangeController', ['$scope', '$s
       // 获取权限列表
       authorities: function (callback) {
         $http.get('/api/authorities')
-          .success(function (data) {
+          .success(function (result) {
             var deleteFlag = null;
 
-            for (var i = 0; i < data.length; i++) {
-              if (data[i].code === 100000) deleteFlag = i;
+            for (var i = 0; i < result.length; i++) {
+              if (result[i].code === 100000) deleteFlag = i;
 
-              data[i].option = 0;
+              result[i].option = 0;
             }
 
-            if (deleteFlag !== null) data.splice(deleteFlag, 1);
+            if (deleteFlag !== null) result.splice(deleteFlag, 1);
 
-            callback(null, data);
+            callback(null, result);
           })
           .error(function () {
             callback('获取权限失败');
@@ -70,8 +70,8 @@ angular.module('controllers').controller('rolesChangeController', ['$scope', '$s
         if ($stateParams._id) {
           $scope.action = 'update';
           $http.get('/api/roles/' + $stateParams._id)
-            .success(function (data) {
-              callback(null, data);
+            .success(function (result) {
+              callback(null, result);
             })
             .error(function () {
               callback('获取角色失败');
@@ -156,8 +156,8 @@ angular.module('controllers').controller('rolesChangeController', ['$scope', '$s
           });
       } else {
         $http.post('/api/roles', role)
-          .success(function (data) {
-            role._id = data._id;
+          .success(function (result) {
+            role._id = result._id;
             $scope.$parent.roles.push(role);
 
             $scope.$emit('notification', {

@@ -26,8 +26,8 @@ angular.module('controllers').controller('adminUsersChangeController', ['$scope'
       // 获取权限列表
       roles: function (callback) {
         $http.get('/api/roles')
-          .success(function (data) {
-            callback(null, data);
+          .success(function (result) {
+            callback(null, result);
           })
           .error(function () {
             callback('获取角色列表失败');
@@ -40,8 +40,8 @@ angular.module('controllers').controller('adminUsersChangeController', ['$scope'
           $scope.action = 'update';
 
           $http.get('/api/adminUsers/' + $stateParams._id)
-            .success(function (data) {
-              callback(null, data);
+            .success(function (result) {
+              callback(null, result);
             })
             .error(function () {
               callback('获取用户失败');
@@ -121,10 +121,10 @@ angular.module('controllers').controller('adminUsersChangeController', ['$scope'
           });
       } else {
         $http.post('/api/adminUsers', user)
-          .success(function (data) {
+          .success(function (result) {
             bindRole();
 
-            user._id = data._id;
+            user._id = result._id;
 
             $scope.$parent.users.push(user);
 

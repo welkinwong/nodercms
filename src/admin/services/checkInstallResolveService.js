@@ -14,7 +14,6 @@ angular.module('services').factory('checkInstallResolveService', ['$q', '$state'
             deferred.resolve();
           })
           .error(function () {
-            deferred.reject();
             $state.go('login');
           });
 

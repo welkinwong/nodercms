@@ -127,8 +127,8 @@ angular.module('controllers').controller('categoriesController', ['$scope', '$ht
      * 获取分类
      */
     $http.get('/api/categories')
-      .success(function (data) {
-        $scope.categories = data;
+      .success(function (result) {
+        $scope.categories = result;
         $scope.categoriesSort();
       })
       .error(function () {

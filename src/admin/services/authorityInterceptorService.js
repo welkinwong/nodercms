@@ -16,7 +16,7 @@ angular.module('services').factory('authorityInterceptorService', ['$q', '$injec
               break;
             // 没有权限
             case 'NO_AUTHORITY':
-              $injector.get('$state').go('main');
+              $injector.get('$state').go('main', {}, { reload: true });
           }
         }
 

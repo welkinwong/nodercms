@@ -15,8 +15,8 @@ angular.module('controllers').controller('contentModelsController', ['$scope', '
      * 读取内容模型列表
      */
     $http.get('/api/models')
-      .success(function (data) {
-        $scope.models = data;
+      .success(function (result) {
+        $scope.models = result;
       })
       .error(function () {
         $scope.$emit('notification', {
