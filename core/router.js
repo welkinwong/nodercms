@@ -10,9 +10,9 @@ module.exports = {
    * API
    */
   '/api': {
-	  /**
-	   * 公用部分
-	   */
+    /**
+     * 公用部分
+     */
     // 安装
     '/install': {
       get: 'installController.query',
@@ -34,19 +34,19 @@ module.exports = {
       all: 'loginController.check'
     },
 
-	  // 获取当前用户信息
-	  '/currentUser': {
-		  get: 'currentUserController'
-	  },
+    // 获取当前用户信息
+    '/currentUser': {
+      get: 'currentUserController'
+    },
 
-	  // 获取百度翻译 API
-	  '/translate': {
-		  get: [110001, 'translateController']
-	  },
+    // 获取百度翻译 API
+    '/translate': {
+      get: [110001, 'translateController']
+    },
 
-	  /**
-	   * 后台
-	   */
+    /**
+     * 后台
+     */
     // 网站配置
     '/siteInfo': {
       get: [140010, 'siteInfoController.query'],
