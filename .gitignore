@@ -8,6 +8,6 @@ config/database.js
 !.gitkeep
 
 node_modules
-tmp/*
-logs/*
-public/media/*
+tmp/*!.gitkeep
+logs/*/*!.gitkeep
+public/media/*!.gitkeep
