@@ -1,0 +1,15 @@
+<div class="container">
+  <ol class="breadcrumb">
+    <li><a href="/">首页</a></li>
+    {{#foreach category.breadcrumb}}
+      <li><a href="{{path}}">{{name}}</a></li>
+    {{/foreach}}
+    <li class="active">{{text title words="15"}}</li>
+  </ol>
+  <div class="page-header text-center">
+    <h1>{{title}}</h1>
+  </div>
+  <div class="content">
+    {{{content}}}
+  </div>
+</div>

@@ -1,0 +1,198 @@
+<div class="page-header clearfix">
+  <ol ng-if="action === 'create'" class="heading">
+    <li><a ui-sref="main.contents">{{category.name}}</a></li>
+    <li><a ui-sref="main.contents.create">新增内容</a></li>
+  </ol>
+  <ol ng-if="action === 'update'" class="heading">
+    <li><a ui-sref="main.contents">{{category.name}}</a></li>
+    <li><a ui-sref="main.contents.update({ category: categoryId, content: _id })">更新内容</a></li>
+  </ol>
+</div>
+
+<form ng-submit="saveContent()" id="contentForm" name="contentForm" novalidate>
+  <div class="row">
+    <div class="col-md-9">
+      <div class="panel panel-default">
+        <div class="panel-body table-responsive clear-bottom-padding">
+          <div ng-class="{ 'has-error': contentForm.title.$touched && contentForm.title.$invalid }" class="form-group">
+            <label class="sr-only" for="title">* 标题</label>
+            <div class="input-group">
+              <div class="input-group-addon">* 标题</div>
+              <input ng-model="title" ng-disabled="transmitting" class="form-control" id="title" type="text" name="title" placeholder="请输入内容标题" required>
+            </div>
+          </div>
+          <div ng-class="{ 'has-error': contentForm.alias.$touched && contentForm.alias.$invalid }"
+              class="form-group">
+            <label class="sr-only" for="alias">* URL</label>
+            <div class="input-group">
+              <div class="input-group-addon">* URL</div>
+              <input ng-model="alias" ng-disabled="transmitting" class="form-control" id="alias" type="text" name="alias" placeholder="请输入 URL" required>
+            </div>
+          </div>
+          <div ng-class="{ 'has-error': contentForm.abstract.$touched && contentForm.abstract.$invalid }"
+              class="form-group">
+            <label class="sr-only" for="abstract">摘要</label>
+            <textarea ng-if="category.model.system.abstract" ng-model="$parent.abstract" ng-disabled="transmitting" id="abstract" name="abstract" placeholder="请输入摘要" class="form-control" rows="3"></textarea>
+          </div>
+          <nd-editor ng-if="category.model.system.content" content="$parent.content" media="$parent.media" disabled="transmitting" rows="14"></nd-editor>
+          <div ng-if="category.model.system.tags" class="form-group">
+            <label class="sr-only" for="tags">标签</label>
+            <div class="input-group">
+              <div class="input-group-addon">&nbsp;&nbsp;标签</div>
+              <input ng-model="$parent.tags" ng-disabled="transmitting" class="form-control" id="tags" type="text" name="tags" placeholder="请输入标签，以逗号或空格分隔">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-if="category.model.extensions[0]" class="panel panel-default">
+        <div class="panel-heading">扩展信息</div>
+        <div class="panel-body table-responsive form-horizontal clear-bottom-padding">
+          <div ng-repeat="item in category.model.extensions" ng-class="{ 'has-error': contentForm.input{{item.key}}.$touched && contentForm.input{{item.key}}.$invalid }" class="form-group">
+            <label for="input{{item.key}}" class="col-sm-2 control-label">{{item.name}}</label>
+            <div class="col-sm-10">
+              <input ng-if="item.type === 'text' || item.type === 'number'" ng-model="$parent.$parent.extensions[item.key]" ng-disabled="transmitting" type="{{item.type}}" class="form-control" id="input{{item.key}}" name="input{{item.key}}" placeholder="请输入{{item.name}}">
+              <textarea ng-if="item.type === 'textarea'" ng-model="$parent.$parent.extensions[item.key]" ng-disabled="transmitting" class="form-control" id="input{{item.key}}" name="input{{item.key}}" placeholder="请输入{{item.name}}" rows="3"></textarea>
+              <select ng-if="item.type === 'select'" ng-options="key.value as key.name for key in item.select" ng-model="$parent.$parent.extensions[item.key]" ng-disabled="transmitting" class="form-control" id="input{{item.key}}" name="input{{item.key}}" placeholder="请输入{{item.name}}">
+                <option value="">请选择{{item.name}}</option>
+              </select>
+              <p ng-if="item.description" class="help-block">{{item.description}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <nd-thumbnail ng-if="category.model.system.thumbnail" thumbnail="$parent.thumbnail" width="category.model.mixed.thumbnailSize.width" height="category.model.mixed.thumbnailSize.height"></nd-thumbnail>
+      <div class="panel panel-default">
+        <div class="panel-heading">发布</div>
+        <div class="panel-body">
+          <div class="form-group">
+            <label class="control-label" for="status">状态：</label>
+            <select ng-model="status" ng-disabled="transmitting" id="status" class="form-control">
+              <option value="draft">草稿</option>
+              <option value="pushed">发布</option>
+            </select>
+          </div>
+          <div ng-show="status === 'pushed'" class="form-group">
+            <label class="control-label" for="releaseDate">发布时间：</label>
+            <select ng-model="releaseDate" ng-disabled="transmitting" class="form-control" id="releaseDate">
+              <option value="now">现在</option>
+              <option value="current">指定时间</option>
+            </select>
+          </div>
+          <div ng-show="status === 'pushed' && releaseDate === 'current'" class="form-group">
+            <label class="sr-only" for="inputDate">发布时间：</label>
+            <div class="input-group date">
+              <input ng-model="date" ng-disabled="transmitting" class="form-control" id="inputDate" type="text" name="date" placeholder="点击选择日期"
+                  readonly><span
+                class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-calendar"></i>
+            </button></span>
+            </div>
+          </div>
+          <div ng-show="status === 'pushed' && releaseDate === 'current'" class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="sr-only" for="hour">Email address</label>
+                <select ng-model="hour" ng-disabled="transmitting" class="form-control" id="hour">
+                  <option value="00">00 时</option>
+                  <option value="01">01 时</option>
+                  <option value="02">02 时</option>
+                  <option value="03">03 时</option>
+                  <option value="04">04 时</option>
+                  <option value="05">05 时</option>
+                  <option value="06">06 时</option>
+                  <option value="07">07 时</option>
+                  <option value="08">08 时</option>
+                  <option value="09">09 时</option>
+                  <option value="10">10 时</option>
+                  <option value="11">11 时</option>
+                  <option value="12">12 时</option>
+                  <option value="13">13 时</option>
+                  <option value="14">14 时</option>
+                  <option value="15">15 时</option>
+                  <option value="16">16 时</option>
+                  <option value="17">17 时</option>
+                  <option value="18">18 时</option>
+                  <option value="19">19 时</option>
+                  <option value="20">20 时</option>
+                  <option value="21">21 时</option>
+                  <option value="22">22 时</option>
+                  <option value="23">23 时</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="sr-only" for="minute">Email address</label>
+                <select ng-model="minute" ng-disabled="transmitting" class="form-control" id="minute">
+                  <option value="00">00 分</option>
+                  <option value="01">01 分</option>
+                  <option value="02">02 分</option>
+                  <option value="03">03 分</option>
+                  <option value="04">04 分</option>
+                  <option value="05">05 分</option>
+                  <option value="06">06 分</option>
+                  <option value="07">07 分</option>
+                  <option value="08">08 分</option>
+                  <option value="09">09 分</option>
+                  <option value="10">10 分</option>
+                  <option value="11">11 分</option>
+                  <option value="12">12 分</option>
+                  <option value="13">13 分</option>
+                  <option value="14">14 分</option>
+                  <option value="15">15 分</option>
+                  <option value="16">16 分</option>
+                  <option value="17">17 分</option>
+                  <option value="18">18 分</option>
+                  <option value="19">19 分</option>
+                  <option value="20">20 分</option>
+                  <option value="21">21 分</option>
+                  <option value="22">22 分</option>
+                  <option value="23">23 分</option>
+                  <option value="24">24 分</option>
+                  <option value="25">25 分</option>
+                  <option value="26">26 分</option>
+                  <option value="27">27 分</option>
+                  <option value="28">28 分</option>
+                  <option value="29">29 分</option>
+                  <option value="30">30 分</option>
+                  <option value="31">31 分</option>
+                  <option value="32">32 分</option>
+                  <option value="33">33 分</option>
+                  <option value="34">34 分</option>
+                  <option value="35">35 分</option>
+                  <option value="36">36 分</option>
+                  <option value="37">37 分</option>
+                  <option value="38">38 分</option>
+                  <option value="39">39 分</option>
+                  <option value="40">40 分</option>
+                  <option value="41">41 分</option>
+                  <option value="42">42 分</option>
+                  <option value="43">43 分</option>
+                  <option value="13">13 分</option>
+                  <option value="44">44 分</option>
+                  <option value="45">45 分</option>
+                  <option value="46">46 分</option>
+                  <option value="47">47 分</option>
+                  <option value="48">48 分</option>
+                  <option value="49">49 分</option>
+                  <option value="50">50 分</option>
+                  <option value="51">51 分</option>
+                  <option value="52">52 分</option>
+                  <option value="53">53 分</option>
+                  <option value="54">54 分</option>
+                  <option value="55">55 分</option>
+                  <option value="56">56 分</option>
+                  <option value="57">57 分</option>
+                  <option value="58">58 分</option>
+                  <option value="59">59 分</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <button ng-if="status === 'draft'" ng-disabled="transmitting || contentForm.$invalid" class="btn btn-primary btn-block" type="submit" form="contentForm"><i class="fa fa-save"></i> 保存草稿</button>
+          <button ng-if="status === 'pushed'" ng-disabled="transmitting || contentForm.$invalid" class="btn btn-primary btn-block" type="submit" form="contentForm"><i class="fa fa-paper-plane"></i> 发布内容</button>
+        </div>
+      </div>
+    </div>
+</form>

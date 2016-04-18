@@ -1,0 +1,59 @@
+<div class="page-header clearfix">
+  <ol ng-if="action === 'create'" class="heading">
+    <li><a ui-sref="main.features">{{model.name}}</a></li>
+    <li><a ui-sref="main.features.create({ model: model._id })">新增推荐</a></li>
+  </ol>
+  <ol ng-if="action === 'update'" class="heading">
+    <li><a ui-sref="main.features">{{model.name}}</a></li>
+    <li><a ui-sref="main.features.update({ model: model._id, feature: _id })">更新推荐</a></li>
+  </ol>
+</div>
+
+<form ng-submit="saveFeature()" id="featureForm" name="featureForm" novalidate>
+  <div class="row">
+    <div class="col-md-9">
+      <div class="panel panel-default">
+        <div class="panel-body table-responsive form-horizontal clear-bottom-padding">
+          <div ng-class="{ 'has-error': featureForm.sort.$touched && featureForm.sort.$invalid }" class="form-group">
+            <label for="sort" class="col-sm-2 control-label">* 排序：</label>
+            <div class="col-sm-10">
+              <input ng-model="sort" ng-disabled="transmitting" type="number" min="0" class="form-control" id="sort" name="sort" placeholder="请输入排序" required>
+            </div>
+          </div>
+          <div ng-class="{ 'has-error': featureForm.title.$touched && featureForm.title.$invalid }" class="form-group">
+            <label for="sort" class="col-sm-2 control-label">* 标题：</label>
+            <div class="col-sm-10">
+              <input ng-model="title" ng-disabled="transmitting" type="text" class="form-control" id="title" name="title" placeholder="请输入标题" required>
+            </div>
+          </div>
+          <div ng-if="model.system.link" ng-class="{ 'has-error': featureForm.link.$touched && featureForm.link.$invalid }" class="form-group">
+            <label for="link" class="col-sm-2 control-label">链接：</label>
+            <div class="col-sm-10">
+              <input ng-model="$parent.link" ng-disabled="transmitting" type="url" class="form-control" id="link" name="link" placeholder="请输入链接">
+            </div>
+          </div>
+          <div ng-repeat="item in model.extensions" ng-class="{ 'has-error': featureForm.input{{item.key}}.$touched && featureForm.input{{item.key}}.$invalid }" class="form-group">
+            <label for="input{{item.key}}" class="col-sm-2 control-label">{{item.name}}：</label>
+            <div class="col-sm-10">
+              <input ng-if="item.type === 'text' || item.type === 'number'" ng-model="$parent.$parent.extensions[item.key]" ng-disabled="transmitting" type="{{item.type}}" class="form-control" id="input{{item.key}}" name="input{{item.key}}" placeholder="请输入{{item.name}}">
+              <textarea ng-if="item.type === 'textarea'" ng-model="$parent.$parent.extensions[item.key]" ng-disabled="transmitting" class="form-control" id="input{{item.key}}" name="input{{item.key}}" placeholder="请输入{{item.name}}" rows="3"></textarea>
+              <select ng-if="item.type === 'select'" ng-options="key.value as key.name for key in item.select" ng-model="$parent.$parent.extensions[item.key]" ng-disabled="transmitting" class="form-control" id="select{{item.key}}" name="input{{item.key}}" placeholder="请输入{{item.name}}">
+                <option value="">请选择{{item.name}}</option>
+              </select>
+              <p ng-if="item.description" class="help-block">{{item.description}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <nd-thumbnail ng-if="model.system.thumbnail" thumbnail="$parent.thumbnail" width="model.mixed.thumbnailSize.width" height="model.mixed.thumbnailSize.height"></nd-thumbnail>
+      <div class="panel panel-default">
+        <div class="panel-heading">发布</div>
+        <div class="panel-body">
+          <button ng-if="action === 'create'" ng-disabled="transmitting || featureForm.$invalid" class="btn btn-primary btn-block" type="submit" form="featureForm"><i class="fa fa-paper-plane"></i> 发布推荐</button>
+          <button ng-if="action === 'update'" ng-disabled="transmitting || featureForm.$invalid" class="btn btn-primary btn-block" type="submit" form="featureForm"><i class="fa fa-save"></i> 更新推荐</button>
+        </div>
+      </div>
+    </div>
+</form>

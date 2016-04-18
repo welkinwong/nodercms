@@ -1,0 +1,49 @@
+<article class="sign-in">
+  <div ng-class="{ 'shake': animateShake }" class="content">
+    <img class="brand" src="/assets/admin/images/logo-lg.png" srcset="/assets/admin/images/logo-lg@2x.png 2x">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">欢迎回来</h3>
+      </div>
+      <div class="panel-body">
+        <form ng-submit="signIn()" id="signInForm" name="signInForm" novalidate>
+          <div ng-class="{ 'has-error': (signInForm.email.$touched && signInForm.email.$invalid) || wrongEmailOrPassword }" class="form-group">
+            <label class="sr-only" for="email">Email：</label>
+            <div class="input-group">
+              <span class="input-group-addon" id="inputIconUser"><i class="fa fa-user fa-fw"></i></span>
+              <input ng-model="email" ng-pattern="/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/" ng-disabled="transmitting" class="form-control" id="email" type="email" name="email" placeholder="请输入Email" aria-describedby="inputIconUser" required>
+            </div>
+          </div>
+          <div ng-class="{ 'has-error': (signInForm.password.$touched && signInForm.password.$invalid) || wrongEmailOrPassword }" class="form-group">
+            <label class="sr-only" for="password">密码：</label>
+            <div class="input-group">
+              <span class="input-group-addon" id="inputIconPwd"><i class="fa fa-lock fa-fw"></i></span>
+              <input ng-model="password" ng-minlength="6" ng-disabled="transmitting" class="form-control" id="password" type="password" name="password" placeholder="请输入密码" aria-describedby="inputIconPwd" required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8">
+              <div ng-class="{ 'has-error': (signInForm.captcha.$touched && signInForm.captcha.$invalid) || wrongCaptcha }" class="form-group clear-bottom-margin">
+                <label class="sr-only" for="captcha">验证码：</label>
+                <div class="input-group">
+                  <span class="input-group-addon" id="inputIconCaptcha"><i class="fa fa-code fa-fw"></i></span>
+                  <input ng-model="captcha" minlength="4" maxlength="4" ng-pattern="/^[A-z0-9]+$/"  ng-disabled="transmitting" class="form-control" id="captcha" type="text" name="captcha" placeholder="请输入验证码" aria-describedby="inputIconCaptcha" required>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <img ng-click="getCaptcha()" ng-src="{{captchaData}}" class="pointer">
+            </div>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input ng-model="autoSignIn" ng-disabled="transmitting" type="checkbox"> 下次自动登陆
+            </label>
+          </div>
+          <button ng-disabled="signInForm.$invalid || transmitting" class="btn btn-primary btn-block" form="signInForm" type="submit">登录</button>
+        </form>
+      </div>
+    </div>
+    <div class="nodercms">Powered by <a href="http://www.nodercms.com" title="轻量级CMS内容管理系统" target="_blank">NoderCMS</a></div>
+  </div>
+</article>

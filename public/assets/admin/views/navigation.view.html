@@ -1,0 +1,132 @@
+<!-- 注销模态 -->
+<div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="signOutModalTitle" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="关闭"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="signOutModalTitle">警告</h4>
+			</div>
+			<div class="modal-body">
+				<h4 class="text-center">您确定要退出登录吗？</h4>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button ng-click="signOut()" type="button" class="btn btn-danger">退出</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<nav class="navigation">
+	<img class="brand" src="/assets/admin/images/logo.png" srcset="/assets/admin/images/logo@2x.png 2x">
+	<div class="account">
+		{{user.nickname}} {{user.role.name}} <div data-toggle="modal" data-target="#signOutModal" class="sign-out"><i class="fa fa-sign-out"></i></div>
+	</div>
+	<ul class="list">
+		<li>
+			<a ui-sref="main" ui-sref-active-eq="active" class="item">
+				<i class="fa fa-dashboard fa-fw"></i>
+				控制面板
+			</a>
+		</li>
+		<li ng-if="auths.features.read">
+			<a ui-sref="main.features" ui-sref-active="active" class="item">
+				<i class="fa fa-star fa-fw"></i>
+				推荐管理
+			</a>
+		</li>
+		<li ng-if="auths.contents.read && !notFoundContents">
+			<div class="item sub-list-heading">
+				<i class="fa fa-book fa-fw"></i>
+				内容管理
+				<span class="caret"></span>
+			</div>
+			<div class="sub-list">
+				<a ng-repeat="category in categories" ng-if="category.type === 'column'" ui-sref="main.contents({ category: category._id })" ui-sref-active="active" class="item">
+					<i class="fa fa-circle-o fa-fw"></i>
+					{{category.name}}
+				</a>
+				<a ui-sref="main.trash" ui-sref-active="active" class="item">
+					<i class="fa fa-circle-o fa-fw"></i>
+					回收站
+				</a>
+			</div>
+		</li>
+		<li ng-if="auths.contents.read && notFoundContents">
+			<a ui-sref="main.notFoundContents" ui-sref-active="active" class="item">
+				<i class="fa fa-book fa-fw"></i>
+				内容管理
+			</a>
+		</li>
+		<li ng-if="auths.pages.read && !notFoundPages">
+			<div class="item sub-list-heading">
+				<i class="fa fa-sticky-note fa-fw"></i>
+				单页管理
+				<span class="caret"></span>
+			</div>
+			<div class="sub-list">
+				<a ng-if="category.type === 'page' && category.mixed.isEdit" ng-repeat="category in categories" ui-sref="main.pages({ page: category._id })" ui-sref-active="active" class="item">
+					<i class="fa fa-circle-o fa-fw"></i>
+					{{category.name}}
+				</a>
+			</div>
+		</li>
+		<li ng-if="auths.pages.read && notFoundPages">
+			<a ui-sref="main.notFoundPages" ui-sref-active="active" class="item">
+				<i class="fa fa-sticky-note fa-fw"></i>
+				单页管理
+			</a>
+		</li>
+		<li ng-if="auths.media.read">
+			<a ui-sref="main.media" ui-sref-active="active" class="item">
+				<i class="fa fa-archive fa-fw"></i>
+				媒体库
+			</a>
+		</li>
+		<li ng-if="auths.account.read">
+			<a ui-sref="main.account" ui-sref-active="active" class="item">
+				<i class="fa fa-cog fa-fw"></i>
+				帐号设置
+			</a>
+		</li>
+		<li ng-if="auths.siteInfo.read || auths.categories.read || auths.contentModels.read || auths.featureModels.read || auths.roles.read || auths.adminUsers.read">
+			<div class="item sub-list-heading">
+				<i class="fa fa-cogs fa-fw"></i>
+				系统设置
+				<span class="caret"></span>
+			</div>
+			<div class="sub-list">
+				<a ng-if="auths.siteInfo.read" ui-sref="main.siteInfo" ui-sref-active="active" class="item">
+					<i class="fa fa-circle-o fa-fw"></i>
+					网站配置
+				</a>
+				<a ng-if="auths.categories.read" ui-sref="main.categories" ui-sref-active="active" class="item">
+					<i class="fa fa-circle-o fa-fw"></i>
+					内容分类
+				</a>
+				<a ng-if="auths.contentModels.read" ui-sref="main.contentModels" ui-sref-active="active" class="item">
+					<i class="fa fa-circle-o fa-fw"></i>
+					内容模型
+				</a>
+				<a ng-if="auths.featureModels.read" ui-sref="main.featureModels" ui-sref-active="active" class="item">
+					<i class="fa fa-circle-o fa-fw"></i>
+					推荐模型
+				</a>
+				<a ng-if="auths.roles.read" ui-sref="main.roles" ui-sref-active="active" class="item">
+					<i class="fa fa-circle-o fa-fw"></i>
+					权限角色
+				</a>
+				<a ng-if="auths.adminUsers.read" ui-sref="main.adminUsers" ui-sref-active="active" class="item">
+					<i class="fa fa-circle-o fa-fw"></i>
+					后台用户
+				</a>
+			</div>
+		</li>
+	</ul>
+	<div nd-notification ng-show="notificationShow" ng-class="'text-' + type" class="notification">
+		<i ng-if="type === 'success'" class="fa fa-check-circle fa-fw"></i>
+		<i ng-if="type === 'warning'" class="fa fa-warning fa-fw"></i>
+		<i ng-if="type === 'danger'" class="fa fa-times-circle fa-fw"></i>
+		{{message}}
+	</div>
+</nav>

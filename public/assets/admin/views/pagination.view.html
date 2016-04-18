@@ -1,0 +1,5 @@
+<ul ng-if="totalPages > 1" class="pagination">
+  <li ng-if="$parent.currentPage > 1"><span ng-click="$parent.$parent.currentPage = $parent.$parent.currentPage - 1" class="pointer">上一页</span></li>
+  <li ng-repeat="page in $parent.pagesList track by $index" ng-class="{ active: $parent.$parent.currentPage === page.index }"><span ng-click="$parent.$parent.currentPage = page.index" class="pointer">{{page.name}}</span></li>
+  <li ng-if="$parent.currentPage < $parent.totalPages"><span ng-click="$parent.$parent.currentPage = $parent.$parent.currentPage + 1" class="pointer">下一页</span></li>
+</ul>

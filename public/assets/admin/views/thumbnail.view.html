@@ -1,0 +1,38 @@
+<!-- 缩略图裁剪模态 -->
+<div class="modal fade" id="corpModal" tabindex="-1" role="dialog" aria-labelledby="corpModalTitle" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="关闭"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="corpModalTitle">裁剪</h4>
+      </div>
+      <div class="modal-body">
+        <div class="crop-thumbnail-wrap">
+          <canvas width="568" height="426" image-cropper image="thumbnail.sourceImage" cropped-image="thumbnail.croppedImage" crop-width="width" crop-height="height" min-width="minWidth" min-height="minHeight" keep-aspect="true"></canvas>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" type="button" data-dismiss="modal">取消</button>
+        <button ng-click="uploadThumbnail()" class="btn btn-primary" type="button"><i class="fa fa-crop"></i> 裁剪</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 缩略图组件 -->
+<div class="panel panel-default">
+  <div class="panel-heading">缩略图</div>
+  <div class="panel-body">
+    <div ng-class="thumbnail.uploadStatus" class="upload-thumbnail">
+      <div ng-show="thumbnail.uploadStatus === 'uploading'" class="uploading-spinner">
+        <i class="fa fa-spinner fa-spin"></i>
+      </div>
+      <span ng-show="thumbnail.croppedImage" ng-click="removeThumbnail()" class="fa-stack fa-lg remove top-right pointer">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-remove fa-stack-1x fa-inverse"></i>
+      </span>
+      <img ng-show="thumbnail.croppedImage" ng-src="{{thumbnail.croppedImage}}">
+      <button ngf-select="cropThumbnail($files)" ngf-drop ngf-accept="'image/*'" ngf-max-size="10MB" class="btn-upload-thumbnail" type="button"><i class="fa fa-plus"></i></button>
+    </div>
+  </div>
+</div>

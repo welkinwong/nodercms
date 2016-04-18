@@ -1,0 +1,99 @@
+<!-- 删除模态 -->
+<div class="modal fade" id="recoveryModal" tabindex="-1" role="dialog" aria-labelledby="recoveryModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="关闭"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="recoveryModalTitle">恢复</h4>
+      </div>
+      <div class="modal-body">
+        <h4 class="text-center">您确定要恢复该内容？</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button ng-click="recoveryContent()" type="button" class="btn btn-primary">恢复</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 删除模态 -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="关闭"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="deleteModalTitle">警告</h4>
+      </div>
+      <div class="modal-body">
+        <h4 class="text-center">您确定要彻底删除该内容？</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button ng-click="deleteContent()" type="button" class="btn btn-danger">确认删除</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 删除本页模态 -->
+<div class="modal fade" id="deleteListModal" tabindex="-1" role="dialog" aria-labelledby="deleteListModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="关闭"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="deleteListModalTitle">警告</h4>
+      </div>
+      <div class="modal-body">
+        <h4 class="text-center">您确定要彻底删除本页内容？</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button ng-click="deleteListContent()" type="button" class="btn btn-danger">确认删除</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 主体 -->
+<div ui-view class="view clearfix">
+  <div class="page-header clearfix">
+    <ol class="heading pull-left">
+      <li><a ui-sref="main.trash">回收站</a></li>
+    </ol>
+    <button class="btn btn-warning btn-sm pull-right" type="button" data-toggle="modal" data-target="#deleteListModal"><i class="fa fa-trash"></i> 删除当页</button>
+  </div>
+  <div class="panel panel-default clear-bottom-margin">
+    <div class="panel-body table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th class="text-center">缩略图</th>
+            <th class="text-center">标题</th>
+            <th class="text-center">发布人</th>
+            <th class="text-center">状态</th>
+            <th class="text-center">发布时间</th>
+            <th class="text-center">操作</th>
+          </tr>
+        </thead>
+        <tbody class="text-center text-middle">
+          <tr ng-repeat="content in contents">
+            <td width="90">
+              <div ng-if="content.thumbnail" class="list-thumbnail"><img ng-src="{{$parent.$parent.content.thumbnail | thumbnailSrc}}"></div>
+              <div ng-if="!content.thumbnail">-</div>
+            </td>
+            <td class="text-left">{{content.title | words: 30 }}</td>
+            <td>{{content.user.nickname}}</td>
+            <td>{{content.status | translate: { display: 'name', same: 'value', source: statusType } }}</td>
+            <td>{{content.status !== 'pushed' ? '-' : content.date | date: 'yyyy年MM月dd日'}}</td>
+            <td>
+              <button ng-disabled="transmitting" ng-click="$parent.$parent.recoveryContentId = content._id" class="btn btn-default btn-xs" type="button" data-toggle="modal" data-target="#recoveryModal"><i class="fa fa-history"></i> 恢复</button>
+              <button ng-disabled="transmitting" ng-click="$parent.$parent.deleteContentId = content._id" class="btn btn-warning btn-xs" type="button" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash-o"></i> 彻底删除</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <nd-pagination current-page="$parent.currentPage" total-pages="$parent.totalPages"></nd-pagination>
+</div>

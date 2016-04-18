@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-9">
+      <ol class="breadcrumb">
+        <li><a href="/">首页</a></li>
+        {{#foreach category.breadcrumb}}
+          <li><a href="{{path}}">{{name}}</a></li>
+        {{/foreach}}
+        <li class="active">{{category.name}}</li>
+      </ol>
+      <div class="row">
+        {{#foreach lists}}
+          <div class="col-md-6">
+            <div class="panel panel-default">
+              <div class="panel-heading text-overflow">
+                <a href="{{path}}">{{name}}</a>
+              </div>
+              <ul class="list-group">
+                {{#foreach contents limit="5"}}
+                  <a href="{{href}}" class="list-group-item text-overflow">{{title}}</a>
+                {{/foreach}}
+              </ul>
+            </div>
+          </div>
+        {{/foreach}}
+      </div>
+    </div>
+    <div class="col-md-3 hidden-xs hidden-sm">
+      <div class="panel panel-default">
+        <div class="panel-heading">频道阅读总排行</div>
+        <ul class="list-group">
+          {{#foreach readingList.total limit="5"}}
+            <a href="{{href}}" class="list-group-item text-overflow">{{title}}</a>
+          {{/foreach}}
+        </ul>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">频道阅读本月排行</div>
+        <ul class="list-group">
+          {{#foreach readingList.month limit="5"}}
+            <a href="{{href}}" class="list-group-item text-overflow">{{title}}</a>
+          {{/foreach}}
+        </ul>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">频道阅读本周排行</div>
+        <ul class="list-group">
+          {{#foreach readingList.week limit="5"}}
+            <a href="{{href}}" class="list-group-item text-overflow">{{title}}</a>
+          {{/foreach}}
+        </ul>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">频道阅读今日排行</div>
+        <ul class="list-group">
+          {{#foreach readingList.day limit="5"}}
+            <a href="{{href}}" class="list-group-item text-overflow">{{title}}</a>
+          {{/foreach}}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

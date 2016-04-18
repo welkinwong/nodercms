@@ -1,0 +1,61 @@
+<!-- 删除模态 -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="关闭"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="deleteModalTitle">警告</h4>
+      </div>
+      <div class="modal-body">
+        <h4 class="text-center">您确定要删除该分类？</h4>
+        <p class="text-muted text-center"><small>（包括所有子级分类以及内容）</small></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button ng-click="deleteModel()" type="button" class="btn btn-danger">确认删除</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 主体 -->
+<div ui-view class="view">
+  <div class="page-header clearfix">
+    <ol class="heading pull-left">
+      <li><a ui-sref="main.categories">内容分类</a></li>
+    </ol>
+    <a ng-if="editAuth" ui-sref="main.categories.create" class="btn btn-primary btn-sm pull-right"><i class="fa fa-pencil"></i> 新增分类</a >
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body table-responsive">
+      <table class="table table-hover">
+        <thead class="text-center">
+          <tr>
+            <th>排序</th>
+            <th>显示</th>
+            <th>名称</th>
+            <th>目录</th>
+            <th>类型</th>
+            <th>内容模型</th>
+            <th ng-if="editAuth">操作</th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+          <tr ng-repeat="category in categoriesList">
+            <td>{{category.sort}}</td>
+            <td><i ng-if="category.isShow" class="fa fa-check"></i></td>
+            <td class="text-left" ng-style="category.indent">{{category.prefix}}{{category.name}}</td>
+            <td ng-if="category.path" class="text-left">{{category.path}}</td>
+            <td ng-if="category.mixed.prePath" class="text-left">{{category.mixed.prePath}}</td>
+            <td>{{translate(category.type)}}</td>
+            <td>{{category.model.name ? category.model.name : '-'}}</td>
+            <td ng-if="editAuth">
+              <a ui-sref="main.categories.update({ _id: category._id })" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> 修改</a>
+              <button ng-click="$parent.$parent.$parent.deleteCategoryId = category._id" class="btn btn-default btn-xs" type="button" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash-o"></i> 删除</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

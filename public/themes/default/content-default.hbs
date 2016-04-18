@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-9">
+      <ol class="breadcrumb">
+        <li><a href="/">首页</a></li>
+        {{#foreach category.breadcrumb}}
+          <li><a href="{{path}}">{{name}}</a></li>
+        {{/foreach}}
+        <li><a href="{{category.path}}">{{category.name}}</a></li>
+        <li class="active">{{text title words="15"}}</li>
+      </ol>
+      <div class="page-header text-center">
+        <h1>{{title}}</h1>
+        <p class="text-muted">{{dateformat date format="YYYY年MM月DD日 HH:mm"}}　阅读量：{{reading.total}}　编辑：<a href="mailto:{{user.email}}" title="邮件联系{{user.nickname}}">{{user.nickname}}</a></p>
+      </div>
+      {{#if abstract}}
+        <div class="well text-muted">{{abstract}}</div>
+      {{/if}}
+      <div class="content">
+        {{{content}}}
+      </div>
+    </div>
+    <div class="col-md-3 hidden-xs hidden-sm">
+      <div class="panel panel-default">
+        <div class="panel-heading">栏目阅读总排行</div>
+        <ul class="list-group">
+          {{#foreach readingList.total limit="5"}}
+            <a href="{{href}}" class="list-group-item text-overflow">{{title}}</a>
+          {{/foreach}}
+        </ul>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">栏目阅读本月排行</div>
+        <ul class="list-group">
+          {{#foreach readingList.month limit="5"}}
+            <a href="{{href}}" class="list-group-item text-overflow">{{title}}</a>
+          {{/foreach}}
+        </ul>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">栏目阅读本周排行</div>
+        <ul class="list-group">
+          {{#foreach readingList.week limit="5"}}
+            <a href="{{href}}" class="list-group-item text-overflow">{{title}}</a>
+          {{/foreach}}
+        </ul>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">栏目阅读今日排行</div>
+        <ul class="list-group">
+          {{#foreach readingList.day limit="5"}}
+            <a href="{{href}}" class="list-group-item text-overflow">{{title}}</a>
+          {{/foreach}}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

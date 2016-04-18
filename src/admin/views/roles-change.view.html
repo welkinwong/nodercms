@@ -1,0 +1,63 @@
+<div class="page-header clearfix">
+  <ol ng-if="action === 'create'" class="heading">
+    <li><a ui-sref="main.roles">权限角色</a></li>
+    <li><a ui-sref="main.roles.create">新增角色</a></li>
+  </ol>
+  <ol ng-if="action === 'update'" class="heading">
+    <li><a ui-sref="main.roles">权限角色</a></li>
+    <li><a ui-sref="main.roles.update({ _id: _id })">更新角色</a></li>
+  </ol>
+</div>
+<div class="row">
+  <div class="col-md-9">
+    <div class="panel panel-default">
+      <div class="panel-heading">权限详情</div>
+      <div class="panel-body table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="text-center">名称</th>
+              <th class="text-center">权限</th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+            <tr ng-repeat="item in authorities">
+              <td>{{item.description}}</td>
+              <td>
+                <div class="btn-group btn-group-xs" data-toggle="buttons">
+                  <label ng-click="item.select = 0" ng-class="{ 'active': item.select === 0 }" class="btn btn-default">
+                    <input type="radio" autocomplete="off" checked> 无权限
+                  </label>
+                  <label ng-click="item.select = 1" ng-class="{ 'active': item.select === 1 }" class="btn btn-default">
+                    <input type="radio" autocomplete="off"> 仅查看
+                  </label>
+                  <label ng-click="item.select = 2" ng-class="{ 'active': item.select === 2 }" class="btn btn-default">
+                    <input type="radio" autocomplete="off"> 查看和编辑
+                  </label>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">角色信息</div>
+      <div class="panel-body">
+        <form ng-submit="saveRole()" id="roleForm" name="roleForm" novalidate>
+          <div ng-class="{ 'has-error': roleForm.name.$touched && roleForm.name.$invalid }" class="form-group">
+            <label class="control-label" for="name">* 角色名称：</label>
+            <input ng-model="name" ng-disabled="transmitting" class="form-control" id="name" type="text" name="name" placeholder="请输入角色名称" required>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="description">角色备注：</label>
+            <input ng-model="description" ng-disabled="transmitting" class="form-control" id="description" name="description" type="text" placeholder="请输入角色备注">
+          </div>
+          <button ng-disabled="transmitting || name === '管理员' || roleForm.$invalid" class="btn btn-primary btn-block" type="submit" form="roleForm"><i class="fa fa-save"></i> 保存角色</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -11,8 +11,65 @@ textarea {
   resize: vertical;
 }
 
+canvas {
+  display: block;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  -webkit-text-overflow: ellipsis;
+}
+
+.text-middle,
+.text-middle td {
+  vertical-align: middle !important;
+}
+
+.text-center th {
+  text-align: center;
+}
+
+.fa-toggle-off.text-muted {
+  color: #ccc;
+}
+
+.fa-toggle-on.text-success {
+  color: #5cb85c;
+}
+
 .margin-0303 {
   margin: 0 3px 0 3px;
+}
+
+.margin-bottom-10 {
+  margin-bottom: 10px;
+}
+
+.clear-bottom-padding {
+  padding-bottom: 0;
+}
+
+.clear-bottom-margin {
+  margin-bottom: 0;
+}
+
+.clear-border-top {
+  border-top: 0!important;
+}
+
+.clear-form-horizontal .form-group {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.form-group-sm-bottom {
+  margin-bottom: 10px;
 }
 
 .page-header {
@@ -24,14 +81,46 @@ textarea {
     margin: 0;
     border-left: 6px solid #2d353c;
     font-size: 21px;
+    font-weight: 500;
     line-height: 30px;
-    text-indent: 6px;
+    padding: 0 0 0 6px;
+
+    &:after,
+    &:before {
+      content: " ";
+      display: table;
+    }
+
+    &:after {
+      clear: both;
+    }
+
+    > li {
+      list-style: none;
+      float: left;
+    }
+
+    > li+li:before {
+      color: #b6b6b6;
+      content: "/\00a0";
+      padding: 0 0 0 6px;
+    }
+
+    a {
+      color: inherit;
+    }
   }
 }
 
 .page {
   margin-left: 220px;
   padding: 20px 25px 20px;
+}
+
+.pagination > li > span {
+  border: 0;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
 }
 
 .view {
@@ -42,5 +131,49 @@ textarea {
     &.ng-enter-active {
       opacity: 1;
     }
+  }
+}
+
+.list-group.list-group-tabs {
+  border-right: 1px solid #e5e5e5;
+  padding-right: 15px;
+
+  > .list-group-item {
+    border: none;
+    border-radius: 4px;
+    margin-bottom: 0;
+
+    &+.list-group-item {
+      margin-top: 2px;
+    }
+  }
+}
+
+.list-thumbnail {
+  position: relative;
+  width: 100%;
+  padding-bottom: 75%;
+  background: #e5e5e5;
+  overflow: hidden;
+
+  > img {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
+
+.not-installed {
+  background: white;
+
+  > .brand {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 }

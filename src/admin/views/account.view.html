@@ -1,0 +1,45 @@
+<div class="page-header">
+  <ol class="heading">
+    <li><a ui-sref="main.account">帐号设置</a></li>
+  </ol>
+</div>
+
+<form ng-submit="update()" class="form-horizontal" id="accountForm" name="accountForm" novalidate>
+  <div class="panel panel-default">
+    <div ng-class="{ 'clear-bottom-padding': !editAuth }" class="panel-body">
+      <div ng-class="{ 'has-error': accountForm.email.$touched  && accountForm.email.$invalid }" class="form-group has-feedback">
+        <label for="email" class="col-sm-2 control-label">* Email：</label>
+        <div class="col-sm-10">
+          <input ng-if="editAuth" ng-model="$parent.email" ng-pattern="/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/" nd-vemail="email && email !== oldEmail" ng-disabled="transmitting" type="email" class="form-control text-lowercase" id="email" name="email" describedby="vemailStatus" placeholder="请输入 Email 地址" required>
+          <span ng-show="!accountForm.email.$error.pattern && checkEmailing" class="form-control-feedback" aria-hidden="true"><i class="fa fa-refresh fa-spin"></i></span>
+          <span id="vemailStatus" class="sr-only">(检测中)</span>
+          <p ng-show="accountForm.email.$touched && accountForm.email.$invalid && accountForm.email.$error.pattern" class="help-block">请正确输入 Email</p>
+          <p ng-show="!accountForm.email.$error.pattern && accountForm.email.$touched && accountForm.email.$invalid && accountForm.email.$error.vemail" class="help-block">该 Email 已被注册</p>
+          <p ng-if="!editAuth" class="form-control-static">{{email}}</p>
+        </div>
+      </div>
+      <div ng-class="{ 'has-error': accountForm.nickname.$touched && accountForm.nickname.$invalid }" class="form-group">
+        <label for="inputNickname" class="col-sm-2 control-label">* 昵称：</label>
+        <div class="col-sm-10">
+          <input ng-if="editAuth" ng-model="$parent.nickname" ng-disabled="transmitting" type="text" class="form-control" id="inputNickname" name="nickname" placeholder="请输入昵称" required>
+          <p ng-if="!editAuth" class="form-control-static">{{nickname}}</p>
+        </div>
+      </div>
+      <div ng-if="editAuth" ng-class="{ 'has-error': accountForm.password.$touched && accountForm.password.$invalid }" class="form-group">
+        <label for="inputPwd" class="col-sm-2 control-label">新密码：</label>
+        <div class="col-sm-10">
+          <input ng-model="$parent.password" ng-disabled="transmitting" ng-minlength="6" class="form-control" id="inputPwd" name="password" type="password" placeholder="请输入密码">
+          <p ng-show="accountForm.password.$touched && accountForm.password.$invalid && accountForm.password.$error.minlength" class="help-block">密码需为 6 位数以上</p>
+        </div>
+      </div>
+      <div ng-if="editAuth" ng-class="{ 'has-error': accountForm.confirmpwd.$touched && accountForm.confirmpwd.$invalid}" class="form-group">
+        <label for="inputConfirmpwd" class="col-sm-2 control-label">确认密码：</label>
+        <div class="col-sm-10">
+          <input ng-model="confirmpwd" ng-disabled="transmitting" nd-same="#inputPwd" class="form-control" id="inputConfirmpwd" name="confirmpwd" type="password" placeholder="请再次输入密码">
+          <p ng-show="accountForm.confirmpwd.$touched && accountForm.confirmpwd.$invalid && accountForm.confirmpwd.$error.same" class="help-block">两次密码输入不一致</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button ng-if="editAuth" ng-disabled="accountForm.$invalid || transmitting" class="btn btn-primary pull-right" type="submit"><i class="fa fa-save"></i> 保存设置</button>
+</form>

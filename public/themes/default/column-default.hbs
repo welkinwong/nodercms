@@ -1,0 +1,73 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-9">
+      <ol class="breadcrumb">
+        <li><a href="/">首页</a></li>
+        {{#foreach category.breadcrumb}}
+          <li><a href="{{path}}">{{name}}</a></li>
+        {{/foreach}}
+        <li class="active">{{category.name}}</li>
+      </ol>
+      {{#foreach list.contents}}
+        <div class="media">
+          <h3 class="media-heading text-overflow margin-bottom-10"><a href="{{url}}" title="{{title}}" target="_blank">{{title}}</a></h3>
+          {{#if thumbnail}}
+            <div class="media-left">
+              <img class="media-object" src="{{thumbnail.src}}" title="{{thumbnail.fileName}}" alt="{{thumbnail.description}}" width="100">
+            </div>
+          {{/if}}
+          <div class="media-body text-muted">
+            {{#if abstract}}
+              <p>{{abstract}}</p>
+            {{/if}}
+            <p><span>{{dateformat date format="YYYY年MM月DD日 HH:mm"}}</span><span class="pull-right">阅读量：{{reading.total}}</span></p>
+          </div>
+        </div>
+        <hr>
+      {{/foreach}}
+      <nav class="text-center">
+        <ul class="pagination">
+          {{#foreach list.pagination}}
+            <li {{#if active}}class="active"{{/if}}>
+              <a href="{{url}}">{{name}}</a>
+            </li>
+          {{/foreach}}
+        </ul>
+      </nav>
+    </div>
+    <div class="col-md-3 hidden-xs hidden-sm">
+      <div class="panel panel-default">
+        <div class="panel-heading">栏目阅读总排行</div>
+        <ul class="list-group">
+          {{#foreach readingList.total limit="5"}}
+            <a href="{{href}}" class="list-group-item text-overflow">{{title}}</a>
+          {{/foreach}}
+        </ul>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">栏目阅读本月排行</div>
+        <ul class="list-group">
+          {{#foreach readingList.month limit="5"}}
+            <a href="{{href}}" class="list-group-item text-overflow">{{title}}</a>
+          {{/foreach}}
+        </ul>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">栏目阅读本周排行</div>
+        <ul class="list-group">
+          {{#foreach readingList.week limit="5"}}
+            <a href="{{href}}" class="list-group-item text-overflow">{{title}}</a>
+          {{/foreach}}
+        </ul>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">栏目阅读今日排行</div>
+        <ul class="list-group">
+          {{#foreach readingList.day limit="5"}}
+            <a href="{{href}}" class="list-group-item text-overflow">{{title}}</a>
+          {{/foreach}}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

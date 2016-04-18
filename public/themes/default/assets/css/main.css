@@ -1,0 +1,203 @@
+body {
+  margin: 0;
+  font-family: Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit
+}
+
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, .h1 small, .h2 small,
+.h3 small, .h4 small, .h5 small, .h6 small, h1 .small, h2 .small, h3 .small,
+h4 .small, h5 .small, h6 .small, .h1 .small, .h2 .small, .h3 .small, .h4 .small,
+.h5 .small, .h6 .small {
+  font-weight: normal;
+  line-height: 1;
+  color: #777
+}
+
+h1, .h1, h2, .h2, h3, .h3 {
+  margin-top: 20px;
+  margin-bottom: 10px
+}
+
+h1 small, .h1 small, h2 small, .h2 small, h3 small, .h3 small, h1 .small,
+.h1 .small, h2 .small, .h2 .small, h3 .small, .h3 .small {
+  font-size: 65%
+}
+
+h4, .h4, h5, .h5, h6, .h6 {
+  margin-top: 10px;
+  margin-bottom: 10px
+}
+
+h4 small, .h4 small, h5 small, .h5 small, h6 small, .h6 small, h4 .small,
+.h4 .small, h5 .small, .h5 .small, h6 .small, .h6 .small {
+  font-size: 75%
+}
+
+h1, .h1 {
+  font-size: 28px
+}
+
+h2, .h2 {
+  font-size: 24px
+}
+
+h3, .h3 {
+  font-size: 21px
+}
+
+h4, .h4 {
+  font-size: 18px
+}
+
+h5, .h5 {
+  font-size: 14px
+}
+
+h6, .h6 {
+  font-size: 12px
+}
+
+img {
+  max-width: 100%;
+}
+
+.page-header {
+  padding-bottom: 9px;
+  margin: 20px 0 30px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.lead {
+  margin-bottom: 20px;
+  font-size: 21px;
+  font-weight: 200;
+  line-height: 30px;
+}
+
+.navbar-sub-category {
+  margin-top: -15px;
+  margin-bottom: -15px;
+}
+
+.panel-less {
+  border-color: #ddd
+}
+
+.panel-less > .panel-heading {
+  color: #333;
+  background-color: #f5f5f5;
+  border-color: #ddd
+}
+
+.list-group.list-group-less {
+  margin: 10px;
+}
+
+.list-group.list-group-less > .list-group-item {
+  border: 1px dashed #ddd;
+  border-width: 1px 0;
+}
+
+.clear-bottom-margin {
+  margin-bottom: 0;
+}
+
+.margin-bottom-10 {
+  margin-bottom: 10px;
+}
+
+.content p {
+  margin: 0 0 20px 0;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.content img {
+  display: block;
+  margin: 0 auto;
+}
+
+.text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  -webkit-text-overflow: ellipsis;
+}
+
+.navbar-blue {
+  background-color: #2a82ec;
+  border: none;
+  border-radius: 0;
+}
+
+.navbar-blue .navbar-header {
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+}
+
+.navbar-blue .navbar-header .navbar-toggle:focus,
+.navbar-blue .navbar-header .navbar-toggle:hover {
+  background-color: #f9f9f9;
+  border-color: #f9f9f9
+}
+
+.navbar-blue .navbar-toggle .icon-bar {
+  background-color: #2a82ec;
+}
+
+.navbar-blue .navbar-nav > li > a {
+  color: #fff;
+}
+
+.navbar-blue .navbar-nav > li > a:focus,
+.navbar-blue .navbar-nav > li > a:hover {
+  background-color: #226ac0;
+}
+
+.navbar-blue .navbar-nav > .active > a,
+.navbar-blue .navbar-nav > .active > a:focus,
+.navbar-blue .navbar-nav > .active > a:hover {
+  background-color: #226ac0;
+}
+
+.navbar-blue .navbar-collapse,
+.navbar-blue .navbar-header {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+
+.brand {
+  display: block;
+  padding: 20px 15px;
+}
+
+.carousel {
+  margin-bottom: 20px;
+}
+
+.carousel-caption a,
+.carousel-caption a:hover {
+  color: #fff;
+}
+
+.error-content {
+  margin: 200px auto;
+  text-align: center;
+  color: #777;
+}

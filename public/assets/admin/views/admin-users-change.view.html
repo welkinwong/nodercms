@@ -1,0 +1,70 @@
+<div class="page-header clearfix">
+  <ol ng-if="action === 'create'" class="heading">
+    <li><a ui-sref="main.adminUsers">后台用户</a></li>
+    <li><a ui-sref="main.adminUsers.create">新增用户</a></li>
+  </ol>
+  <ol ng-if="action === 'update'" class="heading">
+    <li><a ui-sref="main.adminUsers">后台用户</a></li>
+    <li><a ui-sref="main.adminUsers.update({ _id: _id })">更新用户</a></li>
+  </ol>
+</div>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <form ng-submit="saveUser()" class="form-horizontal" id="adminUsersForm" name="adminUsersForm" novalidate>
+      <div ng-class="{ 'has-error': adminUsersForm.email.$touched  && adminUsersForm.email.$invalid }" class="form-group has-feedback">
+        <label for="email" class="col-sm-2 control-label">* Email：</label>
+        <div class="col-sm-10">
+          <input ng-model="email" ng-pattern="/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/" nd-vemail="email && email !== oldEmail" ng-disabled="transmitting" type="email" class="form-control text-lowercase" id="email" name="email" describedby="vemailStatus" placeholder="请输入 Email 地址" required>
+          <span ng-show="!adminUsersForm.email.$error.pattern && checkEmailing" class="form-control-feedback" aria-hidden="true"><i class="fa fa-refresh fa-spin"></i></span>
+          <span id="vemailStatus" class="sr-only">(检测中)</span>
+          <p ng-show="adminUsersForm.email.$touched && adminUsersForm.email.$invalid && adminUsersForm.email.$error.pattern" class="help-block">请正确输入 Email</p>
+          <p ng-show="!adminUsersForm.email.$error.pattern && adminUsersForm.email.$touched && adminUsersForm.email.$invalid && adminUsersForm.email.$error.vemail" class="help-block">该 Email 已被注册</p>
+        </div>
+      </div>
+      <div ng-class="{ 'has-error': adminUsersForm.nickname.$touched && adminUsersForm.nickname.$invalid }" class="form-group">
+        <label for="nickname" class="col-sm-2 control-label">* 昵称：</label>
+        <div class="col-sm-10">
+          <input ng-model="nickname" ng-disabled="transmitting" class="form-control" id="nickname" type="text" name="nickname" placeholder="请输入昵称" required>
+        </div>
+      </div>
+      <div ng-if="action === 'create'" ng-class="{ 'has-error': adminUsersForm.password.$touched && adminUsersForm.password.$invalid }" class="form-group">
+        <label for="password" class="col-sm-2 control-label">* 密码：</label>
+        <div class="col-sm-10">
+          <input ng-model="$parent.password" ng-minlength="6" ng-disabled="$parent.transmitting" class="form-control" id="password" name="password" type="password" placeholder="请输入密码" required>
+          <p ng-show="adminUsersForm.password.$touched && adminUsersForm.password.$invalid && adminUsersForm.password.$error.minlength" class="help-block">密码需为 6 位数以上</p>
+        </div>
+      </div>
+      <div ng-if="action === 'create'" ng-class="{ 'has-error': adminUsersForm.confirmpwd.$touched && adminUsersForm.confirmpwd.$invalid}" class="form-group">
+        <label for="ConfirmPwd" class="col-sm-2 control-label">* 确认密码：</label>
+        <div class="col-sm-10">
+          <input ng-model="$parent.confirmpwd" nd-same="#password" ng-disabled="$parent.transmitting" class="form-control" id="ConfirmPwd" name="confirmpwd" type="password" placeholder="请再次输入密码" required>
+          <p ng-show="adminUsersForm.confirmpwd.$touched && adminUsersForm.confirmpwd.$invalid && adminUsersForm.confirmpwd.$error.same" class="help-block">两次密码输入不一致</p>
+        </div>
+      </div>
+      <div ng-if="action === 'update'" ng-class="{ 'has-error': adminUsersForm.password.$touched && adminUsersForm.password.$invalid }" class="form-group">
+        <label for="password" class="col-sm-2 control-label">新密码：</label>
+        <div class="col-sm-10">
+          <input ng-model="$parent.password" ng-minlength="6" ng-disabled="$parent.transmitting" class="form-control" id="password" name="password" type="password" placeholder="请输入密码">
+          <p ng-show="adminUsersForm.password.$touched && adminUsersForm.password.$invalid && adminUsersForm.password.$error.minlength" class="help-block">密码需为 6 位数以上</p>
+        </div>
+      </div>
+      <div ng-if="action === 'update'" ng-class="{ 'has-error': adminUsersForm.confirmpwd.$touched && adminUsersForm.confirmpwd.$invalid}" class="form-group">
+        <label for="ConfirmPwd" class="col-sm-2 control-label">确认密码：</label>
+        <div class="col-sm-10">
+          <input ng-model="$parent.confirmpwd" nd-same="#password" ng-disabled="$parent.transmitting" class="form-control" id="ConfirmPwd" name="confirmpwd" type="password" placeholder="请再次输入密码" ng-required="password">
+          <p ng-show="adminUsersForm.confirmpwd.$touched && adminUsersForm.confirmpwd.$invalid && adminUsersForm.confirmpwd.$error.same" class="help-block">两次密码输入不一致</p>
+        </div>
+      </div>
+      <hr>
+      <div ng-class="{ 'has-error': adminUsersForm.roles.$touched && adminUsersForm.roles.$invalid}" class="form-group">
+        <label for="roles" class="col-sm-2 control-label">* 权限角色：</label>
+        <div class="col-sm-10">
+          <select ng-model="role" ng-options="role._id as role.name for role in roles" ng-disabled="transmitting" class="form-control" id="roles" name="roles" required>
+            <option value="">请选择</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<button ng-disabled="transmitting || inputing || adminUsersForm.$invalid" class="btn btn-primary pull-right" form="adminUsersForm" type="submit"><i class="fa fa-save"></i> 保存用户</button>

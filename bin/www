@@ -1,90 +1,84 @@
 #!/usr/bin/env node
 
-/**
- * 读入主模块
- */
-
+var async = require('async');
 var http = require('http');
+var hbs = require('express-hbs');
 var app = require('../app');
-var logger = require('../lib/logger');
+var database = require('../lib/database.lib');
+var logger = require('../lib/logger.lib');
+var port = require('../lib/port.lib.js')();
+var themes = require('../lib/themes.lib');
+var installService = require('../core/services/install.service');
 
 /**
  * 设置端口
  */
-
-var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
- * 创建 HTTP 服务器
+ * 启动服务器
  */
+async.waterfall([
+  // 检查安装锁
+  function (callback) {
+    installService.status(function (err, hasInstall) {
+      if (err) return callback(err);
 
-var server = http.createServer(app);
+      callback(null, hasInstall);
+    });
+  },
+  function (hasInstall, callback) {
+    if (!hasInstall) {
+      return callback();
+    }
 
-/**
- * 监听端口
- */
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
-
-/**
- * 格式化端口
- */
-
-function normalizePort(val) {
-  var port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    // named pipe
-    return val;
+    async.waterfall([
+      // 连接数据库
+      function (callback) {
+        database.connect(function (err) { callback(err) });
+      },
+      // 初始化主题
+      function (callback) {
+        themes.init(app, function (err) { callback(err) });
+      }
+    ], callback);
   }
+], function (err) {
+  if (err) throw err;
 
-  if (port >= 0) {
-    // port number
-    return port;
-  }
+  //创建 HTTP 服务器
+  var server = http.createServer(app);
 
-  return false;
-}
+  //监听端口
+  server.listen(port);
 
-/**
- * 监听端口错误
- */
+  server.on('error', function (error) {
+    if (error.syscall !== 'listen') throw error;
 
-function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
+    var bind = typeof port === 'string' ? 'pipe ' + port : 'port ' + port;
 
-  var bind = typeof port === 'string'
-    ? 'pipe ' + port
-    : 'port ' + port;
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+      case 'EACCES':
+        logger.system().error(bind + ' 需要有更高的权限');
+        process.exit(1);
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      logger.system().error(bind + ' 需要有更高的权限');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      logger.system().error(bind + ' 已被使用');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
-}
+        break;
+      case 'EADDRINUSE':
+        logger.system().error(bind + ' 已被使用');
+        process.exit(1);
 
-/**
- * 监听端口事件
- */
+        break;
+      default:
+        throw error;
+    }
+  });
 
-function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  logger.system().info('正在监听 ' + bind);
-}
+  server.on('listening', function () {
+    var addr = server.address();
+
+    var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+
+    logger.system().info('正在监听 ' + bind);
+  });
+});
