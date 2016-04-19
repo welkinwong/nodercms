@@ -4,7 +4,7 @@
 Thumbs.db
 npm-debug.log
 install.lock
-config/database.js
+config/database.config.js
 !.gitkeep
 
 node_modules
