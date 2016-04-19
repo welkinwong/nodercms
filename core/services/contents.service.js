@@ -103,8 +103,8 @@ exports.list = function (options, callback) {
   if (options._id) query.category = options._id;
   if (options.status) query.status = options.status;
   if (_.isBoolean(options.deleted)) query.deleted = options.deleted;
-  if (options.currentPage) currentPage = options.currentPage;
-  if (options.pageSize) pageSize = options.pageSize;
+  if (options.currentPage) currentPage = parseInt(options.currentPage);
+  if (options.pageSize) pageSize = parseInt(options.pageSize);
 
   async.waterfall([
     function (callback) {
@@ -229,7 +229,7 @@ exports.reading = function (options, callback) {
 };
 
 /**
- * 多条内容
+ * 检查别名
  * @param {Object} options
  *        {String} options.alias
  * @param {Function} callback

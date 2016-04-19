@@ -74,7 +74,7 @@ exports.one = function (options, callback) {
  * 存储推荐
  * @param {Object} options
  *        {MongoId} options._id
- *        {Number} options.data
+ *        {Object} options.data
  * @param {Function} callback
  */
 exports.save = function (options, callback) {

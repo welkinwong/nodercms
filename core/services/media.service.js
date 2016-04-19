@@ -64,8 +64,8 @@ exports.list = function (options, callback) {
   var currentPage = 1;
   var pageSize = 50;
 
-  if (options.currentPage) currentPage = options.currentPage;
-  if (options.pageSize) pageSize = options.pageSize;
+  if (options.currentPage) currentPage = parseInt(options.currentPage);
+  if (options.pageSize) pageSize = parseInt(options.pageSize);
 
   async.waterfall([
     function (callback) {
