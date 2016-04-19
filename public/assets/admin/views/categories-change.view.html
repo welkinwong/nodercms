@@ -23,7 +23,7 @@
       <div ng-class="{ 'has-error': categoryForm.name.$touched && categoryForm.name.$invalid }" class="form-group">
         <label for="name" class="col-sm-2 control-label">* {{type | translate: { display: 'name', same: 'type', source: types } }}名：</label>
         <div class="col-sm-10">
-          <input ng-model="name" ng-disabled="transmitting" class="form-control" id="name" type="text" name="name" placeholder="请输入栏目名" required>
+          <input ng-model="name" ng-disabled="transmitting" class="form-control" id="name" type="text" name="name" placeholder="请输入{{type | translate: { display: 'name', same: 'type', source: types } }}名" required>
         </div>
       </div>
       <div ng-class="{ 'has-error': categoryForm.sort.$touched && categoryForm.sort.$invalid }" class="form-group">
