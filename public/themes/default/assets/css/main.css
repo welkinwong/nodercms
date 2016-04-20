@@ -73,10 +73,6 @@ h6, .h6 {
   font-size: 12px
 }
 
-img {
-  max-width: 100%;
-}
-
 .page-header {
   padding-bottom: 9px;
   margin: 20px 0 30px;
@@ -131,6 +127,7 @@ img {
 .content img {
   display: block;
   margin: 0 auto;
+  max-width: 100%;
 }
 
 .text-overflow {
