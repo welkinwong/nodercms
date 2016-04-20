@@ -137,7 +137,7 @@ angular.module('controllers').controller('contentChange', ['$scope', '$state', '
         content.date = moment().format();
       }
 
-      if ($scope.tags !== '' || $scope.tags !== undefined) {
+      if ($scope.tags !== '' && $scope.tags !== undefined) {
         var tags = angular.copy($scope.tags);
         tags = tags.replace(/，| /g, ',');
         content.tags = tags.split(',');
