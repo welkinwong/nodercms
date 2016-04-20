@@ -1,6 +1,6 @@
 {
   "name": "nodercms",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "CMS内容管理系统",
   "main": "bin/www",
   "scripts": {
