@@ -19,6 +19,12 @@
       <div class="content">
         {{{content}}}
       </div>
+      {{#if tags}}
+        <hr>
+        <div>
+          标签：{{#foreach tags}}<span>{{this}}</span> {{/foreach}}
+        </div>
+      {{/if}}
     </div>
     <div class="col-md-3 hidden-xs hidden-sm">
       <div class="panel panel-default">
