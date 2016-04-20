@@ -463,7 +463,7 @@ exports.update = function (req, res) {
   if (req.body.type) data.type = req.body.type;
   if (req.body.name) data.name = req.body.name;
   if (_.isBoolean(req.body.isShow)) data.isShow = req.body.isShow;
-  if (!_.isEmpty(req.body.sort)) data.sort = req.body.sort;
+  if (_.isNumber(req.body.sort)) data.sort = req.body.sort;
 
   switch (req.body.type) {
     case 'channel':
