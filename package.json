@@ -1,30 +1,23 @@
 {
   "name": "nodercms",
-  "version": "1.0.3",
   "description": "CMS内容管理系统",
-  "main": "bin/www",
-  "scripts": {
-    "start": "node ./bin/www"
+  "version": "1.0.4",
+  "author": {
+    "name": "Welkin Wong",
+    "email": "welkin.wong@Me.com"
   },
+  "license": "AGPL-3.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/welkinwong/nodercms.git"
   },
+  "homepage": "https://www.nodercms.com",
   "keywords": [
     "NoderCMS",
     "node cms",
     "CMS",
     "cms"
   ],
-  "author": {
-    "name": "Welkin Wong",
-    "email": "welkin.wong@Me.com"
-  },
-  "license": "AGPL-3.0",
-  "bugs": {
-    "url": "https://github.com/dgtmtx/nodercms/issues"
-  },
-  "homepage": "https://github.com/dgtmtx/nodercms",
   "dependencies": {
     "async": "^1.5.2",
     "body-parser": "^1.14.2",
@@ -58,5 +51,16 @@
     "gulp-plumber": "^1.0.0",
     "gulp-uglify": "^1.5.2",
     "gulp-util": "^3.0.7"
+  },
+  "engines": {
+    "node": ">=5.4.1"
+  },
+  "mongodb": ">=3.0.6",
+  "main": "bin/www",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "bugs": {
+    "url": "https://github.com/welkinwong/nodercms/issues"
   }
 }
