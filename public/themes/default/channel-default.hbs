@@ -11,15 +11,15 @@
       <div class="row">
         {{#foreach lists}}
           <div class="col-md-6">
-            <div class="panel panel-default">
-              <div class="panel-heading text-overflow">
+            <div class="panel panel-less">
+              <div class="panel-heading">
                 <a href="{{path}}">{{name}}</a>
               </div>
-              <ul class="list-group">
+              <div class="list-group list-group-less">
                 {{#foreach contents limit="5"}}
                   <a href="{{href}}" class="list-group-item text-overflow">{{title}}</a>
                 {{/foreach}}
-              </ul>
+              </div>
             </div>
           </div>
         {{/foreach}}

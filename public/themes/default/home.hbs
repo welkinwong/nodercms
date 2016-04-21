@@ -9,11 +9,11 @@
                 {{name}}
                 <a class="pull-right" href="{{path}}">更多</a>
               </div>
-              <ul class="list-group list-group-less">
+              <div class="list-group list-group-less">
                 {{#foreach contents limit="5"}}
-                  <a href="{{href}}" class="list-group-item">{{title}}</a>
+                  <a href="{{href}}" class="list-group-item text-overflow">{{title}}</a>
                 {{/foreach}}
-              </ul>
+              </div>
             </div>
           </div>
         {{/foreach}}
