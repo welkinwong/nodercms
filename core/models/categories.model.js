@@ -60,8 +60,26 @@ var categoriesSchema = new mongoose.Schema({
   // 描述
   description: String,
 
-  // 其他
-  mixed: mongoose.Schema.Types.Mixed
+  // 混合
+  mixed: {
+    // 栏目条数
+    pageSize: Number,
+    // 单页内容
+    pageContent: String,
+    // 单页媒体
+    pageMedia: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Media'
+      }
+    ],
+    // 单页后台可编辑性
+    isEdit: Boolean,
+    // 链接父目录
+    prePath: String,
+    // 链接地址
+    url: String
+  }
 }, {
   collection: 'categories',
   id: false

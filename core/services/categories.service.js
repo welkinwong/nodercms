@@ -270,11 +270,12 @@ exports.save = function (options, callback) {
 
           prePath = prePathRegex;
         } else if (_.get(data, 'mixed.prePath')) {
-          var prePathRegex = _.get(regex.exec(data.mixed.prePath), '[0]');
+          var dataPrePath = _.get(data, ['mixed.prePath']);
+          var prePathRegex = _.get(regex.exec(dataPrePath), '[0]');
 
           if (!prePathRegex) return callback();
 
-          prePath = data.mixed.prePath;
+          prePath = dataPrePath;
         } else {
           var err = {
             type: 'system',
