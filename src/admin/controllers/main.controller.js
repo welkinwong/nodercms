@@ -13,6 +13,7 @@ angular.module('controllers').controller('main', ['$scope', '$http',
 			origin: window.location.origin
 		};
 		$scope.systemInfo = {};
+		$scope.nodeInfo = {};
 		$scope.databaseInfo = {};
 		$scope.contentTotal = '';
 		$scope.mediaTotal = '';
@@ -24,6 +25,7 @@ angular.module('controllers').controller('main', ['$scope', '$http',
 				var data = res.data;
 
 				$scope.systemInfo = data.systemInfo;
+				$scope.nodeInfo = data.nodeInfo;
 				$scope.databaseInfo = data.databaseInfo;
 				$scope.contentTotal = data.contentTotal;
 				$scope.mediaTotal = data.mediaTotal;

@@ -24,6 +24,11 @@ module.exports = function (req, res) {
 
       callback(null, system);
     },
+    nodeInfo: function (callback) {
+      var nodeInfo = process.versions;
+
+      callback(null, nodeInfo);
+    },
     databaseInfo: function (callback) {
       var mongodbAdmin = new mongoose.mongo.Admin(mongoose.connection.db);
 
@@ -61,6 +66,7 @@ module.exports = function (req, res) {
 
     var data = {
       systemInfo: results.systemInfo,
+      nodeInfo: results.nodeInfo,
       databaseInfo: results.databaseInfo,
       contentTotal: results.contentTotal,
       mediaTotal: results.mediaTotal,
