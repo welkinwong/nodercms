@@ -6,7 +6,7 @@ var listsService = require('../services/lists.service');
 var contentsService = require('../services/contents.service');
 var mediaService = require('../services/media.service');
 var usersService = require('../services/users.service');
-var mongoose = require('../../lib/database.lib').mongoose;
+var mongoose = require('mongoose');
 
 /**
  * 控制面板数据

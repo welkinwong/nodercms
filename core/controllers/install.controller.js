@@ -2,7 +2,6 @@ var async = require('async');
 var logger = require('../../lib/logger.lib');
 var database = require('../../lib/database.lib');
 var themes = require('../../lib/themes.lib');
-var session = require('../../lib/session.lib');
 var installService = require('../services/install.service');
 
 /**
@@ -333,17 +332,12 @@ exports.install = function (req, res) {
     }],
     initTheme: ['install', function (callback) {
       themes.init(req.app, callback);
-    }],
-    initSession: ['install', function (callback) {
-      session.init(app, callback);
     }]
-  }, function (err, results) {
+  }, function (err) {
     if (err) {
       logger[err.type]().error(err);
       return res.status(500).end();
     }
-
-    req.session.user = results.install.user._id;
 
     logger.system().info(__dirname, 'NoderCMS 成功安装');
 

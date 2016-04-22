@@ -6,6 +6,7 @@ var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var validator = require('./lib/validator.lib');
+var session = require('./lib/session.lib');
 var logger = require('./lib/logger.lib');
 var router = require('./lib/route-map.lib');
 var errors = require('./core/controllers/errors.controller').error;
@@ -27,6 +28,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(validator());
 app.use(cookieParser());
+app.use(session.check(), session.init());
 app.use(express.static(path.join(__dirname, 'public')));
 
 /**

@@ -1,4 +1,4 @@
-var mongoose = require('../../lib/database.lib').mongoose;
+var mongoose = require('mongoose');
 
 /**
  * 推荐模型

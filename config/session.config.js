@@ -1,6 +1,6 @@
 var session = require('express-session');
 var mongoStore = require('connect-mongo')(session);
-var mongoose = require('../lib/database.lib').mongoose;
+var mongoose = require('mongoose');
 
 module.exports = {
   secret: 'nodercms',

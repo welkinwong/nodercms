@@ -1,5 +1,5 @@
 var moment = require('moment');
-var mongoose = require('../../lib/database.lib').mongoose;
+var mongoose = require('mongoose');
 
 /**
  * 媒体模型

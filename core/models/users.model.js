@@ -1,5 +1,5 @@
 var sha1 = require('../services/sha1.service');
-var mongoose = require('../../lib/database.lib').mongoose;
+var mongoose = require('mongoose');
 
 /**
  * 用户模型

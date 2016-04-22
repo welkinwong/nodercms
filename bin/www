@@ -7,7 +7,6 @@ var database = require('../lib/database.lib');
 var logger = require('../lib/logger.lib');
 var port = require('../lib/port.lib.js')();
 var themes = require('../lib/themes.lib');
-var session = require('../lib/session.lib');
 var installService = require('../core/services/install.service');
 
 /**
@@ -32,18 +31,14 @@ async.waterfall([
       return callback();
     }
 
-    async.auto({
+    async.series([
       // 连接数据库
-      connectDatabase: database.connect,
+      database.connect,
       // 初始化主题
-      initThemes: ['connectDatabase', function (callback) {
+      function (callback) {
         themes.init(app, callback);
-      }],
-      // 初始化 Session
-      initSession: ['connectDatabase', function (callback) {
-        session.init(app, callback);
-      }]
-    }, callback);
+      }
+    ], callback);
   }
 ], function (err) {
   if (err) throw err;
