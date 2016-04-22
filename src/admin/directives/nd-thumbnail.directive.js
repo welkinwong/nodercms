@@ -65,6 +65,8 @@ angular.module('directives').directive('ndThumbnail',  ['$timeout', '$filter', '
          * 上传缩略图
          */
         scope.uploadThumbnail = function () {
+          $('#corpModal').modal('hide');
+
           scope.thumbnail.uploadStatus = 'uploading';
 
           Upload.upload({
@@ -74,10 +76,6 @@ angular.module('directives').directive('ndThumbnail',  ['$timeout', '$filter', '
             var data = res.data;
 
             scope.thumbnail.uploadStatus = 'success';
-
-            $timeout(function () {
-              $('#corpModal').modal('hide');
-            }, 0);
 
             scope.thumbnail._id = data._id;
           }, function () {
