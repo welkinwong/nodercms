@@ -1,7 +1,7 @@
 {
   "name": "nodercms",
   "description": "CMS内容管理系统",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "author": {
     "name": "Welkin Wong",
     "email": "welkin.wong@Me.com"
@@ -39,7 +39,8 @@
     "mongoose": "^4.4.2",
     "require-all": "^2.0.0",
     "rimraf": "^2.5.2",
-    "serve-favicon": "^2.2.1"
+    "serve-favicon": "^2.2.1",
+    "validator": "^4.9.x"
   },
   "devDependencies": {
     "del": "^2.2.0",
