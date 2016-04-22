@@ -2,12 +2,12 @@
 
 var async = require('async');
 var http = require('http');
-var hbs = require('express-hbs');
 var app = require('../app');
 var database = require('../lib/database.lib');
 var logger = require('../lib/logger.lib');
 var port = require('../lib/port.lib.js')();
 var themes = require('../lib/themes.lib');
+var session = require('../lib/session.lib');
 var installService = require('../core/services/install.service');
 
 /**
@@ -32,16 +32,18 @@ async.waterfall([
       return callback();
     }
 
-    async.waterfall([
+    async.auto({
       // 连接数据库
-      function (callback) {
-        database.connect(function (err) { callback(err) });
-      },
+      connectDatabase: database.connect,
       // 初始化主题
-      function (callback) {
-        themes.init(app, function (err) { callback(err) });
-      }
-    ], callback);
+      initThemes: ['connectDatabase', function (callback) {
+        themes.init(app, callback);
+      }],
+      // 初始化 Session
+      initSession: ['connectDatabase', function (callback) {
+        session.init(app, callback);
+      }]
+    }, callback);
   }
 ], function (err) {
   if (err) throw err;

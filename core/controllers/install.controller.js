@@ -2,6 +2,7 @@ var async = require('async');
 var logger = require('../../lib/logger.lib');
 var database = require('../../lib/database.lib');
 var themes = require('../../lib/themes.lib');
+var session = require('../../lib/session.lib');
 var installService = require('../services/install.service');
 
 /**
@@ -301,7 +302,7 @@ exports.install = function (req, res) {
   //  case: req.body.case
   //};
 
-  async.series({
+  async.auto({
     status: function (callback) {
       installService.status(function (err, hasInstall) {
         if (err) return callback(err);
@@ -317,7 +318,7 @@ exports.install = function (req, res) {
         callback();
       });
     },
-    install: function (callback) {
+    install: ['status', function (callback) {
       installService.install({
         databaseDate: databaseDate,
         siteInfoDate: siteInfodata,
@@ -329,10 +330,13 @@ exports.install = function (req, res) {
 
         callback(null, install);
       });
-    },
-    initTheme: function (callback) {
-      themes.init(req.app, function (err) { callback(err) });
-    }
+    }],
+    initTheme: ['install', function (callback) {
+      themes.init(req.app, callback);
+    }],
+    initSession: ['install', function (callback) {
+      session.init(app, callback);
+    }]
   }, function (err, results) {
     if (err) {
       logger[err.type]().error(err);

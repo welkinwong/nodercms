@@ -5,12 +5,10 @@ var compression = require('compression');
 var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session = require('express-session');
 var validator = require('./lib/validator.lib');
 var logger = require('./lib/logger.lib');
 var router = require('./lib/route-map.lib');
 var errors = require('./core/controllers/errors.controller').error;
-var sessionConfig = require('./config/session.config');
 
 var app = express();
 
@@ -29,7 +27,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(validator());
 app.use(cookieParser());
-app.use(session(sessionConfig));
 app.use(express.static(path.join(__dirname, 'public')));
 
 /**
