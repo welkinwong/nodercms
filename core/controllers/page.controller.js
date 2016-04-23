@@ -32,7 +32,6 @@ module.exports = function (req, res, next) {
         siteInfo: results.siteInfo,
         navigation: results.navigation,
         category: page,
-        title: page.name,
         content: page.mixed.pageContent,
         media: page.mixed.pageMedia
       });
