@@ -17,7 +17,7 @@ module.exports = function (req, res) {
         if (err) return callback(err);
 
         if (siteInfo) {
-          callback(err, siteInfo.themes || 'default');
+          callback(err, siteInfo.theme || 'default');
         } else {
           callback(err, 'default');
         }
