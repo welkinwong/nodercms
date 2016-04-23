@@ -1,11 +1,11 @@
 /**
  * ndNavigation Directives
  */
-angular.module('directives').directive('ndNavigation', ['$rootScope', '$state', '$timeout', '$http', '$filter', 'account',
-  function ($rootScope, $state, $timeout, $http, $filter, account) {
+angular.module('directives').directive('ndNavigation', ['$templateCache', '$rootScope', '$state', '$timeout', '$http', '$filter', 'account',
+  function ($templateCache, $rootScope, $state, $timeout, $http, $filter, account) {
     return {
 	    restrict: 'E',
-	    templateUrl: '/assets/admin/views/navigation.view.html',
+	    template: $templateCache.get('navigation.view.html'),
       link: function (scope, element) {
         /**
          * 初始化变量

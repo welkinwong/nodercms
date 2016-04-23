@@ -1,11 +1,11 @@
 /**
  * ndPagination Directives
  */
-angular.module('directives').directive('ndPagination', ['$rootScope', '$timeout',
-  function ($rootScope, $timeout) {
+angular.module('directives').directive('ndPagination', ['$templateCache',
+  function ($templateCache) {
     return {
       restrict: 'E',
-	    templateUrl: '/assets/admin/views/pagination.view.html',
+      template: $templateCache.get('pagination.view.html'),
       scope: {
         currentPage: '=',
         totalPages: '='

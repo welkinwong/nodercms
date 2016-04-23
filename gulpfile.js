@@ -8,6 +8,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var minify = require('gulp-cssnano');
 var plumber = require( 'gulp-plumber' );
+var templateCache = require('gulp-angular-templatecache');
 var del = require('del');
 
 /**
@@ -76,6 +77,18 @@ gulp.task('concat-admin-js-less', ['clean'], function () {
 });
 
 /**
+ * 合并 admin views
+ */
+gulp.task('concat-admin-views', function () {
+  return gulp.src('./src/admin/views/*.html')
+    .pipe(templateCache({
+      module: 'views',
+      filename: 'views.js'
+    }))
+    .pipe(gulp.dest('public/assets/admin/'));
+});
+
+/**
  * 拷贝 src/admin/ 到 public/assets/admin/
  */
 gulp.task('copy-admin-assets', ['clean'], function () {
@@ -83,8 +96,7 @@ gulp.task('copy-admin-assets', ['clean'], function () {
     './src/admin/index.html',
     './src/admin/notInstalled.html',
     './src/admin/vendor/**/*',
-    './src/admin/images/**/*',
-    './src/admin/views/**/*'
+    './src/admin/images/**/*'
   ], { base: './src/admin/' })
     .pipe(gulp.dest('./public/assets/admin/'));
 });
@@ -93,15 +105,15 @@ gulp.task('copy-admin-assets', ['clean'], function () {
  * 开发模式监视文件
  */
 gulp.task('watch-assets-admin', function () {
-  gulp.watch('./src/admin/**/*', ['build-admin-assets', 'concat-admin-js', 'copy-admin-assets']);
+  gulp.watch('./src/admin/**/*', ['build-admin-assets', 'concat-admin-js', 'concat-admin-views', 'copy-admin-assets']);
 });
 
 /**
  * 默认开发模式编译
  */
-gulp.task('default', ['watch-assets-admin', 'build-admin-assets', 'concat-admin-js', 'copy-admin-assets']);
+gulp.task('default', ['watch-assets-admin', 'build-admin-assets', 'concat-admin-js', 'concat-admin-views', 'copy-admin-assets']);
 
 /**
  * 生产模式编译
  */
-gulp.task('build', ['build-admin-assets-less', 'concat-admin-js-less', 'copy-admin-assets']);
+gulp.task('build', ['build-admin-assets-less', 'concat-admin-js-less', 'concat-admin-views', 'copy-admin-assets']);

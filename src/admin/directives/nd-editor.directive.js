@@ -2,11 +2,11 @@
  * ndEditor Directives
  * Markdown 编辑器
  */
-angular.module('directives').directive('ndEditor',  ['$timeout', '$filter', '$http', 'Upload',
-  function ($timeout, $filter, $http, Upload) {
+angular.module('directives').directive('ndEditor',  ['$templateCache', '$timeout', '$filter', '$http', 'Upload',
+  function ($templateCache, $timeout, $filter, $http, Upload) {
     return {
       restrict: 'E',
-      templateUrl: '/assets/admin/views/editor.view.html',
+      template: $templateCache.get('editor.view.html'),
       scope: {
         content: '=',
         media: '=',

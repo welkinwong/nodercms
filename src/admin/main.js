@@ -11,7 +11,8 @@ angular.module('nodercms', [
   'controllers',
   'services',
   'directives',
-  'filters'
+  'filters',
+  'views'
 ])
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider',
   function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
@@ -34,8 +35,10 @@ angular.module('nodercms', [
       // 安装
       .state('install', {
         url: '^/admin/install',
-        templateUrl: '/assets/admin/views/install.view.html',
         controller: 'install',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('install.view.html');
+        }],
         resolve: {
           checkInstallResolve: ['checkInstallResolve', function (resolve) { return resolve.leaveToSignInOrNone() }],
         }
@@ -44,8 +47,10 @@ angular.module('nodercms', [
       // 登录
       .state('signIn', {
         url: '^/admin/sign-in',
-        templateUrl: '/assets/admin/views/sign-in.view.html',
         controller: 'signIn',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('sign-in.view.html');
+        }],
         resolve: {
           checkInstallResolve: ['checkInstallResolve', function (resolve) { return resolve.enterToInstallOrNone() }],
         }
@@ -54,8 +59,10 @@ angular.module('nodercms', [
       // 控制面板
       .state('main', {
         url: '^/admin',
-        templateUrl: '/assets/admin/views/main.view.html',
         controller: 'main',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('main.view.html');
+        }],
 		    resolve: {
           account: 'account'
 		    }
@@ -64,8 +71,10 @@ angular.module('nodercms', [
       // 推荐管理
       .state('main.features', {
         url: '^/admin/features',
-        templateUrl: '/assets/admin/views/features.view.html',
         controller: 'features',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('features.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('features', 'read') }]
         }
@@ -74,8 +83,10 @@ angular.module('nodercms', [
       // 新增推荐
       .state('main.features.create', {
         url: '^/admin/features/:model/create',
-        templateUrl: '/assets/admin/views/features-change.view.html',
         controller: 'featuresChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('features-change.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('features', 'edit') }]
         }
@@ -84,8 +95,10 @@ angular.module('nodercms', [
       // 更新推荐
       .state('main.features.update', {
         url: '^/admin/features/:model/feature/:feature',
-        templateUrl: '/assets/admin/views/features-change.view.html',
         controller: 'featuresChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('features-change.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('features', 'edit') }]
         }
@@ -94,7 +107,9 @@ angular.module('nodercms', [
       // 没有内容
       .state('main.notFoundContents', {
         url: '^/admin/contents',
-        templateUrl: '/assets/admin/views/not-fount-contents.view.html',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('not-fount-contents.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('contents', 'read') }]
         }
@@ -103,8 +118,10 @@ angular.module('nodercms', [
       // 内容列表
       .state('main.contents', {
         url: '^/admin/contents/category/:category',
-        templateUrl: '/assets/admin/views/contents.view.html',
         controller: 'contents',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('contents.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('contents', 'read') }]
         }
@@ -113,8 +130,10 @@ angular.module('nodercms', [
       // 栏目列表 - 新建内容
       .state('main.contents.create', {
         url: '^/admin/contents/category/:category/create',
-        templateUrl: '/assets/admin/views/content-change.view.html',
         controller: 'contentChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('content-change.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('contents', 'edit') }]
         }
@@ -123,8 +142,10 @@ angular.module('nodercms', [
       // 栏目列表 - 更新内容
       .state('main.contents.update', {
         url: '^/admin/contents/category/:category/content/:content',
-        templateUrl: '/assets/admin/views/content-change.view.html',
         controller: 'contentChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('content-change.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('contents', 'edit') }]
         }
@@ -133,8 +154,10 @@ angular.module('nodercms', [
       // 回收站
       .state('main.trash', {
         url: '^/admin/contents/trash',
-        templateUrl: '/assets/admin/views/trash.view.html',
         controller: 'trash',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('trash.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('contents', 'read') }]
         }
@@ -143,7 +166,9 @@ angular.module('nodercms', [
       // 没有单页时
       .state('main.notFoundPages', {
         url: '^/admin/pages',
-        templateUrl: '/assets/admin/views/not-found-pages.view.html',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('not-found-pages.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('pages', 'read') }]
         }
@@ -152,8 +177,10 @@ angular.module('nodercms', [
       // 单页
       .state('main.pages', {
         url: '^/admin/pages/:page',
-        templateUrl: '/assets/admin/views/page-change.view.html',
         controller: 'pageChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('page-change.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('pages', 'read') }]
         }
@@ -162,8 +189,10 @@ angular.module('nodercms', [
       // 媒体库
       .state('main.media', {
         url: '^/admin/media',
-        templateUrl: '/assets/admin/views/media.view.html',
         controller: 'media',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('media.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('media', 'read') }]
         }
@@ -172,8 +201,10 @@ angular.module('nodercms', [
       // 帐号设置
       .state('main.account', {
         url: '^/admin/account',
-        templateUrl: '/assets/admin/views/account.view.html',
         controller: 'account',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('account.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('account', 'read') }]
         }
@@ -182,8 +213,10 @@ angular.module('nodercms', [
       // 网站配置
       .state('main.siteInfo', {
         url: '^/admin/setting/site-info',
-        templateUrl: '/assets/admin/views/site-info.view.html',
         controller: 'siteInfo',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('site-info.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('siteInfo', 'read') }]
         }
@@ -192,8 +225,10 @@ angular.module('nodercms', [
       // 分类管理
       .state('main.categories', {
         url: '^/admin/setting/categories',
-        templateUrl: '/assets/admin/views/categories.view.html',
         controller: 'categories',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('categories.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('categories', 'read') }]
         }
@@ -202,8 +237,10 @@ angular.module('nodercms', [
       // 分类管理 - 创建分类
       .state('main.categories.create', {
         url: '^/admin/setting/categories/create',
-        templateUrl: '/assets/admin/views/categories-change.view.html',
         controller: 'categoriesChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('categories-change.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('categories', 'edit') }]
         }
@@ -212,8 +249,10 @@ angular.module('nodercms', [
       // 分类管理 - 更新分类
       .state('main.categories.update', {
         url: '^/admin/setting/categories/:_id',
-        templateUrl: '/assets/admin/views/categories-change.view.html',
         controller: 'categoriesChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('categories-change.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('categories', 'edit') }]
         }
@@ -222,8 +261,10 @@ angular.module('nodercms', [
       // 内容模型
       .state('main.contentModels', {
         url: '^/admin/setting/content-models',
-        templateUrl: '/assets/admin/views/content-models.view.html',
         controller: 'contentModels',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('content-models.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('contentModels', 'read') }]
         }
@@ -232,8 +273,10 @@ angular.module('nodercms', [
       // 内容模型 - 创建模型
       .state('main.contentModels.create', {
         url: '^/admin/setting/content-models/create',
-        templateUrl: '/assets/admin/views/content-model-change.view.html',
         controller: 'contentModelChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('content-model-change.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('contentModels', 'edit') }]
         }
@@ -242,8 +285,10 @@ angular.module('nodercms', [
       // 内容模型 - 更新模型
       .state('main.contentModels.update', {
         url: '^/admin/setting/content-models/:_id',
-        templateUrl: '/assets/admin/views/content-model-change.view.html',
         controller: 'contentModelChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('content-model-change.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('contentModels', 'edit') }]
         }
@@ -252,8 +297,10 @@ angular.module('nodercms', [
       // 推荐位配置
       .state('main.featureModels', {
         url: '^/admin/setting/feature-models',
-        templateUrl: '/assets/admin/views/feature-models.view.html',
         controller: 'featureModels',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('feature-models.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('featureModels', 'read') }]
         }
@@ -262,8 +309,10 @@ angular.module('nodercms', [
       // 推荐位配置 - 新增推荐位
       .state('main.featureModels.create', {
         url: '^/admin/setting/feature-models/create',
-        templateUrl: '/assets/admin/views/feature-model-change.view.html',
         controller: 'featureModelChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('feature-model-change.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('featureModels', 'edit') }]
         }
@@ -272,8 +321,10 @@ angular.module('nodercms', [
       // 推荐位配置 - 更新推荐位
       .state('main.featureModels.update', {
         url: '^/admin/setting/feature-models/:_id',
-        templateUrl: '/assets/admin/views/feature-model-change.view.html',
         controller: 'featureModelChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('feature-model-change.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('featureModels', 'edit') }]
         }
@@ -282,8 +333,10 @@ angular.module('nodercms', [
       // 角色权限
       .state('main.roles', {
         url: '^/admin/setting/roles',
-        templateUrl: '/assets/admin/views/roles.view.html',
         controller: 'roles',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('roles.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('roles', 'read') }]
         }
@@ -292,8 +345,10 @@ angular.module('nodercms', [
       // 角色权限 - 添加角色
       .state('main.roles.create', {
         url: '^/admin/setting/roles/create',
-        templateUrl: '/assets/admin/views/roles-change.view.html',
         controller: 'rolesChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('roles-change.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('roles', 'edit') }]
         }
@@ -302,8 +357,10 @@ angular.module('nodercms', [
       // 角色权限 - 更新角色
       .state('main.roles.update', {
         url: '^/admin/setting/roles/:_id',
-        templateUrl: '/assets/admin/views/roles-change.view.html',
         controller: 'rolesChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('roles-change.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('roles', 'edit') }]
         }
@@ -312,8 +369,10 @@ angular.module('nodercms', [
       // 后台用户
       .state('main.adminUsers', {
         url: '^/admin/setting/admin-users',
-        templateUrl: '/assets/admin/views/admin-users.view.html',
         controller: 'adminUsers',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('admin-users.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('adminUsers', 'read') }]
         }
@@ -322,8 +381,10 @@ angular.module('nodercms', [
       // 后台用户 - 创建用户
       .state('main.adminUsers.create', {
         url: '^/admin/setting/admin-users/create',
-        templateUrl: '/assets/admin/views/admin-users-change.view.html',
         controller: 'adminUsersChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('admin-users-change.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('adminUsers', 'edit') }]
         }
@@ -332,14 +393,16 @@ angular.module('nodercms', [
       // 后台用户 - 更新用户
       .state('main.adminUsers.update', {
         url: '^/admin/setting/admin-users/:_id',
-        templateUrl: '/assets/admin/views/admin-users-change.view.html',
         controller: 'adminUsersChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('admin-users-change.view.html');
+        }],
         resolve: {
           checkAuth: ['checkAuthResolve', function (resolve) { return resolve('adminUsers', 'edit') }]
         }
       });
   }
-]).run(['checkSignIn', function (checkSignIn) {
+]).run(['checkSignIn', '$templateCache', function (checkSignIn) {
   // 检查用户是否登录
   checkSignIn();
 }]);
@@ -351,3 +414,4 @@ angular.module('controllers', []);
 angular.module('services', []);
 angular.module('directives', []);
 angular.module('filters', []);
+angular.module('views', []);

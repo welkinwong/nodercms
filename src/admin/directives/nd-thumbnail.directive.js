@@ -2,11 +2,11 @@
  * ndThumbnail Directives
  * Thumbnail 上传组件
  */
-angular.module('directives').directive('ndThumbnail',  ['$timeout', '$filter', '$http', 'Upload', 'base64ToBlobFile',
-  function ($timeout, $filter, $http, Upload, base64ToBlobFile) {
+angular.module('directives').directive('ndThumbnail',  ['$templateCache', '$timeout', '$filter', '$http', 'Upload', 'base64ToBlobFile',
+  function ($templateCache, $timeout, $filter, $http, Upload, base64ToBlobFile) {
     return {
       restrict: 'E',
-      templateUrl: '/assets/admin/views/thumbnail.view.html',
+      template: $templateCache.get('thumbnail.view.html'),
       scope: {
         thumbnail: '=',
         disabled: '=',
