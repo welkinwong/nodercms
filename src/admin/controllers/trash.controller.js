@@ -1,8 +1,8 @@
 /**
  * Trash Controller
  */
-angular.module('controllers').controller('trash', ['$scope', '$state', '$stateParams', '$http',
-  function ($scope, $state, $stateParams, $http) {
+angular.module('controllers').controller('trash', ['$scope', '$state', '$stateParams', '$http', 'account',
+  function ($scope, $state, $stateParams, $http, account) {
     'use strict';
 
     /**
@@ -25,6 +25,20 @@ angular.module('controllers').controller('trash', ['$scope', '$state', '$statePa
         value: 'pushed'
       }
     ];
+    $scope.editAuth = false;
+
+    /**
+     * 读取用户编辑权限
+     */
+    account.auths()
+      .then(function (auths) {
+        $scope.editAuth = auths.contents.edit;
+      }, function () {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: '读取权限失败'
+        });
+      });
 
     /**
      * 读取内容列表

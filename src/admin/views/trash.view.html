@@ -61,19 +61,19 @@
     <ol class="heading pull-left">
       <li><a ui-sref="main.trash">回收站</a></li>
     </ol>
-    <button class="btn btn-warning btn-sm pull-right" type="button" data-toggle="modal" data-target="#deleteListModal"><i class="fa fa-trash"></i> 删除当页</button>
+    <button ng-if="editAuth" class="btn btn-warning btn-sm pull-right" type="button" data-toggle="modal" data-target="#deleteListModal"><i class="fa fa-trash"></i> 删除当页</button>
   </div>
   <div class="panel panel-default clear-bottom-margin">
     <div class="panel-body table-responsive">
       <table class="table table-hover">
-        <thead>
+        <thead class="text-center">
           <tr>
-            <th class="text-center">缩略图</th>
-            <th class="text-center">标题</th>
-            <th class="text-center">发布人</th>
-            <th class="text-center">状态</th>
-            <th class="text-center">发布时间</th>
-            <th class="text-center">操作</th>
+            <th>缩略图</th>
+            <th>标题</th>
+            <th>发布人</th>
+            <th>状态</th>
+            <th>发布时间</th>
+            <th ng-if="editAuth">操作</th>
           </tr>
         </thead>
         <tbody class="text-center text-middle">
@@ -86,9 +86,9 @@
             <td>{{content.user.nickname}}</td>
             <td>{{content.status | translate: { display: 'name', same: 'value', source: statusType } }}</td>
             <td>{{content.status !== 'pushed' ? '-' : content.date | date: 'yyyy年MM月dd日'}}</td>
-            <td>
-              <button ng-disabled="transmitting" ng-click="$parent.$parent.recoveryContentId = content._id" class="btn btn-default btn-xs" type="button" data-toggle="modal" data-target="#recoveryModal"><i class="fa fa-history"></i> 恢复</button>
-              <button ng-disabled="transmitting" ng-click="$parent.$parent.deleteContentId = content._id" class="btn btn-warning btn-xs" type="button" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash-o"></i> 彻底删除</button>
+            <td ng-if="editAuth">
+              <button ng-disabled="transmitting" ng-click="$parent.$parent.$parent.recoveryContentId = content._id" class="btn btn-default btn-xs" type="button" data-toggle="modal" data-target="#recoveryModal"><i class="fa fa-history"></i> 恢复</button>
+              <button ng-disabled="transmitting" ng-click="$parent.$parent.$parent.deleteContentId = content._id" class="btn btn-warning btn-xs" type="button" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash-o"></i> 彻底删除</button>
             </td>
           </tr>
         </tbody>
