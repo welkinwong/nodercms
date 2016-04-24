@@ -34,7 +34,7 @@ angular.module('directives').directive('ndThumbnail',  ['$templateCache', '$time
          * @param files 文件名
          */
         scope.cropThumbnail = function (files) {
-          if (!files) return false;
+          if (_.isEmpty(files)) return false;
 
           scope.thumbnail.file = files[0];
 
@@ -65,8 +65,6 @@ angular.module('directives').directive('ndThumbnail',  ['$templateCache', '$time
          * 上传缩略图
          */
         scope.uploadThumbnail = function () {
-          $('#corpModal').modal('hide');
-
           scope.thumbnail.uploadStatus = 'uploading';
 
           Upload.upload({
@@ -84,6 +82,8 @@ angular.module('directives').directive('ndThumbnail',  ['$templateCache', '$time
               message: '缩略图上传失败'
             });
           });
+
+          $('#corpModal').modal('hide');
         };
 
         /**

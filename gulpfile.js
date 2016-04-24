@@ -6,7 +6,7 @@ var less = require('gulp-less');
 var autoprefixer = require('gulp-autoprefixer');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
-var minify = require('gulp-cssnano');
+var minify = require('gulp-clean-css');
 var plumber = require( 'gulp-plumber' );
 var templateCache = require('gulp-angular-templatecache');
 var del = require('del');
@@ -114,11 +114,11 @@ var vendorSrcCSS = [
  */
 gulp.task('concat-vendor-css', ['clean'], function () {
   return gulp.src(vendorSrcCSS)
-    .pipe(concat('vendor.css'))
     .pipe(autoprefixer({
       browsers: ['last 2 versions'],
       cascade: false
     }))
+    .pipe(concat('vendor.css'))
     .pipe(gulp.dest('./public/assets/admin/'));
 });
 
@@ -127,11 +127,11 @@ gulp.task('concat-vendor-css', ['clean'], function () {
  */
 gulp.task('concat-vendor-css-less', ['clean'], function () {
   return gulp.src(vendorSrcCSS)
-    .pipe(concat('vendor.css'))
     .pipe(autoprefixer({
       browsers: ['last 2 versions'],
       cascade: false
     }))
+    .pipe(concat('vendor.css'))
     .pipe(minify())
     .pipe(gulp.dest('./public/assets/admin/'));
 });
