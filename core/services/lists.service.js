@@ -15,6 +15,7 @@ exports.all = function (callback) {
       categories
         .find({ type: { $in: ['channel', 'column'] } })
         .select('type name path isShow sort')
+        .sort('sort')
         .lean()
         .exec(callback);
     },
@@ -118,6 +119,7 @@ exports.channel = function (options, callback) {
       categories
         .find({ path: regex, type: 'column' })
         .select('name path sort type isShow')
+        .sort('sort')
         .lean()
         .exec(callback);
     },
