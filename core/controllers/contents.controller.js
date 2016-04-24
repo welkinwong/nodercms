@@ -481,7 +481,7 @@ exports.remove = function (req, res) {
     req.checkParams({
       'content': {
         notEmpty: {
-          options: true,
+          options: [true],
           errorMessage: 'content 不能为空'
         },
         isMongoId: { errorMessage: 'content 需为 mongoId' },
