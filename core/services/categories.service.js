@@ -312,9 +312,9 @@ exports.save = function (options, callback) {
         });
       }
     ], function (err, category) {
-      cache.del('categories');
-
       if (err) return callback(err);
+
+      cache.del('categories');
 
       callback(null, category);
     });
@@ -454,7 +454,6 @@ exports.remove = function (options, callback) {
   }, function (err) {
     if (err) return callback(err);
 
-    // 删除分类缓存
     cache.del('categories');
 
     callback(null);

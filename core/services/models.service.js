@@ -65,6 +65,8 @@ exports.save = function (options, callback) {
         callback(err);
       }
 
+      cache.del('categories');
+
       callback(null, model);
     });
   } else {
@@ -73,6 +75,8 @@ exports.save = function (options, callback) {
         err.type = 'database';
         callback(err);
       }
+
+      cache.del('categories');
 
       callback(null, model);
     });
@@ -88,6 +92,8 @@ exports.save = function (options, callback) {
 exports.remove = function (options, callback) {
   modelsModel.remove({ _id: options._id }, function (err) {
     if (err) err.type = 'database';
+
+    cache.del('categories');
 
     callback(err);
   });
