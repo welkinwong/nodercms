@@ -26,7 +26,7 @@ var featuresSchema = new mongoose.Schema({
   },
 
   //链接
-  link: {
+  url: {
     type: String
   },
 

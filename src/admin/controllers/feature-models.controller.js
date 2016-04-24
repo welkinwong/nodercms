@@ -24,7 +24,7 @@ angular.module('controllers').controller('featureModels', ['$scope', '$http', 'a
         value: '标题'
       },
       {
-        name: 'link',
+        name: 'url',
         value: '链接'
       }
     ];

@@ -32,7 +32,7 @@ module.exports = function (callname, options, callback) {
     },
     function (model, callback) {
       featuresModel.find({ model: model._id })
-        .select('sort title link thumbnail extensions')
+        .select('sort title url thumbnail extensions')
         .populate('thumbnail', 'fileName description date src')
         .exec(function (err, features) {
           if (err) return callback(err);

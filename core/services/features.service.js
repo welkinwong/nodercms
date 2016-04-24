@@ -11,7 +11,7 @@ var mediaModel = require('../models/media.model');
  */
 exports.all = function (callback) {
   featuresModel.find({})
-    .select('model sort title link thumbnail extensions')
+    .select('model sort title url thumbnail extensions')
     .populate('thumbnail', 'fileName description date src')
     .exec(function (err, features) {
       if (err) {
@@ -52,7 +52,7 @@ exports.one = function (options, callback) {
   var _id = options._id;
 
   featuresModel.findById(_id)
-    .select('model sort title link thumbnail extensions')
+    .select('model sort title url thumbnail extensions')
     .populate('thumbnail', 'fileName description date src')
     .exec(function (err, feature) {
       if (err) {

@@ -86,9 +86,9 @@ exports.create = function (req, res) {
       },
       isString: { errorMessage: 'title 需为字符串' },
     },
-    'link': {
+    'url': {
       optional: true,
-      isString: { errorMessage: 'link 需为字符串' },
+      isString: { errorMessage: 'url 需为字符串' },
     },
     'thumbnail': {
       optional: true,
@@ -109,7 +109,7 @@ exports.create = function (req, res) {
     model: req.body.model,
     sort: req.body.sort,
     title: req.body.title,
-    link: req.body.link,
+    url: req.body.url,
     thumbnail: req.body.thumbnail,
     extensions: req.body.extensions
   };
@@ -132,7 +132,7 @@ exports.create = function (req, res) {
  *        {MongoId} req.body.model
  *        {Number} req.body.sort
  *        {String} req.body.title
- *        {String} req.body.link
+ *        {String} req.body.url
  *        {MongoId} req.body.thumbnail
  *        {Object} req.body.extensions
  * @param {Object} res
@@ -163,9 +163,9 @@ exports.update = function (req, res) {
       optional: true,
       isString: { errorMessage: 'title 需为字符串' },
     },
-    'link': {
+    'url': {
       optional: true,
-      isString: { errorMessage: 'link 需为字符串' },
+      isString: { errorMessage: 'url 需为字符串' },
     },
     'thumbnail': {
       optional: true,
@@ -189,14 +189,14 @@ exports.update = function (req, res) {
     if (req.body.model) data.model = req.body.model;
     if (req.body.sort) data.sort = req.body.sort;
     if (req.body.title) data.title = req.body.title;
-    if (req.body.link) data.link = req.body.link;
+    if (req.body.url) data.url = req.body.url;
     if (req.body.thumbnail) data.thumbnail = req.body.thumbnail;
     if (!_.isEmpty(req.body.extensions)) data.extensions = req.body.extensions;
   } else {
     data.model = req.body.model;
     data.sort = req.body.sort;
     data.title = req.body.title;
-    data.link = req.body.link;
+    data.url = req.body.url;
     data.thumbnail = req.body.thumbnail;
     data.extensions = req.body.extensions;
   }

@@ -37,7 +37,7 @@
             <th>排序</th>
             <th ng-if="model.system.thumbnail">缩略图</th>
             <th>标题</th>
-            <th ng-if="model.system.link">链接</th>
+            <th ng-if="model.system.url">链接</th>
             <th ng-repeat="item in model.extensions">{{item.name}}</th>
             <th ng-if="editAuth" class="text-center">操作</th>
           </tr>
@@ -50,7 +50,7 @@
               <div ng-if="!feature.thumbnail">-</div>
             </td>
             <td>{{feature.title | words: 20}}</td>
-            <td ng-if="model.system.link">{{feature.link | words: 20}}</td>
+            <td ng-if="model.system.url">{{feature.url | words: 20}}</td>
             <td ng-repeat="item in model.extensions">{{!feature.extensions[item.key] ? '-' : feature.extensions[item.key] | words: 20}}</td>
             <td ng-if="editAuth">
               <a ng-disabled="transmitting" ng-click="$parent.$parent.$parent.transmitting ? $event.preventDefault() : false" ui-sref="main.features.update({ model: model._id, feature: feature._id })" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> 修改</a>

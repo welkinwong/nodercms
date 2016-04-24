@@ -13,7 +13,7 @@ angular.module('controllers').controller('featuresChange', ['$scope', '$state','
     $scope._id = '';
     $scope.sort = 0;
     $scope.title = '';
-    $scope.link = '';
+    $scope.url = '';
     $scope.thumbnail = {};
     $scope.extensions = {};
     $scope.model = {};
@@ -60,7 +60,7 @@ angular.module('controllers').controller('featuresChange', ['$scope', '$state','
         $scope.action = 'update';
         $scope.sort = feature.sort;
         $scope.title = feature.title;
-        $scope.link = feature.link;
+        $scope.url = feature.url;
         $scope.extensions = feature.extensions;
 
         if (feature.thumbnail) {
@@ -85,7 +85,7 @@ angular.module('controllers').controller('featuresChange', ['$scope', '$state','
         title: $scope.title,
       };
 
-      if ($scope.link) feature.link = $scope.link;
+      if ($scope.url) feature.url = $scope.url;
       if ($scope.thumbnail._id) feature.thumbnail = $scope.thumbnail._id;
       if (!_.isEmpty($scope.extensions)) feature.extensions = $scope.extensions;
 

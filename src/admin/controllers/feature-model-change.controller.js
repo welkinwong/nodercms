@@ -22,7 +22,7 @@ angular.module('controllers').controller('featureModelChange', ['$scope', '$stat
     $scope.system = {
       thumbnail: true,
       title: true,
-      link: true
+      url: true
     };
     $scope.thumbnailSize = {
       width: 400,
