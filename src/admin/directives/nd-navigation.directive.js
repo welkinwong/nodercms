@@ -20,18 +20,20 @@ angular.module('directives').directive('ndNavigation', ['$templateCache', '$root
          * 激活滑动门
          */
         function slideShow () {
-          $('.sub-list').each(function () {
-            var self = $(this);
+          $timeout(function () {
+            $('.sub-list').each(function () {
+              var self = $(this);
 
-            if (self.children('.item').hasClass('active')) {
-              self.siblings('.item').addClass('active select');
-            } else {
-              self
-                .slideUp('fast', function () {
-                  self.siblings('.sub-list-heading').removeClass('select');
-                })
-                .siblings('.sub-list-heading').removeClass('active');
-            }
+              if (self.children('.item').hasClass('active')) {
+                self.siblings('.item').addClass('active select');
+              } else {
+                self
+                  .slideUp('fast', function () {
+                    self.siblings('.sub-list-heading').removeClass('select');
+                  })
+                  .siblings('.sub-list-heading').removeClass('active');
+              }
+            });
           });
         }
 
