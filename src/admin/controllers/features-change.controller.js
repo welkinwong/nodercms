@@ -54,9 +54,9 @@ angular.module('controllers').controller('featuresChange', ['$scope', '$state','
       var feature = result.feature;
 
       $scope.model = model;
-      $scope._id = feature._id;
 
       if ($stateParams.feature) {
+        $scope._id = feature._id;
         $scope.action = 'update';
         $scope.sort = feature.sort;
         $scope.title = feature.title;
