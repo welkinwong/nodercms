@@ -237,6 +237,8 @@ angular.module('controllers').controller('contentModelChange', ['$scope', '$stat
                   message: '保存内容模型成功'
                 });
 
+                $scope.$emit('mainCategoriesUpdate');
+
                 return $state.go('main.contentModels');
               }
             }
@@ -258,6 +260,8 @@ angular.module('controllers').controller('contentModelChange', ['$scope', '$stat
               type: 'success',
               message: '保存内容模型成功'
             });
+
+            $scope.$emit('mainCategoriesUpdate');
 
             $state.go('main.contentModels');
           })

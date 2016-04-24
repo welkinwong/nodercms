@@ -246,6 +246,8 @@ angular.module('controllers').controller('featureModelChange', ['$scope', '$stat
                   message: '保存推荐位成功'
                 });
 
+                $scope.$emit('mainCategoriesUpdate');
+
                 return $state.go('main.featureModels');
               }
             }
@@ -267,6 +269,8 @@ angular.module('controllers').controller('featureModelChange', ['$scope', '$stat
               type: 'success',
               message: '保存推荐位成功'
             });
+
+            $scope.$emit('mainCategoriesUpdate');
 
             $state.go('main.featureModels');
           })
