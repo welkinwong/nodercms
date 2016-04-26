@@ -25,9 +25,9 @@ angular.module('controllers').controller('pageChange', ['$scope', '$state', '$st
         $scope.readAuth = auths.pages.read;
 
         if (auths.pages.read && !auths.pages.edit) {
-          return $http.get('/api/pages/' + $stateParams.page, { params: { toMarkdown: true } });
-        } else if (auths.pages.edit) {
           return $http.get('/api/pages/' + $stateParams.page);
+        } else if (auths.pages.edit) {
+          return $http.get('/api/pages/' + $stateParams.page, { params: { markdown: true } });
         }
       }, function () {
         $scope.$emit('notification', {

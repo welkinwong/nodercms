@@ -14,7 +14,9 @@ angular.module('controllers').controller('contentChange', ['$scope', '$state', '
     $scope._id = $stateParams.content;
     $scope.status = 'draft';
     $scope.title = '';
+    $scope.oldTitle = '';
     $scope.alias = '';
+    $scope.oldAlias = '';
     $scope.abstract = '';
     $scope.content = '';
     $scope.tags = '';
@@ -30,7 +32,11 @@ angular.module('controllers').controller('contentChange', ['$scope', '$state', '
      * 绑定 Alias 翻译
      */
     $scope.$watch('title', function (newTitle) {
-      $scope.alias = pinyin(newTitle);
+      if (newTitle !== $scope.oldTitle) {
+        $scope.alias = pinyin(newTitle);
+      } else {
+        $scope.alias = $scope.oldAlias;
+      }
     });
 
     /**
@@ -52,14 +58,16 @@ angular.module('controllers').controller('contentChange', ['$scope', '$state', '
       $scope.action = 'update';
       $scope.transmitting = true;
 
-      $http.get('/api/contents/' + $stateParams.content, { params: { toMarkdown: false } })
+      $http.get('/api/contents/' + $stateParams.content, { params: { markdown: true } })
         .then(function (res) {
           if (res.data) {
             var content = res.data;
 
             $scope.status = content.status;
             $scope.title = content.title;
+            $scope.oldTitle = _.clone(content.title);
             $scope.alias = content.alias;
+            $scope.oldAlias = _.clone(content.alias);
 
             if (res.data.thumbnail) {
               $scope.thumbnail._id = res.data.thumbnail._id;

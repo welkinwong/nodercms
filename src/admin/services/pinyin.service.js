@@ -419,21 +419,32 @@ angular.module('services').factory('pinyin', ['$http', '$q',
       return false;
     }
 
-    return function (phrase) {
-      if (phrase === '' || phrase === undefined || phrase === null) return '';
+    return function (input) {
+      if (input === '' || input === undefined || input === null) return '';
 
       var pinyin = '';
+      var phrase = input.toLowerCase();
 
       for (var i = 0; i < phrase.length; i++) {
         var character = phrase.substr(i, 1);
         var translate = sourceSearch(character);
+        var regex = /[A-z0-9\-\_]/;
 
-        if (/[a-zA-Z0-9\- ]/.test(character)) {
+        if (regex.test(character)) {
           pinyin += character;
         } else if (translate) {
+          // 为中文字前增加空格，防止英文中文粘连
+          // 例如 VR电影 > vrdian ying，调整为 vr  dian  ying
+          if (i > 0) {
+            pinyin += ' ';
+          }
+
           pinyin += translate;
 
           if (i < phrase.length - 1) pinyin += ' ';
+        } else {
+          // 既不是英文又不是中文情况下增加空格
+          pinyin += ' ';
         }
       }
 

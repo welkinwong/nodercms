@@ -26,8 +26,9 @@
             <label class="sr-only" for="alias">* URL</label>
             <div class="input-group">
               <div class="input-group-addon">* URL</div>
-              <input ng-model="alias" ng-disabled="transmitting" class="form-control" id="alias" type="text" name="alias" placeholder="请输入 URL" required>
+              <input ng-model="alias" ng-disabled="transmitting" ng-pattern="/^[a-z0-9\-\_]+$/" class="form-control" id="alias" type="text" name="alias" placeholder="请输入 URL" required>
             </div>
+            <p ng-show="contentForm.alias.$error.pattern && contentForm.alias.$touched && contentForm.alias.$invalid" class="help-block">仅能使用小写字母、数字、中划线以及下划线</p>
           </div>
           <div ng-class="{ 'has-error': contentForm.abstract.$touched && contentForm.abstract.$invalid }"
               class="form-group">
