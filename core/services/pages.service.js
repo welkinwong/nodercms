@@ -1,6 +1,6 @@
 var async = require('async');
 var _ = require('lodash');
-var markdown = require('markdown').markdown;
+var markdownUtil = require('markdown').markdown;
 var logger = require('../../lib/logger.lib');
 var moment = require('moment');
 var cache = require('../../lib/cache.lib');
@@ -13,7 +13,7 @@ var categoriesService = require('../services/categories.service');
  * @param {Object} options
  *        {MongoId} options._id
  *        {String} options.path
- *        {Boolean} options.toMarkdown
+ *        {Boolean} options.markdown
  * @param {Function} callback
  */
 exports.one = function (options, callback) {
@@ -32,7 +32,7 @@ exports.one = function (options, callback) {
 
   if (options._id) query._id = options._id;
   if (options.path) query.path = options.path;
-  var toMarkdown = options.toMarkdown || false;
+  var markdown = options.markdown || false;
 
   categoriesService.one(query, function (err, page) {
     if (err) {
@@ -42,8 +42,8 @@ exports.one = function (options, callback) {
 
     if (!page) return callback();
 
-    if (toMarkdown && _.get(page, 'mixed.pageContent')) {
-      page.mixed.pageContent = markdown.toHTML(page.mixed.pageContent);
+    if (!markdown && _.get(page, 'mixed.pageContent')) {
+      page.mixed.pageContent = markdownUtil.toHTML(page.mixed.pageContent);
     }
 
     callback(null, page);

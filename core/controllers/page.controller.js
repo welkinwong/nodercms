@@ -13,8 +13,7 @@ var categoriesService = require('../services/categories.service');
 module.exports = function (req, res, next) {
   // 查询单页
   pagesService.one({
-    path: '/' + req.params.page + req.params[0],
-    toMarkdown: true
+    path: '/' + req.params.page + req.params[0]
   }, function (err, page) {
     if (err) return res.status(500).end();
 

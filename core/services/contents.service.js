@@ -1,6 +1,6 @@
 var async = require('async');
 var _ = require('lodash');
-var markdown = require('markdown').markdown;
+var markdownUtil = require('markdown').markdown;
 var logger = require('../../lib/logger.lib');
 var moment = require('moment');
 var categories = require('../models/categories.model');
@@ -19,13 +19,13 @@ var mediaModel = require('../models/media.model');
 exports.one = function (options, callback) {
   var query = {};
   var reading = true;
-  var toMarkdown = true;
+  var markdown = false;
 
   if (options._id) query._id = options._id;
   if (options.status) query.status = options.status;
   if (options.alias) query.alias = options.alias;
   if (_.isBoolean(options.reading)) reading = options.reading;
-  if (_.isBoolean(options.toMarkdown)) toMarkdown = options.toMarkdown;
+  if (_.isBoolean(options.markdown)) markdown = options.markdown;
 
   contentsModel.findOne(query)
     .select('status category title alias user date reading thumbnail media abstract content tags extensions')
@@ -66,7 +66,7 @@ exports.one = function (options, callback) {
           if (_.get(content, 'category.path')) content.url = content.category.path + '/' + content.alias;
 
           if (reading) content.reading = reading;
-          if (content.content && toMarkdown) content.content = markdown.toHTML(content.content);
+          if (content.content && !markdown) content.content = markdownUtil.toHTML(content.content);
 
           if (content.thumbnail) content.thumbnail.src = thumbnailSrc;
           if (!_.isEmpty(content.media)) {
@@ -76,7 +76,9 @@ exports.one = function (options, callback) {
           }
 
           delete content.category;
-          delete content.alias;
+
+          if (!markdown) delete content.alias;
+
           if (_.get(content, 'reading.createAt')) delete content.reading.createAt;
 
           callback(null, content);

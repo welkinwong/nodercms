@@ -21,9 +21,9 @@ exports.get = function (req, res) {
     }
   });
   req.checkQuery({
-    'toMarkdown': {
+    'markdown': {
       optional: true,
-      isBoolean: { errorMessage: 'toMarkdown 需为布尔值' }
+      isBoolean: { errorMessage: 'markdown 需为布尔值' }
     }
   });
 
@@ -33,15 +33,15 @@ exports.get = function (req, res) {
   }
 
   var _id = req.params.page;
-  var toMarkdown = false;
+  var markdown = false;
 
-  if (req.query.toMarkdown === 'true') {
-    toMarkdown = true;
+  if (req.query.markdown === 'true') {
+    markdown = true;
   }
 
   async.waterfall([
     function (callback) {
-      pagesService.one({ _id: _id, toMarkdown: toMarkdown }, function (err, page) {
+      pagesService.one({ _id: _id, markdown: markdown }, function (err, page) {
         if (err) return callback(err);
         if (!page) return callback(null, null);
 
