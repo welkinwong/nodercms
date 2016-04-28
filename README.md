@@ -16,7 +16,15 @@ NoderCMS 使用 Node.js + MongoDB 开发，拥有灵活的内容模型以及完�
 $ npm install --production
 $ npm start
 ```
-完成后访问 http://localhost:3000/admin/install 进入安装程序 
+
+若是在 Windows 下安装，需先行安装 Canvas 依赖
+
+```bash
+$ npm install canvas ----msvs_version=2015
+```
+（其中 2015 是你安装图形库依赖时安装的 Visual Studio 版本，目前最新的是 2015）
+
+完成后访问 http://localhost:3000/admin/install 进入安装程序
 
 **环境要求：**
 
@@ -32,7 +40,7 @@ OS X | `brew install pkg-config cairo libpng jpeg giflib`
 Ubuntu | `sudo apt-get install libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++`
 Fedora | `sudo yum install cairo cairo-devel cairomm-devel libjpeg-turbo-devel pango pango-devel pangomm pangomm-devel giflib-devel`
 Solaris | `pkgin install cairo pkg-config xproto renderproto kbproto xextproto`
-Windows | [Instructions on our wiki](https://github.com/Automattic/node-canvas/wiki/Installation---Windows)
+Windows | [Windows 下安装教程](http://www.nodercms.com/help/installation/windows-xia-an-zhuang-tu-xing-ku-cairo-jiao-cheng)
 
 ## 重新安装
 1. 清空数据库
