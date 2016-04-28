@@ -28,7 +28,7 @@ $ npm install canvas ----msvs_version=2015
 
 **环境要求：**
 
-1. [Node.js](https://www.nodejs.org) v5.4.1 及以上
+1. [Node.js](https://www.nodejs.org) v4.4.3 及以上
 2. [Mongodb](https://www.mongodb.org) v3.0.6 及以上
 3. [Cairo](http://www.cairographics.org) v1.8.6 及以上（图形库）
 
