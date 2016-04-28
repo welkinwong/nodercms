@@ -17,7 +17,7 @@ angular.module('directives').directive('ndVdirectory', ['$http',
 
         function validate () {
           var prePath = scope.prePath;
-          var directory = element.val().toLowerCase();
+          var directory = element.val();
           var oldPath = scope.oldPath;
 
           scope.inputing = false;
@@ -48,7 +48,7 @@ angular.module('directives').directive('ndVdirectory', ['$http',
           if (prePath) {
             paramsPath = prePath + '/' + directory;
           } else {
-            paramsPath = directory;
+            paramsPath = '/' + directory;
           }
 
           if (paramsPath === oldPath) {

@@ -75,7 +75,7 @@
       <div ng-if="type !== 'link' && action === 'create'" ng-class="{ 'has-error': categoryForm.directory.$touched && categoryForm.directory.$invalid }" class="form-group has-feedback">
         <label for="directory" class="col-sm-2 control-label">* 目录：</label>
         <div class="col-sm-10">
-          <input ng-model="$parent.directory" ng-pattern="/^[A-z0-9\-\_]+$/" nd-vdirectory pre-path="prePath" old-path="oldPath" ng-trim ng-disabled="transmitting" class="form-control text-lowercase" id="directory" type="text" name="directory" describedby="directoryStatus" placeholder="请输入目录" required>
+          <input ng-model="$parent.directory" ng-pattern="/^[a-z0-9\-\_]+$/" nd-vdirectory pre-path="prePath" old-path="oldPath" ng-trim ng-disabled="transmitting" class="form-control text-lowercase" id="directory" type="text" name="directory" describedby="directoryStatus" placeholder="请输入目录" required>
           <span ng-show="checkDirectorying" class="form-control-feedback" aria-hidden="true"><i class="fa fa-refresh fa-spin"></i></span>
           <span id="directoryStatus" class="sr-only">(检测中)</span>
           <p ng-show="categoryForm.directory.$error.pattern && categoryForm.directory.$touched && categoryForm.directory.$invalid" class="help-block">仅能使用大小写字母、数字、中划线以及下划线</p>
