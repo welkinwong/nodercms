@@ -125,7 +125,7 @@ module.exports = {
       post: [110201, 'categories.create'],
 
       '/:_id': {
-        get: [110200, 100300, 'categories.one'],
+        get: [110200, 100200, 100300,  'categories.one'],
         put: [110201, 100301, 'categories.update'],
         delete: [110201, 'categories.remove']
       }

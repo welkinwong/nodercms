@@ -145,11 +145,12 @@ exports.update = function (req, res) {
   }
 
   var _id = req.params._id;
-  var data = {};
+  var data = {
+    name: req.body.name,
+    authorities: req.body.authorities
+  };
 
-  if (req.body.name) data.name = req.body.name;
   if (req.body.description) data.description = req.body.description;
-  if (!_.isEmpty(req.body.authorities)) data.authorities = req.body.authorities;
 
   rolesService.save({ _id: _id, data: data }, function (err) {
     if (err) {

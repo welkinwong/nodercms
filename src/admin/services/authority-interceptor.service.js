@@ -8,6 +8,8 @@ angular.module('services').factory('authorityInterceptor', ['$q', '$injector',
     return {
       responseError: function (rejection) {
         if (rejection.status === 401 && rejection.data && rejection.data.error) {
+          $injector.get('account').reset();
+
           switch (rejection.data.error.code) {
             // 没有登录
             case 'NOT_LOGGED_IN':

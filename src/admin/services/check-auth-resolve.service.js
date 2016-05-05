@@ -13,9 +13,11 @@ angular.module('services').factory('checkAuthResolve', ['$rootScope', '$q', '$st
 					if (auths[category][action]) {
 						deferred.resolve();
 					} else {
+						account.reset();
 						$state.go('main', null, { reload: 'main' });
 					}
 				}, function () {
+					account.reset();
 					$rootScope.$emit('notification', {
 						type: 'danger',
 						message: '读取权限失败'
