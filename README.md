@@ -47,6 +47,11 @@ Windows | [Windows 下安装教程](http://www.nodercms.com/help/installation/wi
 2. 删除 /install.lock
 3. 访问 http://localhost:3000/admin/install 进入安装程序
 
+### 常见问题
+[使用 Nginx 来反向代理 NoderCMS](http://www.nodercms.com/help/installation/shi-yong-nginx-lai-fan-xiang-dai-li-duo-ge-nodercms)
+[使用 pm2 来守护 NoderCMS](http://www.nodercms.com/help/installation/shi-yong-pm2-lai-shou-hu-nodercms)
+[推荐调用使用说明](http://www.nodercms.com/help/themes/features)
+
 ## License
 GNU AFFERO GENERAL PUBLIC LICENSE
 Version 3, 19 November 2007
