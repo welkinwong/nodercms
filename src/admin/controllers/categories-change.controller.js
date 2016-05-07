@@ -140,8 +140,8 @@ angular.module('controllers').controller('categoriesChange', ['$scope', '$state'
         $scope.views.column = results.category.views.column || 'column-default';
         $scope.views.content = results.category.views.content || 'content-default';
         $scope.views.page = results.category.views.page || 'page-default';
-        $scope.keywords = results.keywords || '';
-        $scope.description = results.description || '';
+        $scope.keywords = results.category.keywords || '';
+        $scope.description = results.category.description || '';
 
         if (results.category.mixed) {
           $scope.url = results.category.mixed.url || '';
