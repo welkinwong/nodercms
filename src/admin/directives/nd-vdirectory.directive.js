@@ -17,7 +17,7 @@ angular.module('directives').directive('ndVdirectory', ['$http',
 
         function validate () {
           var prePath = scope.prePath;
-          var directory = element.val();
+          var directory = element.val().toLowerCase();
           var oldPath = scope.oldPath;
 
           scope.inputing = false;
