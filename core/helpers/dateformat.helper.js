@@ -1,4 +1,5 @@
 var moment = require('moment');
+moment.locale('zh-cn');
 
 module.exports = function (context, options) {
   if (!options && context.hasOwnProperty('hash')) {
