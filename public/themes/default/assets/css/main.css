@@ -124,10 +124,41 @@ h6, .h6 {
   line-height: 1.7;
 }
 
-.content img {
+.content img,
+.content iframe,
+.content embed {
   display: block;
   margin: 0 auto;
   max-width: 100%;
+}
+
+.content table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px
+}
+
+.content table > tbody > tr > td, .content table > tbody > tr > th, .content table > tfoot > tr > td, .content table > tfoot > tr > th,
+.content table > thead > tr > td, .content table > thead > tr > th {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 1px solid #ddd
+}
+
+.content table > thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #ddd
+}
+
+.content table > caption + thead > tr:first-child > td, .content table > caption + thead > tr:first-child > th,
+.content table > colgroup + thead > tr:first-child > td, .content table > colgroup + thead > tr:first-child > th,
+.content table > thead:first-child > tr:first-child > td, .content table > thead:first-child > tr:first-child > th {
+  border-top: 0
+}
+
+.content table > tbody + tbody {
+  border-top: 2px solid #ddd
 }
 
 .text-overflow {
