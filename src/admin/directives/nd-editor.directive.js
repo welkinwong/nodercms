@@ -31,6 +31,7 @@ angular.module('directives').directive('ndEditor',  ['$templateCache', '$timeout
         scope.description = '';
         scope.disabledSelectViewRemove = true;
         scope.disabledSelectViewinsert = true;
+        scope.videoSource = '';
 
         scope.selectViewSlide = function (target) {
           scope.thumbnailInfoView = false;
@@ -277,6 +278,37 @@ angular.module('directives').directive('ndEditor',  ['$templateCache', '$timeout
         };
 
         /**
+         * 插入视频
+         */
+        scope.insertVideo = function () {
+          var selected = markdownHelper.getSelection();
+          var content = markdownHelper.getContent();
+          var isFirstN = /\n$/.test(content.substr(0, selected.start));
+          var isLastN = /^\n/.test(content.substr(selected.end, content.length));
+          var str = '';
+
+          if (!isFirstN && selected.start !== 0 ) {
+            str += '\n';
+          }
+
+          str += '\n' + scope.videoSource + '\n';
+
+          if (!isLastN) {
+            str += '\n';
+          }
+
+          markdownHelper.replaceSelection(str);
+
+          $('#videoInsert').modal('hide');
+          scope.videoSource = '';
+          scope.videoInsertForm.$setUntouched();
+          var newSelected = markdownHelper.getContent().length - (content.length - selected.end);
+          markdownHelper.setSelection(newSelected, newSelected);
+
+          scope.content = markdownHelper.getContent();
+        };
+
+        /**
          * 初始化编辑器
          */
         $('#content').markdown({
@@ -301,6 +333,15 @@ angular.module('directives').directive('ndEditor',  ['$templateCache', '$timeout
                   {
                     callback: function (e) {
                       $('#imageSelect').modal('show');
+                    }
+                  },
+                  {
+                    name: 'cmdVideo',
+                    title: 'Video',
+                    hotkey: 'Ctrl+D',
+                    icon: { fa: 'fa fa-video-camera' },
+                    callback: function (e) {
+                      $('#videoInsert').modal('show');
                     }
                   }
                 ]

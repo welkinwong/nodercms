@@ -30,3 +30,40 @@
   background-color: #eee;
   opacity: 1
 }
+
+.md-preview table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px
+}
+
+.md-preview table > tbody > tr > td, .md-preview table > tbody > tr > th, .md-preview table > tfoot > tr > td, .md-preview table > tfoot > tr > th,
+.md-preview table > thead > tr > td, .md-preview table > thead > tr > th {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 1px solid #ddd
+}
+
+.md-preview table > thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #ddd
+}
+
+.md-preview table > caption + thead > tr:first-child > td, .md-preview table > caption + thead > tr:first-child > th,
+.md-preview table > colgroup + thead > tr:first-child > td, .md-preview table > colgroup + thead > tr:first-child > th,
+.md-preview table > thead:first-child > tr:first-child > td, .md-preview table > thead:first-child > tr:first-child > th {
+  border-top: 0
+}
+
+.md-preview table > tbody + tbody {
+  border-top: 2px solid #ddd
+}
+
+.md-preview img,
+.md-preview iframe,
+.md-preview embed {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+}

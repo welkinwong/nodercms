@@ -81,4 +81,25 @@
     </div>
   </div>
 </div>
+<!-- 视频插入模态 -->
+<div class="modal fade" id="videoInsert" tabindex="-1" role="dialog" aria-labelledby="videoInsertTitle" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="videoInsertForm" name="videoInsertForm" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="关闭"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="videoInsertTitle">插入视频</h4>
+        </div>
+        <div ng-class="{ 'has-error': videoInsertForm.videoSource.$touched && videoInsertForm.videoSource.$invalid }" class="modal-body">
+          <textarea ng-model="videoSource" ng-pattern="/^\<iframe\s|^<embed\s/" class="form-control" id="videoSource" name="videoSource" rows="4" placeholder="请粘贴视频代码"></textarea>
+          <p ng-show="videoInsertForm.videoSource.$error.pattern && videoInsertForm.videoSource.$touched && videoInsertForm.videoSource.$invalid" class="help-block">视频代码仅支持 &#60;iframe&#62;、&#60;embed&#62;</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default" type="button" data-dismiss="modal">取消</button>
+          <button ng-click="insertVideo()" ng-disabled="videoInsertForm.$invalid && !videoSource" class="btn btn-primary" type="button">插入</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 <textarea ng-model="content" ng-disabled="disabled" id="content" name="content" data-provide="markdown" rows="{{rows}}" placeholder="请输入正文"></textarea>
