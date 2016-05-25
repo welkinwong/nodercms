@@ -1,6 +1,6 @@
 var async = require('async');
 var _ = require('lodash');
-var markdownUtil = require('markdown').markdown;
+var marked = require('marked');
 var logger = require('../../lib/logger.lib');
 var moment = require('moment');
 var categories = require('../models/categories.model');
@@ -66,7 +66,7 @@ exports.one = function (options, callback) {
           if (_.get(content, 'category.path')) content.url = content.category.path + '/' + content.alias;
 
           if (reading) content.reading = reading;
-          if (content.content && !markdown) content.content = markdownUtil.toHTML(content.content);
+          if (content.content && !markdown) content.content = marked(content.content);
 
           if (content.thumbnail) content.thumbnail.src = thumbnailSrc;
           if (!_.isEmpty(content.media)) {

@@ -1,6 +1,6 @@
 var async = require('async');
 var _ = require('lodash');
-var markdownUtil = require('markdown').markdown;
+var marked = require('marked');
 var logger = require('../../lib/logger.lib');
 var moment = require('moment');
 var cache = require('../../lib/cache.lib');
@@ -43,7 +43,7 @@ exports.one = function (options, callback) {
     if (!page) return callback();
 
     if (!markdown && _.get(page, 'mixed.pageContent')) {
-      page.mixed.pageContent = markdownUtil.toHTML(page.mixed.pageContent);
+      page.mixed.pageContent = marked(page.mixed.pageContent);
     }
 
     callback(null, page);

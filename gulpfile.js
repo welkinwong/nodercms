@@ -71,7 +71,7 @@ var vendorSrcJS = [
   './src/admin/vendor/angular-img-cropper-1.0.0/angular-img-cropper.js',
   './src/admin/vendor/custom-bootstrap-3.3.5/js/bootstrap.js',
   './src/admin/vendor/moment-2.13.0/moment.js',
-  './src/admin/vendor/markdown/markdown.js',
+  './src/admin/vendor/marked-0.3.5/marked.js',
   './src/admin/vendor/bootstrap-markdown-2.10.0/js/bootstrap-markdown.js',
   './src/admin/vendor/bootstrap-markdown-2.10.0/js/bootstrap-markdown.zh.js',
   './src/admin/vendor/bootstrap-datepicker-1.6.1/js/bootstrap-datepicker.js',
