@@ -187,6 +187,9 @@ module.exports = {
   // 首页
   '/': { get: 'home'},
 
+  // 搜索页
+  '/search': { get: 'search' },
+
   // 频道页
   '/:channel*': { get: 'channel' },
 

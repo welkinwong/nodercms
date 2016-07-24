@@ -1,6 +1,6 @@
 <div class="container hidden-xs">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-3">
       <a class="brand" href="/" title="{{siteInfo.title}}"><img height="36" alt="{{siteInfo.title}}" src="/themes/{{siteInfo.theme}}/assets/img/logo.png"></a>
     </div>
   </div>
@@ -25,6 +25,16 @@
           {{/if}}
         {{/foreach}}
       </ul>
+      <form class="navbar-form navbar-right" action="search" name="searchForm" autocomplete="on" role="search">
+        <div class="form-group">
+          <div class="input-group">
+            <input name="words" type="search" method="get" class="form-control" placeholder="搜索全站...">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="submit">搜索</button>
+            </span>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </nav>

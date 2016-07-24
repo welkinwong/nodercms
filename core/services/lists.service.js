@@ -339,3 +339,69 @@ exports.reading = function (options, callback) {
       });
   }
 };
+
+/**
+ * 搜索列表
+ * @param {Object} options
+ *        {MongoId} options.words
+ * @param {Function} callback
+ */
+exports.search = function (options, callback) {
+  var words = options.words || '';
+  var pageSize = options.pageSize || 50;
+  var currentPage = 1;
+
+  if (!isNaN(options.currentPage)) currentPage = options.currentPage;
+
+  contentsService.list({ words: words, status: 'pushed', pageSize: pageSize, currentPage: currentPage }, function (err, result) {
+    if (err) return callback(err);
+
+    var pagesList = [];
+
+    switch (true) {
+      case result.pages <= 7:
+        for (var i = 0; i < result.pages; i++) {
+          pagesList[i] = {
+            name: i + 1,
+            index: i + 1
+          };
+        }
+
+        break;
+      case currentPage <= 3:
+        pagesList = [
+          { name: 1, index: 1 },
+          { name: 2, index: 2 },
+          { name: 3, index: 3 },
+          { name: 4, index: 4 },
+          { name: 5, index: 5 },
+          { name: 6, index: 6 },
+          { name: '...' + result.pages, index: result.pages }
+        ]
+
+        break;
+      case currentPage > 3 && currentPage <= result.pages - 3:
+        pagesList.push({ name: '1...', index: 1 });
+        for (var i = currentPage - 2; i <= currentPage + 2; i++) {
+          pagesList.push({ name: i, index: i });
+        }
+        pagesList.push({ name: '...' + result.pages, index: result.pages });
+
+        break;
+      case currentPage > result.pages - 3:
+        pagesList.push({ name: '1...', index: 1 });
+        for (var i = result.pages - 5; i <= result.pages; i++) {
+          pagesList.push({ name: i, index: i });
+        }
+    }
+
+    result.pagination = _.map(pagesList, function (item) {
+      if (item.index === currentPage) item.active = true;
+      return item;
+    });
+
+    delete result.pages;
+
+    callback(null, result);
+  });
+};

@@ -103,6 +103,7 @@ exports.list = function (options, callback) {
   var pageSize = 50;
 
   if (options._id) query.category = options._id;
+  if (options.words) query.title = new RegExp(options.words, 'i');
   if (options.status) query.status = options.status;
   if (_.isBoolean(options.deleted)) query.deleted = options.deleted;
   if (options.currentPage) currentPage = parseInt(options.currentPage);
