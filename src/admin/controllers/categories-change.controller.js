@@ -135,11 +135,13 @@ angular.module('controllers').controller('categoriesChange', ['$scope', '$state'
         $scope.isShow = results.category.isShow;
         $scope.sort = results.category.sort;
         $scope.model = results.category.model && results.category.model._id || '';
-        $scope.views.layout = results.category.views.layout || 'layout-default';
-        $scope.views.channel = results.category.views.channel || 'channel-default';
-        $scope.views.column = results.category.views.column || 'column-default';
-        $scope.views.content = results.category.views.content || 'content-default';
-        $scope.views.page = results.category.views.page || 'page-default';
+        if (results.category.views) {
+          $scope.views.layout = results.category.views.layout || 'layout-default';
+          $scope.views.channel = results.category.views.channel || 'channel-default';
+          $scope.views.column = results.category.views.column || 'column-default';
+          $scope.views.content = results.category.views.content || 'content-default';
+          $scope.views.page = results.category.views.page || 'page-default';
+        }
         $scope.keywords = results.category.keywords || '';
         $scope.description = results.category.description || '';
 
