@@ -8,11 +8,11 @@ config/database.config.js
 !.gitkeep
 
 node_modules
-tmp
+tmp/*
 !tmp/.gitkeep
-logs
+logs/*
 !logs/*/*.gitkeep
-public/media
+public/media/*
 !public/media/.gitkeep
-public/themes
+public/themes/*
 !public/themes/default
