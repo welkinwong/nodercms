@@ -4,7 +4,7 @@
  */
 angular.module('filters').filter('words', function () {
   return function (str, words) {
-    if (str.length > words) {
+    if (str && str.length > words) {
       str = str.substr(0, parseInt(words, 10) - 3) + '...';
     }
 
