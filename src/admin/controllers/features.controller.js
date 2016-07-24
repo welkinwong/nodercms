@@ -79,7 +79,6 @@ angular.module('controllers').controller('features', ['$scope', '$rootScope', '$
      */
     $scope.deleteFeature = function () {
       var featureInfo = $scope.deleteFeatureInfo;
-
       $http.delete('/api/features/' + featureInfo.featureId)
         .then(function () {
           var model = _.find($scope.models, { _id: featureInfo.modelId });

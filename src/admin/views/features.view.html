@@ -53,8 +53,8 @@
             <td ng-if="model.system.url">{{feature.url | words: 20}}</td>
             <td ng-repeat="item in model.extensions">{{!feature.extensions[item.key] ? '-' : feature.extensions[item.key] | words: 20}}</td>
             <td ng-if="editAuth">
-              <a ng-disabled="transmitting" ng-click="$parent.$parent.$parent.transmitting ? $event.preventDefault() : false" ui-sref="main.features.update({ model: model._id, feature: feature._id })" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> 修改</a>
-              <button ng-disabled="transmitting" ng-click="$parent.$parent.$parent.deleteFeatureInfo = { modelId: model._id, featureId: feature._id }" class="btn btn-default btn-xs" type="button" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash-o"></i> 删除</button>
+              <a ng-disabled="transmitting" ng-click="transmitting ? $event.preventDefault() : false" ui-sref="main.features.update({ model: model._id, feature: feature._id })" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> 修改</a>
+              <button ng-disabled="transmitting" ng-click="$parent.$parent.$parent.$parent.deleteFeatureInfo = { modelId: model._id, featureId: feature._id }" class="btn btn-default btn-xs" type="button" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash-o"></i> 删除</button>
             </td>
           </tr>
         </tbody>
