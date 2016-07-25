@@ -8,14 +8,20 @@ var listsService = require('../services/lists.service');
 /**
  * 搜索页
  * @param {Object} req
+ *        {String} req.query.words
+ *        {String} req.query.page
  * @param {Object} res
  * @param {Function} next
  */
-module.exports = function (req, res, next) {
+module.exports = function (req, res) {
   req.checkQuery({
     'words': {
       optional: true,
       isString: { errorMessage: 'words 需为字符串' }
+    },
+    'page': {
+      optional: true,
+      isString: { errorMessage: 'page 需为数字' }
     }
   });
 
@@ -30,12 +36,37 @@ module.exports = function (req, res, next) {
       categoriesService.navigation({ current: '/search' }, callback);
     },
     list: function (callback) {
-      listsService.search({ words: req.query.words }, function (err, list) {
+      var query = {
+        words: req.query.words,
+        pageSize: 15
+      };
+
+      if (req.query.page) query.currentPage = parseInt(req.query.page);
+
+      listsService.search(query, function (err, result) {
         if (err) return callback(err);
 
-        if (!list) return callback();
+        if (!result) return callback();
 
-        return callback(null, list);
+        if (_.get(result, 'pagination.length') <= 1) {
+          delete result.pagination
+          return callback(null, result);
+        }
+
+        var pagination = _.map(result.pagination, function (page) {
+          if (page.index === 1) {
+            page.url = '/search?words=' + req.query.words;
+          } else {
+            page.url = '/search?words=' + req.query.words + '&page=' + page.index;
+          }
+
+          delete page.index;
+          return page;
+        });
+
+        result.pagination = pagination;
+
+        return callback(null, result);
       });
     },
     readingTotal: function (callback) {

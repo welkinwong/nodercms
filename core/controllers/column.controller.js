@@ -8,6 +8,7 @@ var listsService = require('../services/lists.service');
 /**
  * 栏目
  * @param {Object} req
+ *        {String} req.query.page
  * @param {Object} res
  * @param {Function} next
  */
