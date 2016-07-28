@@ -191,7 +191,7 @@ exports.update = function (req, res) {
     if (req.body.title) data.title = req.body.title;
     if (req.body.url) data.url = req.body.url;
     if (req.body.thumbnail) data.thumbnail = req.body.thumbnail;
-    if (!_.isEmpty(req.body.extensions)) data.extensions = req.body.extensions;
+    if (req.body.extensions) data.extensions = req.body.extensions;
   } else {
     data.model = req.body.model;
     data.sort = req.body.sort;

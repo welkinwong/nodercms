@@ -429,11 +429,11 @@ exports.update = function (req, res) {
     if (req.body.alias) data.alias = req.body.alias;
     if (req.body.date) data.date = req.body.date;
     if (req.body.thumbnail) data.thumbnail = req.body.thumbnail;
-    if (!_.isEmpty(req.body.media)) data.media = req.body.media;
+    if (req.body.media) data.media = req.body.media;
     if (req.body.abstract) data.abstract = req.body.abstract;
     if (req.body.content) data.content = req.body.content;
-    if (!_.isEmpty(req.body.tags)) data.tags = req.body.tags;
-    if (!_.isEmpty(req.body.extensions)) data.extensions = req.body.extensions;
+    if (req.body.tags) data.tags = req.body.tags;
+    if (req.body.extensions) data.extensions = req.body.extensions;
   } else {
     data.status = req.body.status;
     data.deleted = req.body.deleted;

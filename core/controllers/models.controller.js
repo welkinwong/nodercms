@@ -195,9 +195,9 @@ exports.update = function (req, res) {
   if (req.body.type) data.type = req.body.type;
   if (req.body.name) data.name = req.body.name;
   if (req.body.description) data.description = req.body.description;
-  if (!_.isEmpty(req.body.mixed)) data.mixed = req.body.mixed;
-  if (!_.isEmpty(req.body.system)) data.system = req.body.system;
-  if (!_.isEmpty(req.body.extensions)) data.extensions = req.body.extensions;
+  if (req.body.mixed) data.mixed = req.body.mixed;
+  if (req.body.system) data.system = req.body.system;
+  if (req.body.extensions) data.extensions = req.body.extensions;
 
   modelsService.save({ _id: _id, data: data }, function (err) {
     if (err) {
