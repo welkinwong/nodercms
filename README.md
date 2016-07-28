@@ -20,7 +20,7 @@ $ npm start
 推荐安装在 Linux 系统上，若是在 Windows 下安装，需先行安装 Canvas 依赖（请参考官网安装帮助教程）
 
 ```bash
-$ npm install canvas ----msvs_version=2015
+$ npm install canvas --msvs_version=2015
 ```
 （其中 2015 是你安装图形库依赖时安装的 Visual Studio 版本，目前最新的是 2015）
 
