@@ -32,7 +32,12 @@ module.exports = function (req, res, next) {
         categoriesService.one({
           path: categoryPath,
           type: 'column'
-        }, callback);
+        }, function (err, category) {
+          if (err) return callback(err);
+          if (!category) return callback('没有找到 Category');
+
+          callback(null, category);
+        });
       },
       localReadingTotal: ['category', function (callback, results) {
         listsService.reading({ _id: results.category._id }, callback);
@@ -47,6 +52,9 @@ module.exports = function (req, res, next) {
         listsService.reading({ _id: results.category._id, sort: '-reading.month' }, callback);
       }]
     }, function (err, results) {
+      if (err && !results.category) return next();
+      if (err) return res.status(500).end();
+
       res.render(_.get(results.category, 'views.content'), {
         layout: _.get(results.category, 'views.layout'),
         siteInfo: results.siteInfo,
