@@ -15,7 +15,7 @@ angular.module('controllers').controller('main', ['$scope', '$http',
 		$scope.systemInfo = {};
 		$scope.nodeInfo = {};
 		$scope.databaseInfo = {};
-		$scope.contentTotal = '';
+		$scope.contentsTotal = '';
 		$scope.mediaTotal = '';
 		$scope.adminsTotal = '';
 		$scope.readingList = {};
@@ -27,7 +27,7 @@ angular.module('controllers').controller('main', ['$scope', '$http',
 				$scope.systemInfo = data.systemInfo;
 				$scope.nodeInfo = data.nodeInfo;
 				$scope.databaseInfo = data.databaseInfo;
-				$scope.contentTotal = data.contentTotal;
+				$scope.contentsTotal = data.contentsTotal;
 				$scope.mediaTotal = data.mediaTotal;
 				$scope.adminsTotal = data.adminsTotal;
 				$scope.readingList = data.readingList;
@@ -37,5 +37,12 @@ angular.module('controllers').controller('main', ['$scope', '$http',
 					message: '读取控制面板数据失败'
 				});
 			});
+
+		/**
+		 * 统计
+		 */
+		$http.put('/api/statistics', {
+			hostname: $scope.website.hostname
+		});
 	}
 ]);

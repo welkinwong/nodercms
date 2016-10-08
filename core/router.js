@@ -57,17 +57,17 @@ module.exports = {
     /**
      * 数据
      */
-    //控制面板数据
+    // 控制面板数据
     '/dashboard': {
       get: 'dashboard'
     },
 
-    //用户
+    // 用户
     '/users': {
       get: 'users.get'
     },
 
-    //推荐
+    // 推荐
     '/features': {
       get: [100100, 'features.all'],
       post: [100101, 'features.create'],
@@ -79,7 +79,7 @@ module.exports = {
       }
     },
 
-    //内容
+    // 内容
     '/contents': {
       get: [100200, 'contents.list'],
       post: [100201, 'contents.create'],
@@ -93,13 +93,13 @@ module.exports = {
       }
     },
 
-    //单页
+    // 单页
     '/pages/:page': {
       get: [100300, 110200, 'pages.get'],
       put: [100301, 'pages.save']
     },
 
-    //媒体库
+    // 媒体库
     '/media': {
       get: [100400, 100100, 100200, 100300, 'media.list'],
       post: [100401, 100101, 100201, 100301, 'media.create'],
@@ -175,6 +175,11 @@ module.exports = {
     // 模板
     '/views': {
       get: [110100, 110201, 'views']
+    },
+
+    // 统计
+    '/statistics': {
+      put: 'statistics'
     }
   },
 
