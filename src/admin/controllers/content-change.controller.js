@@ -27,6 +27,7 @@ angular.module('controllers').controller('contentChange', ['$scope', '$state', '
     $scope.minute = $filter('date')(new Date(), 'mm');
     $scope.thumbnail = {};
     $scope.media = [];
+    $scope.disabledExtMediaAdd = {};
 
     /**
      * 绑定 Alias 翻译
@@ -77,14 +78,30 @@ angular.module('controllers').controller('contentChange', ['$scope', '$state', '
 
             if (!_.isEmpty(res.data.media)) {
               _.map(res.data.media, function (medium) {
-                $scope.media.push({
+                var fileNameLast = _.get(medium.fileName.match(/^.+\.(\w+)$/), 1);
+
+                var _medium = {
                   file: null,
                   fileName: medium.fileName,
+                  fileNameLast: fileNameLast,
+                  isImage: false,
+                  description: medium.description,
                   src: medium.src,
                   _id: medium._id,
                   uploadStatus: 'success',
-                  active: false
-                });
+                  active: false,
+                  edited: false
+                };
+
+                switch (fileNameLast) {
+                  case 'jpg':
+                  case 'jpeg':
+                  case 'png':
+                  case 'gif':
+                    _medium.isImage = true;
+                }
+
+                $scope.media.push(_medium);
               });
             }
 
@@ -98,7 +115,19 @@ angular.module('controllers').controller('contentChange', ['$scope', '$state', '
             if (content.abstract) $scope.abstract = content.abstract;
             if (content.content) $scope.content = content.content;
             if (content.tags) $scope.tags = content.tags.join(',');
-            if (content.extensions) $scope.extensions = content.extensions;
+            if (content.extensions) {
+              $scope.extensions = content.extensions;
+
+              _.map($scope.category.model.extensions, function (extension) {
+                if (extension.type === 'media') {
+                  if ($scope.extensions[extension.key] && extension.mixed.limit - $scope.extensions[extension.key].length < 1) {
+                    $scope.disabledExtMediaAdd[extension.key] = true;
+                  } else {
+                    $scope.disabledExtMediaAdd[extension.key] = false;
+                  }
+                }
+              });
+            }
 
             $scope.transmitting = false;
           } else {
@@ -113,6 +142,36 @@ angular.module('controllers').controller('contentChange', ['$scope', '$state', '
     }
 
     /**
+     * 添加扩展信息媒体
+     */
+    $scope.addExtensionMedia = function (key, limit) {
+      $scope.extensions[key] = $scope.extensions[key] || [];
+
+      $scope.mediaSelect({ limit: limit - $scope.extensions[key].length }, function (media) {
+        $scope.extensions[key] = _.concat($scope.extensions[key], media);
+
+        if (limit - $scope.extensions[key].length < 1) {
+          $scope.disabledExtMediaAdd[key] = true;
+        } else {
+          $scope.disabledExtMediaAdd[key] = false;
+        }
+      });
+    };
+
+    /**
+     * 删除扩展信息媒体
+     */
+    $scope.removeExtensionsMedia = function (key, limit, medium) {
+      _.pull($scope.extensions[key], medium);
+
+      if (limit - $scope.extensions[key].lengt < 1) {
+        $scope.disabledExtMediaAdd[key] = true;
+      } else {
+        $scope.disabledExtMediaAdd[key] = false;
+      }
+    };
+
+    /**
      * 保存当前内容
      */
     $scope.saveContent = function () {
@@ -123,13 +182,8 @@ angular.module('controllers').controller('contentChange', ['$scope', '$state', '
         alias: $scope.alias
       };
 
-      if ($scope.thumbnail._id) {
-        content.thumbnail = $scope.thumbnail._id;
-      }
-
-      if (!_.isEmpty($scope.media)) {
-        content.media = _.map($scope.media, '_id');
-      }
+      if ($scope.thumbnail._id) content.thumbnail = $scope.thumbnail._id;
+      if (!_.isEmpty($scope.media)) content.media = _.map($scope.media, '_id');
 
       if ($scope.abstract !== '' || $scope.abstract !== undefined) {
         content.abstract = $scope.abstract;

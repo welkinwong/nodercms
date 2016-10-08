@@ -36,6 +36,21 @@ angular.module('controllers').controller('media', ['$scope', '$state', '$statePa
         .then(function (res) {
           var data = res.data;
 
+          _.map(data.media, function (medium) {
+            var fileNameLast = _.get(medium.fileName.match(/^.+\.(\w+)$/), 1);
+
+            medium.fileNameLast = fileNameLast;
+            medium.isImage = false;
+
+            switch (fileNameLast) {
+              case 'jpg':
+              case 'jpeg':
+              case 'png':
+              case 'gif':
+                medium.isImage = true;
+            }
+          });
+
           $scope.media = data.media;
           $scope.totalPages = data.pages;
 

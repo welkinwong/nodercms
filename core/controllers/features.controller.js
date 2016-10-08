@@ -94,6 +94,13 @@ exports.create = function (req, res) {
       optional: true,
       isMongoId: { errorMessage: 'thumbnail 需为 mongoId' }
     },
+    'media': {
+      optional: true,
+      inArray: {
+        options: ['isMongoId'],
+        errorMessage: 'media 内需为 mongoId'
+      }
+    },
     'extensions': {
       optional: true,
       isObject: { errorMessage: 'extensions 需为对象' }
@@ -111,6 +118,7 @@ exports.create = function (req, res) {
     title: req.body.title,
     url: req.body.url,
     thumbnail: req.body.thumbnail,
+    media: req.body.media || [],
     extensions: req.body.extensions
   };
 
@@ -171,6 +179,13 @@ exports.update = function (req, res) {
       optional: true,
       isMongoId: { errorMessage: 'thumbnail 需为 mongoId' }
     },
+    'media': {
+      optional: true,
+      inArray: {
+        options: ['isMongoId'],
+        errorMessage: 'media 内需为 mongoId'
+      }
+    },
     'extensions': {
       optional: true,
       isObject: { errorMessage: 'extensions 需为对象' }
@@ -191,6 +206,7 @@ exports.update = function (req, res) {
     if (req.body.title) data.title = req.body.title;
     if (req.body.url) data.url = req.body.url;
     if (req.body.thumbnail) data.thumbnail = req.body.thumbnail;
+    if (req.body.media) data.media = req.body.media;
     if (req.body.extensions) data.extensions = req.body.extensions;
   } else {
     data.model = req.body.model;
@@ -198,6 +214,7 @@ exports.update = function (req, res) {
     data.title = req.body.title;
     data.url = req.body.url;
     data.thumbnail = req.body.thumbnail;
+    data.media = req.body.media;
     data.extensions = req.body.extensions;
   }
 

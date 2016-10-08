@@ -6,34 +6,6 @@ var featuresModel = require('../models/features.model');
 var mediaModel = require('../models/media.model');
 
 /**
- * 所有推荐
- * @param {Function} callback
- */
-exports.all = function (callback) {
-  featuresModel.find({})
-    .select('model sort title url thumbnail extensions')
-    .populate('thumbnail', 'fileName description date src')
-    .exec(function (err, features) {
-      if (err) {
-        err.type = 'database';
-        return callback(err);
-      }
-
-      features = _.map(features, function (feature) {
-        if (feature.thumbnail) var thumbnailSrc = feature.thumbnail.src;
-
-        feature = feature.toObject();
-
-        if (feature.thumbnail) feature.thumbnail.src = thumbnailSrc;
-
-        return feature;
-      });
-
-      callback(err, features);
-    });
-};
-
-/**
  * 单条推荐模型
  * @param {Object} options
  *        {MongoId} options._id
@@ -52,8 +24,9 @@ exports.one = function (options, callback) {
   var _id = options._id;
 
   featuresModel.findById(_id)
-    .select('model sort title url thumbnail extensions')
+    .select('model sort title url thumbnail media extensions')
     .populate('thumbnail', 'fileName description date src')
+    .populate('media', 'fileName description date src')
     .exec(function (err, feature) {
       if (err) {
         err.type = 'database';
@@ -61,12 +34,53 @@ exports.one = function (options, callback) {
       }
 
       if (feature.thumbnail) var thumbnailSrc = feature.thumbnail.src;
+      if (!_.isEmpty(feature.media)) var meiaSrc = _.map(feature.media, 'src');
 
       feature = feature.toObject();
 
       if (feature.thumbnail) feature.thumbnail.src = thumbnailSrc;
+      if (!_.isEmpty(feature.media)) {
+        _.forEach(feature.media, function (medium, index) {
+          medium.src = meiaSrc[index];
+        });
+      }
 
       callback(null, feature);
+    });
+};
+
+/**
+ * 所有推荐
+ * @param {Function} callback
+ */
+exports.all = function (callback) {
+  featuresModel.find({})
+    .select('model sort title url thumbnail media extensions')
+    .populate('thumbnail', 'fileName description date src')
+    .populate('media', 'fileName description date src')
+    .exec(function (err, features) {
+      if (err) {
+        err.type = 'database';
+        return callback(err);
+      }
+
+      features = _.map(features, function (feature) {
+        if (feature.thumbnail) var thumbnailSrc = feature.thumbnail.src;
+        if (!_.isEmpty(feature.media)) var meiaSrc = _.map(feature.media, 'src');
+
+        feature = feature.toObject();
+
+        if (feature.thumbnail) feature.thumbnail.src = thumbnailSrc;
+        if (!_.isEmpty(feature.media)) {
+          _.forEach(feature.media, function (medium, index) {
+            medium.src = meiaSrc[index];
+          });
+        }
+
+        return feature;
+      });
+
+      callback(err, features);
     });
 };
 
@@ -102,23 +116,65 @@ exports.save = function (options, callback) {
           callback(null, oldFeature);
         });
       },
-      pullThumbnail: ['feature', function (callback, results) {
-        if (results.feature.thumbnail !== data.thumbnail) {
-          mediaModel.update({ _id: results.feature.thumbnail }, { $pull: { quotes: _id } }, { runValidators: true }, function (err) {
-            callback(err);
+      pullMedia: ['feature', function (callback, results) {
+        if (_.isEmpty(data.media)) data.media = [];
+
+        var oldMedia = results.feature.media;
+        var newMedia = data.media;
+        var oldThumbnail = results.feature.thumbnail;
+        var newThumbnail = data.thumbnail;
+
+        // 待解除引用列表
+        // 相比旧的 media 缺少的部分
+        var pullMedia = _.difference(_.map(oldMedia, function (medium) {
+          return medium.toString()
+        }), newMedia);
+
+        if (oldThumbnail) {
+          var isQuote = _.find(newMedia, function (medium) {
+            return medium === oldThumbnail.toString();
           });
-        } else {
-          callback();
+
+          if (!isQuote) pullMedia.push(oldThumbnail.toString());
         }
+
+        if (newThumbnail) {
+          _.pull(pullMedia, newThumbnail);
+        }
+
+        mediaModel.update({_id: {$in: pullMedia}}, {$pull: {quotes: _id}}, {
+          multi: true,
+          runValidators: true
+        }, function (err) {
+          callback(err);
+        });
       }],
-      addThumbnail: ['feature', function (callback, results) {
-        if (results.feature.thumbnail !== data.thumbnail) {
-          mediaModel.update({ _id: data.thumbnail }, { $addToSet: { quotes: _id } }, { runValidators: true }, function (err) {
-            callback(err);
-          });
-        } else {
-          callback();
+      addMedia: ['feature', function (callback, results) {
+        if (_.isEmpty(data.media)) data.media = [];
+
+        var oldMedia = results.feature.media;
+        var newMedia = data.media;
+        var oldThumbnail = results.feature.thumbnail;
+        var newThumbnail = data.thumbnail;
+
+        var addMedia = _.difference(newMedia, _.map(oldMedia, function (medium) {
+          return medium.toString()
+        }));
+
+        if (newThumbnail && oldThumbnail && newThumbnail === oldThumbnail.toString()) {
+          _.pull(addMedia, newThumbnail);
         }
+
+        if ((newThumbnail && !oldThumbnail) || (oldThumbnail && (newThumbnail !== oldThumbnail.toString()))) {
+          addMedia.push(newThumbnail);
+        }
+
+        mediaModel.update({_id: {$in: addMedia}}, {$addToSet: {quotes: _id}}, {
+          multi: true,
+          runValidators: true
+        }, function (err) {
+          callback(err);
+        });
       }]
     }, function (err) {
       callback(err);
@@ -157,25 +213,31 @@ exports.save = function (options, callback) {
       //新建推荐
       function (callback) {
         new featuresModel(data).save(function (err, feature) {
-          if (err) {
-            err.type = 'database';
-            return callback(err);
-          }
-
-          callback(null, feature);
+          callback(err, feature);
         });
       },
       //增加媒体引用
       function (feature, callback) {
         if (data.thumbnail) {
-          mediaModel.update({ _id: data.thumbnail }, { $addToSet: { quotes: feature._id } }, { runValidators: true }, function (err) {
-            callback(err, feature);
-          });
-        } else {
-          callback(null, feature);
+          data.media = data.media || [];
+          data.media.push(data.thumbnail);
         }
+
+        mediaModel.update({ _id: { $in: _.uniq(data.media) } }, { $addToSet: { quotes: feature._id } }, {
+          multi: true,
+          runValidators: true
+        }, function (err) {
+          callback(err);
+        });
       }
-    ], callback);
+    ], function (err) {
+      if (err) {
+        err.type = 'database';
+        return callback(err);
+      }
+
+      callback();
+    });
   }
 };
 
@@ -195,22 +257,25 @@ exports.remove = function (options, callback) {
     return callback(err);
   }
 
+  var _id = options._id;
+
   async.waterfall([
     function (callback) {
-      featuresModel.findByIdAndRemove(options._id)
+      featuresModel.findByIdAndRemove(_id)
         .lean()
         .exec(function (err, oldFeature) {
           callback(err, oldFeature);
         });
     },
     function (oldFeature, callback) {
-      if (oldFeature.thumbnail) {
-        mediaModel.update({ _id: oldFeature.thumbnail }, { $pull: { quotes: options._id } }, { runValidators: true }, function (err) {
-          callback(err, null);
-        });
-      } else {
-        callback(null, null);
-      }
+      if (oldFeature.thumbnail) oldFeature.media.push(oldFeature.thumbnail);
+
+      mediaModel.update({ _id: { $in: oldFeature.media } }, { $pull: { quotes: _id } }, {
+        multi: true,
+        runValidators: true
+      }, function (err) {
+        callback(err);
+      });
     }
   ], function (err) {
     if (err) err.type = 'database';

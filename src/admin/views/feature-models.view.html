@@ -48,7 +48,7 @@
               <span ng-repeat="(key, value) in model.system" ng-if="value" class="label label-info margin-0303">{{key | translate: { display: "value", same: "name", source: systemKey } }}</span>
               <span ng-repeat="key in model.extensions" class="label label-info margin-0303">{{key.name}}</span>
             </td>
-            <td>{{model.mixed.items}}</td>
+            <td>{{model.mixed.limit}}</td>
             <td>{{model.description | words: 20}}</td>
             <td ng-if="editAuth">
               <a ui-sref="main.featureModels.update({ _id: model._id })" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> 修改</a>

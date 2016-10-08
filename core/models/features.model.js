@@ -36,6 +36,14 @@ var featuresSchema = new mongoose.Schema({
     ref: 'Media'
   },
 
+  //媒体
+  media: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Media'
+    }
+  ],
+
   // 扩展
   extensions: mongoose.Schema.Types.Mixed
 }, {

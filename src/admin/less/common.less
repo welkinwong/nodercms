@@ -154,6 +154,7 @@ canvas {
   width: 100%;
   padding-bottom: 75%;
   background: #e5e5e5;
+  border-radius: 2px;
   overflow: hidden;
 
   > img {
@@ -164,6 +165,18 @@ canvas {
     transform: translate(-50%, -50%);
     max-width: 100%;
     max-height: 100%;
+  }
+
+  > .filenamelast {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
   }
 }
 

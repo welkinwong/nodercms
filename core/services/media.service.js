@@ -217,7 +217,7 @@ exports.save = function (options, callback) {
       }],
       // 移动文件或者压缩图片并移动文件
       moveFileOrCompressImage: ['formParse', 'saveModel', 'mkdirFolder', function (callback, results) {
-        var regex = /^image\/(jpg|jpeg|png)$/;
+        var regex = /^image\/(jpeg|png)$/;
         var isJpgAndPng = regex.test(results.saveModel.type);
 
         if (isJpgAndPng) {
@@ -345,6 +345,12 @@ exports.remove = function (options, callback) {
           }, callback);
         },
         // 删除推荐中的媒体引用
+        function (callback) {
+          featuresModel.update({ media: _id }, { $pull: { media: _id } }, {
+            multi: true, runValidators: true
+          }, callback);
+        },
+        // 删除推荐中的缩略图引用
         function (callback) {
           featuresModel.update({ thumbnail: _id }, { $unset: { thumbnail: true } }, {
             multi: true, runValidators: true

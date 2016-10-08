@@ -41,7 +41,7 @@
                     </tr>
                   </thead>
                   <tbody class="text-center text-middle">
-                    <tr ng-repeat="select in key.select">
+                    <tr ng-repeat="select in key.mixed.select">
                       <td>{{select.name}}</td>
                       <td>{{select.value}}</td>
                       <td>
@@ -60,13 +60,26 @@
                   <div ng-class="{ 'has-error': keyForm.keyTypeSelectValue.$touched && keyTypeSelectInvalid.value }" class="form-group form-group-sm form-group-sm-bottom">
                     <label for="keyTypeSelectValue" class="col-sm-2 control-label">值：</label>
                     <div class="col-sm-10">
-                      <input ng-model="keyTypeSelect.value" type="text" class="form-control" id="keyTypeSelectValue" name="keyTypeSelectValue" placeholder="请输入名称">
+                      <input ng-model="keyTypeSelect.value" type="text" class="form-control" id="keyTypeSelectValue" name="keyTypeSelectValue" placeholder="请输入值">
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-10 col-md-offset-2">
                       <button ng-disabled="keyTypeSelectInvalid.name || keyTypeSelectInvalid.value" ng-click="addKeyTypeSelect()" class="btn btn-default btn-block btn-sm" type="button">添加</button>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div ng-if="key.type === 'media'" class="row">
+            <div class="col-md-10 col-md-offset-2">
+              <div class="well well-sm">
+                <div class="form-group form-group-sm clear-bottom-margin">
+                  <label for="keylimit" class="col-sm-2 control-label">数量：</label>
+                  <div class="col-sm-10">
+                    <input ng-model="$parent.key.mixed.limit" type="number" class="form-control" id="keylimit" name="keylimit" min="1" placeholder="请输入媒体数量">
+                    <p class="help-block clear-bottom-margin">限制在扩展信息中可添加的媒体数量</p>
                   </div>
                 </div>
               </div>
@@ -81,7 +94,6 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button ng-if="keyFormAction === 'edit'" ng-click="deleteKey()" class="btn btn-danger pull-left" type="button">删除键</button>
         <button class="btn btn-default" type="button" data-dismiss="modal">取消</button>
         <button ng-disabled="keyForm.$invalid || keyNonUnique" class="btn btn-primary" type="submit" form="keyForm"><i class="fa fa-save"></i> 保存键</button>
       </div>
@@ -202,6 +214,7 @@
                 <td>{{key.description}}</td>
                 <td>
                   <button ng-click="keyModel(key, $index)" class="btn btn-default btn-xs" type="button"><i class="fa fa-edit"></i> 修改</button>
+                  <button ng-click="deleteKey(key, $index)" class="btn btn-default btn-xs" type="button"><i class="fa fa-trash-o"></i> 移除</button>
                 </td>
               </tr>
             </tbody>

@@ -1,3 +1,6 @@
+<!-- 媒体选择模态 -->
+<nd-media-select media="media"></nd-media-select>
+
 <div class="page-header clearfix">
   <ol ng-if="action === 'create'" class="heading">
     <li><a ui-sref="main.contents">{{category.name}}</a></li>
@@ -35,7 +38,7 @@
             <label class="sr-only" for="abstract">摘要</label>
             <textarea ng-if="category.model.system.abstract" ng-model="$parent.abstract" ng-disabled="transmitting" id="abstract" name="abstract" placeholder="请输入摘要" class="form-control" rows="3"></textarea>
           </div>
-          <nd-editor ng-if="category.model.system.content" content="$parent.content" media="$parent.media" disabled="transmitting" rows="14"></nd-editor>
+          <nd-editor ng-if="category.model.system.content" content="$parent.content" target="$parent.mediaSelectTarget" disabled="transmitting" rows="14"></nd-editor>
           <div ng-if="category.model.system.tags" class="form-group">
             <label class="sr-only" for="tags">标签</label>
             <div class="input-group">
@@ -47,15 +50,37 @@
       </div>
       <div ng-if="category.model.extensions[0]" class="panel panel-default">
         <div class="panel-heading">扩展信息</div>
-        <div class="panel-body table-responsive form-horizontal clear-bottom-padding">
-          <div ng-repeat="item in category.model.extensions" ng-class="{ 'has-error': contentForm.input{{item.key}}.$touched && contentForm.input{{item.key}}.$invalid }" class="form-group">
+        <div class="panel-body form-horizontal clear-bottom-padding">
+          <div ng-repeat="item in category.model.extensions" ng-class="{ 'has-error': contentForm.input{{item.key}}.$touched && contentForm.input{{item.key}}.$invalid, 'extensions-media': item.type === 'media'}" class="form-group">
             <label for="input{{item.key}}" class="col-sm-2 control-label">{{item.name}}</label>
-            <div class="col-sm-10">
+            <div class="col-sm-10 extensions-media-list">
               <input ng-if="item.type === 'text' || item.type === 'number'" ng-model="$parent.$parent.extensions[item.key]" ng-disabled="transmitting" type="{{item.type}}" class="form-control" id="input{{item.key}}" name="input{{item.key}}" placeholder="请输入{{item.name}}">
               <textarea ng-if="item.type === 'textarea'" ng-model="$parent.$parent.extensions[item.key]" ng-disabled="transmitting" class="form-control" id="input{{item.key}}" name="input{{item.key}}" placeholder="请输入{{item.name}}" rows="3"></textarea>
-              <select ng-if="item.type === 'select'" ng-options="key.value as key.name for key in item.select" ng-model="$parent.$parent.extensions[item.key]" ng-disabled="transmitting" class="form-control" id="input{{item.key}}" name="input{{item.key}}" placeholder="请输入{{item.name}}">
+              <select ng-if="item.type === 'select'" ng-options="key.value as key.name for key in item.mixed.select" ng-model="$parent.$parent.extensions[item.key]" ng-disabled="transmitting" class="form-control" id="input{{item.key}}" name="input{{item.key}}" placeholder="请输入{{item.name}}">
                 <option value="">请选择{{item.name}}</option>
               </select>
+              <div ng-if="item.type === 'media'">
+                <div ng-click="" ng-repeat="medium in extensions[item.key]" class="col-md-3 col-sm-4 col-xs-6 margin-bottom-10">
+                  <div class="upload-thumbnail success pointer">
+                    <span ng-click="removeExtensionsMedia(item.key, item.mixed.limit, medium)" class="fa-stack fa-lg remove top-right">
+                      <i class="fa fa-circle fa-stack-2x"></i>
+                      <i class="fa fa-times fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <img ng-if="medium.isImage && medium.src" ng-src="{{medium.src}}">
+                    <div ng-if="!medium.isImage" class="thumbnail-file">
+                      <div class="fileicon"><i class="fa fa-file fa-3x"></i><div class="filelastname">{{medium.fileNameLast}}</div></div>
+                      <div class="filename">{{medium.fileName}}</div>
+                    </div>
+                  </div>
+                </div>
+                <div ng-if="!disabledExtMediaAdd[item.key]" class="col-md-3 col-sm-4 col-xs-6 margin-bottom-10">
+                  <div class="upload-thumbnail initial">
+                    <button ng-click="addExtensionMedia(item.key, item.mixed.limit)" class="btn-upload-thumbnail" type="button"><i class="fa fa-plus"></i></button>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+              <div class="clearfix"></div>
               <p ng-if="item.description" class="help-block">{{item.description}}</p>
             </div>
           </div>

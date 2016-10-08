@@ -14,7 +14,7 @@ angular.module('controllers').controller('featureModelChange', ['$scope', '$stat
     $scope.inputing = false;
     $scope.checkCallnameing = false;
     $scope.name = '';
-    $scope.items = 5;
+    $scope.limit = 5;
     $scope.sort = 0;
     $scope.callname = '';
     $scope.oldCallname = '';
@@ -45,6 +45,10 @@ angular.module('controllers').controller('featureModelChange', ['$scope', '$stat
       {
         name: '下拉框',
         type: 'select'
+      },
+      {
+        name: '媒体',
+        type: 'media'
       }
     ];
     $scope.key = {
@@ -52,7 +56,11 @@ angular.module('controllers').controller('featureModelChange', ['$scope', '$stat
       name: '',
       type: 'text',
       select: [],
-      description: ''
+      description: '',
+      mixed: {
+        select: [],
+        limit: 4
+      }
     };
     $scope.keyTypeSelect = {
       name: '',
@@ -113,7 +121,7 @@ angular.module('controllers').controller('featureModelChange', ['$scope', '$stat
           if (data) {
             $scope.name = data.name;
             $scope.description = data.description;
-            $scope.items = data.mixed.items;
+            $scope.limit = data.mixed.limit;
             $scope.callname = data.mixed.callname;
             $scope.oldCallname = angular.copy($scope.callname);
             $scope.system = data.system;
@@ -154,8 +162,11 @@ angular.module('controllers').controller('featureModelChange', ['$scope', '$stat
           key: '',
           name: '',
           type: 'text',
-          select: [],
-          description: ''
+          description: '',
+          mixed: {
+            select: [],
+            limit: 4
+          }
         };
       }
 
@@ -166,7 +177,7 @@ angular.module('controllers').controller('featureModelChange', ['$scope', '$stat
      * 添加键下拉框选项
      */
     $scope.addKeyTypeSelect = function () {
-      $scope.key.select.push(angular.copy($scope.keyTypeSelect));
+      $scope.key.mixed.select.push(angular.copy($scope.keyTypeSelect));
       $scope.keyTypeSelect = {
         name: '',
         value: ''
@@ -184,24 +195,35 @@ angular.module('controllers').controller('featureModelChange', ['$scope', '$stat
      * @param  {Number} $index 键下拉框选项下标
      */
     $scope.deleteKeyTypeSelect = function (index) {
-      $scope.key.select.splice(index, 1);
+      $scope.key.mixed.select.splice(index, 1);
     };
 
     /**
      * 删除键
      */
-    $scope.deleteKey = function () {
-      if ($scope.keyFormAction === 'edit') {
-        $scope.extensions.splice($scope.keyIndex, 1);
-
-        $('#keyModal').modal('hide');
-      }
+    $scope.deleteKey = function (index) {
+      $scope.extensions.splice(index, 1);
     };
 
     /**
      * 保存键
      */
     $scope.saveKey = function () {
+      // 清理不必要的键
+      switch ($scope.key.type) {
+        case 'text':
+        case 'number':
+        case 'textarea':
+            delete $scope.key.mixed.select;
+            delete $scope.key.mixed.limit;
+            break;
+        case 'select':
+            delete $scope.key.mixed.limit;
+            break;
+        case 'media':
+            delete $scope.key.mixed.select;
+      }
+
       if ($scope.keyFormAction === 'add') {
         $scope.extensions.push($scope.key);
       } else if ($scope.keyFormAction === 'edit') {
@@ -223,7 +245,7 @@ angular.module('controllers').controller('featureModelChange', ['$scope', '$stat
         description: $scope.description,
         mixed: {
           callname: $scope.callname,
-          items: $scope.items,
+          limit: $scope.limit,
           sort: $scope.sort
         },
         system: $scope.system,

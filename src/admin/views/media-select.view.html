@@ -1,0 +1,90 @@
+<div class="modal fade" id="mediaSelect" tabindex="-1" role="dialog" aria-labelledby="mediaSelectTitle" aria-hidden="true">
+  <div ng-class="{'modal-lg': thumbnailInfoView }" class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="关闭"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="mediaSelectTitle">选择媒体</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div ng-class="{ 'col-xs-3': !thumbnailInfoView, 'col-xs-2': thumbnailInfoView }">
+            <div class="list-group list-group-tabs clear-bottom-margin">
+              <button ng-click="selectViewSlide('list')" ng-class="{ active: selectView === 'list' }" class="list-group-item active" type="button">媒体列表</button>
+              <button ng-click="selectViewSlide('store')" ng-class="{ active: selectView === 'store' }" class="list-group-item" type="button">从媒体库</button>
+            </div>
+          </div>
+          <div ng-class="{ 'col-xs-9': !thumbnailInfoView, 'col-xs-6': thumbnailInfoView, 'disabled-upload-thumbnail': disabledUploadThumbnail }">
+            <div ng-if="selectView === 'list'" class="row clear-margin-bottom">
+              <div ng-repeat="medium in media" class="col-md-4 col-xs-6 margin-bottom-10">
+                <div ng-click="slideMediaActive(medium)" ng-class="{ active: medium.active }" class="{{medium.uploadStatus}} upload-thumbnail pointer">
+                  <span ng-show="medium.uploadStatus !== 'uploading'" ng-class="{ 'check': !medium.active, 'checked': medium.active }" class="fa-stack fa-lg top-right">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+                  </span>
+                  <span ng-show="medium.uploadStatus !== 'uploading'" ng-click="thumbnailInfoSlide(medium, $event)" ng-class="{ 'edit': !medium.edited, 'edited': medium.edited }" class="fa-stack fa-lg edit top-left">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-exclamation fa-stack-1x fa-inverse"></i>
+                  </span>
+                  <div ng-show="medium.uploadStatus === 'uploading'" class="uploading-spinner">
+                    <i class="fa fa-spinner fa-spin"></i>
+                  </div>
+                  <img ng-if="medium.isImage && medium.file" ngf-src="medium.file">
+                  <img ng-if="medium.isImage && !medium.file && medium.src" ng-src="{{medium.src}}">
+                  <div ng-if="!medium.isImage" class="thumbnail-file">
+                    <div class="fileicon"><i class="fa fa-file fa-4x"></i><div class="filelastname">{{medium.fileNameLast}}</div></div>
+                    <div class="filename">{{medium.fileName}}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 col-xs-6 margin-bottom-10 upload-thumbnail-button">
+                <div ng-class="thumbnail.uploadStatus" class="upload-thumbnail initial">
+                  <button ngf-select="uploadMedia($files)" ngf-drop="" ngf-max-size="10MB" ngf-multiple="true" class="btn-upload-thumbnail" type="button"><i class="fa fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+            <div ng-if="selectView === 'store'" class="row clear-margin-bottom">
+              <div ng-click="slideMediaActive(medium)" ng-repeat="medium in mediaStore" class="col-md-4 col-xs-6 margin-bottom-10">
+                <div ng-class="{ active: medium.active }" class="{{medium.uploadStatus}} upload-thumbnail pointer">
+                  <span ng-class="{ 'check': !medium.active, 'checked': medium.active }" class="fa-stack fa-lg top-right">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+                  </span>
+                  <span ng-click="thumbnailInfoSlide(medium, $event)" ng-class="{ 'edit': !medium.edited, 'edited': medium.edited }" class="fa-stack fa-lg edit top-left">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-exclamation fa-stack-1x fa-inverse"></i>
+                  </span>
+                  <img ng-if="medium.isImage && medium.src" ng-src="{{medium.src}}">
+                  <div ng-if="!medium.isImage" class="thumbnail-file">
+                    <div class="fileicon"><i class="fa fa-file fa-4x"></i><div class="filelastname">{{medium.fileNameLast}}</div></div>
+                    <div class="filename">{{medium.fileName}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div ng-show="thumbnailInfoView" class="col-xs-4 upload-thumbnail-info">
+            <form ng-if="thumbnailInfoView"  ng-submit="saveThumbnailInfo()" id="thumbnailInfoForm" name="thumbnailInfoForm" novalidate>
+              <div ng-class="{ 'has-error': thumbnailInfoForm.fileName.$touched && thumbnailInfoForm.fileName.$invalid }" class="form-group">
+                <label for="fileName">文件名：</label>
+                <div class="input-group">
+                  <input ng-model="$parent.fileNameFirst" ng-disabled="transmitting" class="form-control" id="fileName" type="text" form="thumbnailInfoForm" aria-describedby="fileNameAddon" placeholder="请输入文件名" required>
+                  <div id="fileNameAddon" class="input-group-addon">{{fileNameLast}}</div>
+                </div>
+              </div>
+              <div ng-class="{ 'has-error': thumbnailInfoForm.description.$touched && thumbnailInfoForm.description.$invalid }" class="form-group">
+                <label for="description">描述：</label>
+                <textarea ng-model="$parent.description" ng-disabled="transmitting" class="form-control" id="description" name="description" rows="3" placeholder="请输入描述"></textarea>
+              </div>
+              <button ng-disabled="transmitting || thumbnailInfoForm.$invalid" class="btn btn-default btn-block" type="submit" form="thumbnailInfoForm">保存信息</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button ng-disabled="selectView === 'store' || disabledSelectViewRemove" ng-click="removeMedia()" class="btn btn-default pull-left" type="button">删除所选</button>
+        <button class="btn btn-default" type="button" data-dismiss="modal">取消</button>
+        <button ng-click="addMedia()" ng-disabled="disabledSelectViewinsert" class="btn btn-primary" type="button">插入</button>
+      </div>
+    </div>
+  </div>
+</div>

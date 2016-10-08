@@ -41,10 +41,12 @@
         <tbody class="text-center text-middle">
           <tr ng-repeat="medium in media">
             <td width="90">
-              <div ng-if="medium" class="list-thumbnail"><img ng-src="{{$parent.medium | thumbnailSrc}}"></div>
-              <div ng-if="!medium">-</div>
+              <div class="list-thumbnail">
+                <img ng-if="medium.isImage" ng-src="{{medium | thumbnailSrc}}">
+                <div ng-if="!medium.isImage" class="filenamelast">{{medium.fileNameLast}}</div>
+              </div>
             </td>
-            <td class="text-left">{{medium.fileName | words: 20}}</td>
+            <td class="text-left"><a href="{{medium.src}}" title="{{medium.fileName}}" target="_blank">{{medium.fileName | words: 20}}</a></td>
             <td>{{!medium.description ? '-' : medium.description | words: 20}}</td>
             <td>{{medium.date | date: 'yyyy年MM月dd日'}}</td>
             <td>{{medium.size / 10000 | number: 0}} KB</td>

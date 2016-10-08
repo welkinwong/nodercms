@@ -17,6 +17,8 @@ angular.module('controllers').controller('featuresChange', ['$scope', '$state','
     $scope.thumbnail = {};
     $scope.extensions = {};
     $scope.model = {};
+    $scope.media = [];
+    $scope.disabledExtMediaAdd = {};
 
     /**
      * 读取当前推荐模型和推荐
@@ -68,10 +70,71 @@ angular.module('controllers').controller('featuresChange', ['$scope', '$state','
           $scope.thumbnail.uploadStatus = 'success';
           $scope.thumbnail.croppedImage = feature.thumbnail.src;
         }
+
+        console.log(feature);
+
+        if (!_.isEmpty(feature.media)) {
+          _.map(feature.media, function (medium) {
+            var fileNameLast = _.get(medium.fileName.match(/^.+\.(\w+)$/), 1);
+
+            var _medium = {
+              file: null,
+              fileName: medium.fileName,
+              fileNameLast: fileNameLast,
+              isImage: false,
+              description: medium.description,
+              src: medium.src,
+              _id: medium._id,
+              uploadStatus: 'success',
+              active: false,
+              edited: false
+            };
+
+            switch (fileNameLast) {
+              case 'jpg':
+              case 'jpeg':
+              case 'png':
+              case 'gif':
+                _medium.isImage = true;
+            }
+
+            $scope.media.push(_medium);
+          });
+        }
       }
 
       $scope.transmitting = false;
     });
+
+    /**
+     * 添加扩展键媒体
+     */
+    $scope.addExtensionMedia = function (key, limit) {
+      $scope.extensions[key] = $scope.extensions[key] || [];
+
+      $scope.mediaSelect({ limit: limit - $scope.extensions[key].length }, function (media) {
+        $scope.extensions[key] = _.concat($scope.extensions[key], media);
+
+        if (limit - $scope.extensions[key].length < 1) {
+          $scope.disabledExtMediaAdd[key] = true;
+        } else {
+          $scope.disabledExtMediaAdd[key] = false;
+        }
+      });
+    };
+
+    /**
+     * 删除扩展键媒体
+     */
+    $scope.removeExtensionsMedia = function (key, limit, medium) {
+      _.pull($scope.extensions[key], medium);
+
+      if (limit - $scope.extensions[key].lengt < 1) {
+        $scope.disabledExtMediaAdd[key] = true;
+      } else {
+        $scope.disabledExtMediaAdd[key] = false;
+      }
+    };
 
     /**
      * 保存当前推荐
@@ -87,6 +150,7 @@ angular.module('controllers').controller('featuresChange', ['$scope', '$state','
 
       if ($scope.url) feature.url = $scope.url;
       if ($scope.thumbnail._id) feature.thumbnail = $scope.thumbnail._id;
+      if (!_.isEmpty($scope.media)) feature.media = _.map($scope.media, '_id');
       if (!_.isEmpty($scope.extensions)) feature.extensions = $scope.extensions;
 
       if ($stateParams.feature) {
