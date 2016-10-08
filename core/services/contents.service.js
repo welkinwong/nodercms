@@ -108,6 +108,7 @@ exports.list = function (options, callback) {
   if (_.isBoolean(options.deleted)) query.deleted = options.deleted;
   if (options.currentPage) currentPage = parseInt(options.currentPage);
   if (options.pageSize) pageSize = parseInt(options.pageSize);
+  if (options.date) query.date = options.date;
 
   async.waterfall([
     function (callback) {
