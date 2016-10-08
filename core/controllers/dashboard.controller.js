@@ -41,7 +41,7 @@ module.exports = function (req, res) {
         callback(null, _.pick(info, 'version'));
       });
     },
-    contentTotal: contentsService.total,
+    contentsTotal: contentsService.total,
     mediaTotal: mediaService.total,
     adminsTotal: function (callback) {
       usersService.total({ type: 'admin' }, callback);
@@ -68,7 +68,7 @@ module.exports = function (req, res) {
       systemInfo: results.systemInfo,
       nodeInfo: results.nodeInfo,
       databaseInfo: results.databaseInfo,
-      contentTotal: results.contentTotal,
+      contentsTotal: results.contentsTotal,
       mediaTotal: results.mediaTotal,
       adminsTotal: results.adminsTotal,
       readingList: {
