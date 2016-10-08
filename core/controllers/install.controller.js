@@ -38,9 +38,9 @@ exports.status = function (req, res) {
     }
 
     if (hasInstall) {
-      res.status(404).end();
+      res.status(200).json({ hasInstall: true });
     } else {
-      res.status(204).end();
+      res.status(200).json({ hasInstall: false });
     }
   });
 };

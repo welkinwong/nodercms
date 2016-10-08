@@ -10,10 +10,15 @@ angular.module('services').factory('checkInstallResolve', ['$q', '$state', '$htt
         var deferred = $q.defer();
 
         $http.get('/api/install')
-          .success(function () {
-            deferred.resolve();
-          })
-          .error(function () {
+          .then(function (res) {
+            var data = res.data;
+
+            if (!data.hasInstall) {
+              deferred.resolve();
+            } else {
+              $state.go('signIn');
+            }
+          }, function () {
             $state.go('signIn');
           });
 
@@ -23,12 +28,18 @@ angular.module('services').factory('checkInstallResolve', ['$q', '$state', '$htt
         var deferred = $q.defer();
 
         $http.get('/api/install')
-          .success(function () {
-            $state.go('install');
-          })
-          .error(function () {
+          .then(function (res) {
+            var data = res.data;
+
+            if (!data.hasInstall) {
+              $state.go('install');
+            } else {
+              deferred.resolve();
+            }
+          }, function () {
             deferred.resolve();
           });
+
 
         return deferred.promise;
       }
