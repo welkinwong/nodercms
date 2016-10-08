@@ -81,7 +81,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button ng-disabled="selectView === 'store' || disabledSelectViewRemove" ng-click="removeMedia()" class="btn btn-default pull-left" type="button">删除所选</button>
+        <button ng-if="selectView === 'list'" ng-disabled="disabledSelectViewRemove" ng-click="removeMedia()" class="btn btn-default pull-left" type="button">移除</button>
         <button class="btn btn-default" type="button" data-dismiss="modal">取消</button>
         <button ng-click="addMedia()" ng-disabled="disabledSelectViewinsert" class="btn btn-primary" type="button">插入</button>
       </div>

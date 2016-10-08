@@ -75,9 +75,12 @@ angular.module('directives').directive('ndMediaSelect',  ['$templateCache', '$ti
         scope.selectViewSlide = function (target) {
           scope.thumbnailInfoView = false;
           scope.medium.edited = false;
-          checkDisabledUploadThumbnail();
           _.map(scope.media, function (medium) { return medium.active = false });
           _.map(scope.mediaStore, function (medium) { return medium.active = false });
+          scope.disabledSelectViewRemove = true;
+          scope.disabledSelectViewinsert = true;
+
+          checkDisabledUploadThumbnail();
 
           scope.selectView = target;
         };
@@ -228,8 +231,6 @@ angular.module('directives').directive('ndMediaSelect',  ['$templateCache', '$ti
                     medium._id = data._id;
                     medium.src = data.src;
                     medium.uploadStatus = 'success';
-
-                    scope.disabledSelectViewinsert = false;
                   }
                 });
               });
@@ -294,6 +295,9 @@ angular.module('directives').directive('ndMediaSelect',  ['$templateCache', '$ti
          */
         scope.removeMedia = function () {
           _.remove(scope.media, function(medium) { return medium.active });
+
+          scope.disabledSelectViewRemove = true;
+          scope.disabledSelectViewinsert = true;
 
           checkDisabledUploadThumbnail();
         };
