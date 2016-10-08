@@ -275,7 +275,7 @@ exports.save = function (options, callback) {
 
           if (!prePathRegex) return callback();
 
-          prePath = dataPrePath;
+          prePath = prePathRegex;
         } else {
           var err = {
             type: 'system',
@@ -302,7 +302,7 @@ exports.save = function (options, callback) {
         });
       },
       function (callback) {
-        new categoriesModel(options.data).save(function (err, category) {
+        new categoriesModel(data).save(function (err, category) {
           if (err) {
             err.type = 'database';
             return callback(err);

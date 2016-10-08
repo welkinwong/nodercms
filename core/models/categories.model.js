@@ -24,7 +24,8 @@ var categoriesSchema = new mongoose.Schema({
     unique: true,
     trim: true,
     lowercase: true,
-    match: /^[A-z0-9\-\_\/]+$/
+    match: /^[A-z0-9\-\_\/]+$/,
+    sparse: true
   },
 
   // 是否在导航中显示
