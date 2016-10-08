@@ -34,6 +34,8 @@ async.waterfall([
     async.series([
       // 连接数据库
       database.connect,
+      // 升级数据库
+      database.update,
       // 初始化主题
       function (callback) {
         themes.init(app, callback);
