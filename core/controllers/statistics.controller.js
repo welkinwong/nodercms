@@ -12,6 +12,8 @@ var packageInfo = require('../../package.json');
  * @param {Object} res
  */
 module.exports = function (req, res) {
+  res.status(204).end();
+
   var hostname = req.body.hostname;
 
   async.parallel({

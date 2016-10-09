@@ -22,7 +22,7 @@ exports.notFound = function (req, res, next) {
  * @param {Function} next
  */
 exports.error = function (err, req, res, next) {
-  if (err) {
+  if (err && err.status !== 404) {
     logger.system().error(err);
   }
 
