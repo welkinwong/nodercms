@@ -57,8 +57,6 @@ angular.module('controllers').controller('contents', ['$scope', '$state', '$stat
 
           $scope.contents = data.contents;
           $scope.totalPages = data.pages;
-
-          if ($scope.transmitting) $scope.transmitting = false;
         }, function () {
           $scope.$emit('notification', {
             type: 'danger',
@@ -84,12 +82,14 @@ angular.module('controllers').controller('contents', ['$scope', '$state', '$stat
         .then(function () {
           $scope.loadContents();
 
+          $('#deleteModal').modal('hide');
+
+          $scope.transmitting = false;
+
           $scope.$emit('notification', {
             type: 'success',
             message: '删除内容成功'
           });
-
-          $('#deleteModal').modal('hide');
         }, function () {
           $scope.$emit('notification', {
             type: 'danger',

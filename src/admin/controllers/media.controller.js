@@ -53,8 +53,6 @@ angular.module('controllers').controller('media', ['$scope', '$state', '$statePa
 
           $scope.media = data.media;
           $scope.totalPages = data.pages;
-
-          if ($scope.transmitting) $scope.transmitting = false;
         });
     }; $scope.loadMedia();
 
@@ -75,12 +73,14 @@ angular.module('controllers').controller('media', ['$scope', '$state', '$statePa
         .then(function () {
           $scope.loadMedia();
 
+          $('#deleteModal').modal('hide');
+
+          $scope.transmitting = false;
+
           $scope.$emit('notification', {
             type: 'success',
             message: '删除媒体成功'
           });
-
-          $('#deleteModal').modal('hide');
         }, function () {
           $scope.$emit('notification', {
             type: 'danger',

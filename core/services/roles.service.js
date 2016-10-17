@@ -124,52 +124,51 @@ exports.remove = function (options, callback) {
 
   var _id = options._id;
 
-  async.auto({
-    role: function (callback) {
-      rolesModel.findById(_id, function (err, role) {
-        if (err) {
-          err.type = 'database';
-          return callback(err);
-        }
+  rolesModel.findById(_id, function (err, role) {
+    if (err) {
+      err.type = 'database';
+      return callback(err);
+    }
 
-        // 查找权限内是否有 100000
-        var isAdmin =  _.find(role.authorities, function (authority) {
-          if (authority === 100000) return true;
+    if (!role) return callback();
+
+    // 查找权限内是否有 100000
+    var isAdmin = _.find(role.authorities, function (authority) {
+      if (authority === 100000) return true;
+    });
+
+    if (isAdmin) {
+      var err = {
+        type: 'system',
+        error: '不允许删除权限存在 100000 的角色'
+      };
+
+      return callback(err);
+    }
+
+    async.parallel([
+      function (callback) {
+        role.remove(function (err) {
+          if (err) {
+            err.type = 'database';
+            return callback(err);
+          }
+
+          callback();
         });
+      },
+      function (callback) {
+        usersModel.update({ role: role._id }, { $unset: { role: true } }, function (err) {
+          if (err) {
+            err.type = 'database';
+            return callback(err);
+          }
 
-        if (isAdmin) {
-          var err = {
-            type: 'system',
-            error: '不允许删除权限存在 100000 的角色'
-          };
-
-          return callback(err);
-        }
-
-        callback(null, role);
-      })
-    },
-    removeRole: ['role', function (callback, results) {
-      results.role.remove(function (err) {
-        if (err) {
-          err.type = 'database';
-          return callback(err);
-        }
-
-        callback();
-      });
-    }],
-    pullUserRole: ['role', function (callback, results) {
-      usersModel.update({ role: results.role._id  }, { $unset: { role: true } }, function (err) {
-        if (err) {
-          err.type = 'database';
-          return callback(err);
-        }
-
-        callback();
-      });
-    }]
-  }, function (err) {
-    callback(err);
+          callback();
+        });
+      }
+    ], function (err) {
+      callback(err);
+    });
   });
 };

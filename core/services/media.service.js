@@ -323,66 +323,73 @@ exports.remove = function (options, callback) {
 
   var _id = options._id;
 
-  async.auto({
-    pullQuotes: function (callback) {
-      async.parallel([
-        // 删除内容中的媒体引用
-        function (callback) {
-          contentsModel.update({ media: _id }, { $pull: { media: _id } }, {
-            multi: true, runValidators: true
-          }, callback);
-        },
-        // 删除内容中的缩略图引用
-        function (callback) {
-          contentsModel.update({ thumbnail: _id }, { $unset: { thumbnail: true } }, {
-            multi: true, runValidators: true
-          }, callback);
-        },
-        // 删除单页中的媒体引用
-        function (callback) {
-          categoriesModel.update({ 'mixed.pageMedia': _id }, { $pull: { 'mixed.media': _id } }, {
-            multi: true, runValidators: true
-          }, callback);
-        },
-        // 删除推荐中的媒体引用
-        function (callback) {
-          featuresModel.update({ media: _id }, { $pull: { media: _id } }, {
-            multi: true, runValidators: true
-          }, callback);
-        },
-        // 删除推荐中的缩略图引用
-        function (callback) {
-          featuresModel.update({ thumbnail: _id }, { $unset: { thumbnail: true } }, {
-            multi: true, runValidators: true
-          }, callback);
-        }
-      ], function (err) {
-        if (err) err.type = 'database';
+  mediaModel
+    .findById(_id)
+    .lean()
+    .exec(function (err, medium) {
+      if (!medium) return callback();
 
-        callback(err);
+      async.auto({
+        pullQuotes: function (callback) {
+          async.parallel([
+            // 删除内容中的媒体引用
+            function (callback) {
+              contentsModel.update({ media: _id }, { $pull: { media: _id } }, {
+                multi: true, runValidators: true
+              }, callback);
+            },
+            // 删除内容中的缩略图引用
+            function (callback) {
+              contentsModel.update({ thumbnail: _id }, { $unset: { thumbnail: true } }, {
+                multi: true, runValidators: true
+              }, callback);
+            },
+            // 删除单页中的媒体引用
+            function (callback) {
+              categoriesModel.update({ 'mixed.pageMedia': _id }, { $pull: { 'mixed.media': _id } }, {
+                multi: true, runValidators: true
+              }, callback);
+            },
+            // 删除推荐中的媒体引用
+            function (callback) {
+              featuresModel.update({ media: _id }, { $pull: { media: _id } }, {
+                multi: true, runValidators: true
+              }, callback);
+            },
+            // 删除推荐中的缩略图引用
+            function (callback) {
+              featuresModel.update({ thumbnail: _id }, { $unset: { thumbnail: true } }, {
+                multi: true, runValidators: true
+              }, callback);
+            }
+          ], function (err) {
+            if (err) err.type = 'database';
+
+            callback(err);
+          });
+        },
+        removeMedium: function (callback) {
+          mediaModel.findByIdAndRemove(_id, function (err, oldMedium) {
+            if (err) err.type = 'database';
+
+            callback(err, oldMedium);
+          });
+        },
+        unlinkFile: ['removeMedium', function (callback, results) {
+          var fileFolder = '../../public/media/' + moment(results.removeMedium.date).format('YYYYMM') + '/' + results.removeMedium._id;
+
+          rimraf(path.join(__dirname, fileFolder), function (err) {
+            if (err) err.type = 'system';
+
+            callback(err);
+          });
+        }]
+      }, function (err) {
+        if (err) return callback(err);
+
+        callback();
       });
-    },
-    removeMedium: function (callback) {
-      mediaModel.findByIdAndRemove(_id, function (err, oldMedium) {
-        if (err) err.type = 'database';
-
-        callback(err, oldMedium);
-      });
-    },
-    unlinkFile: ['removeMedium', function (callback, results) {
-      var fileFolder = '../../public/media/' + moment(results.removeMedium.date).format('YYYYMM') + '/' + results.removeMedium._id;
-
-      rimraf(path.join(__dirname, fileFolder), function (err) {
-        if (err) err.type = 'system';
-
-        callback(err);
-      });
-    }]
-  }, function (err) {
-    if (err) return callback(err);
-
-    callback();
-  });
+    });
 };
 
 /**

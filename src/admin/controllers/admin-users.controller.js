@@ -8,6 +8,7 @@ angular.module('controllers').controller('adminUsers', ['$scope', '$timeout', '$
     /**
      * 初始化变量
      */
+    $scope.transmitting = false;
     $scope.users = [];
     $scope.deleteUserId = '';
     $scope.editAuth = false;
@@ -52,18 +53,22 @@ angular.module('controllers').controller('adminUsers', ['$scope', '$timeout', '$
      * 删除后台用户
      */
     $scope.deleteUser = function () {
+      $scope.transmitting = true;
+
       $http.delete('/api/admin-users/' + $scope.deleteUserId)
         .then(function () {
           for (var i = 0; i < $scope.users.length; i++) {
             if ($scope.deleteUserId === $scope.users[i]._id) {
               $scope.users.splice(i, 1);
 
-              $scope.$emit('notification', {
+              $('#deleteModal').modal('hide');
+
+              $scope.transmitting = false;
+
+              return $scope.$emit('notification', {
                 type: 'success',
                 message: '删除用户成功'
               });
-
-              return $('#deleteModal').modal('hide');
             }
           }
         }, function () {

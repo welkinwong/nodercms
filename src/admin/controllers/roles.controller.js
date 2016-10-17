@@ -8,6 +8,7 @@ angular.module('controllers').controller('roles', ['$scope', '$http', 'account',
     /**
      * 初始化变量
      */
+    $scope.transmitting = false;
     $scope.roles = [];
     $scope.deleteRoleId = '';
     $scope.editAuth = false;
@@ -50,11 +51,15 @@ angular.module('controllers').controller('roles', ['$scope', '$http', 'account',
      * 删除角色
      */
     $scope.deleteRole = function () {
+      $scope.transmitting = true;
+
       $http.delete('/api/roles/' + $scope.deleteRoleId)
         .success(function () {
           _.pullAllBy($scope.roles, [{ _id: $scope.deleteRoleId } ], '_id');
 
           $('#deleteModal').modal('hide');
+
+          $scope.transmitting = false;
 
           $scope.$emit('notification', {
             type: 'success',

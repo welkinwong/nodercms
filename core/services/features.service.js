@@ -259,27 +259,28 @@ exports.remove = function (options, callback) {
 
   var _id = options._id;
 
-  async.waterfall([
-    function (callback) {
-      featuresModel.findByIdAndRemove(_id)
-        .lean()
-        .exec(function (err, oldFeature) {
-          callback(err, oldFeature);
-        });
-    },
-    function (oldFeature, callback) {
+  featuresModel.findByIdAndRemove(_id)
+    .lean()
+    .exec(function (err, oldFeature) {
+      if (err) {
+        err.type = 'database';
+        return callback(err);
+      }
+
+      if (!oldFeature) return callback();
+
       if (oldFeature.thumbnail) oldFeature.media.push(oldFeature.thumbnail);
 
       mediaModel.update({ _id: { $in: oldFeature.media } }, { $pull: { quotes: _id } }, {
         multi: true,
         runValidators: true
       }, function (err) {
-        callback(err);
-      });
-    }
-  ], function (err) {
-    if (err) err.type = 'database';
+        if (err) {
+          err.type = 'database';
+          return callback(err);
+        }
 
-    callback(err, null);
-  });
+        callback(err, null);
+      });
+    });
 };

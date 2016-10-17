@@ -11,7 +11,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-        <button ng-click="deleteMedium()" type="button" class="btn btn-danger">确认删除</button>
+        <button ng-disabled="transmitting" ng-click="deleteMedium()" type="button" class="btn btn-danger">确认删除</button>
       </div>
     </div>
   </div>

@@ -8,6 +8,7 @@ angular.module('controllers').controller('featureModels', ['$scope', '$http', 'a
     /**
      * 初始化变量
      */
+    $scope.transmitting = false;
     $scope.models = [];
     $scope.deleteModelId = '';
     $scope.systemKey = [
@@ -61,18 +62,22 @@ angular.module('controllers').controller('featureModels', ['$scope', '$http', 'a
      * 删除推荐位模型
      */
     $scope.deleteModel = function () {
+      $scope.transmitting = true;
+
       $http.delete('/api/models/' + $scope.deleteModelId)
         .then(function () {
           for (var i = 0; i < $scope.models.length; i++) {
             if ($scope.deleteModelId === $scope.models[i]._id) {
               $scope.models.splice(i, 1);
 
-              $scope.$emit('notification', {
+              $('#deleteModal').modal('hide');
+
+              $scope.transmitting = false;
+
+              return $scope.$emit('notification', {
                 type: 'success',
                 message: '删除推荐位成功'
               });
-
-              return $('#deleteModal').modal('hide');
             }
           }
         }, function () {

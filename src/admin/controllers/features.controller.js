@@ -8,6 +8,7 @@ angular.module('controllers').controller('features', ['$scope', '$rootScope', '$
     /**
      * 初始化变量
      */
+    $scope.transmitting = false;
     $scope.noFeatureModel = false;
     $scope.deleteFeatureInfo = {
       modelId: '',
@@ -78,6 +79,8 @@ angular.module('controllers').controller('features', ['$scope', '$rootScope', '$
      * 删除推荐
      */
     $scope.deleteFeature = function () {
+      $scope.transmitting = true;
+
       var featureInfo = $scope.deleteFeatureInfo;
       $http.delete('/api/features/' + featureInfo.featureId)
         .then(function () {
@@ -91,12 +94,14 @@ angular.module('controllers').controller('features', ['$scope', '$rootScope', '$
             }
           });
 
+          $('#deleteModal').modal('hide');
+
+          $scope.transmitting = false;
+
           $scope.$emit('notification', {
             type: 'success',
             message: '删除推荐成功'
           });
-
-          return $('#deleteModal').modal('hide');
         }, function () {
           $scope.$emit('notification', {
             type: 'danger',

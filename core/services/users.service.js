@@ -193,6 +193,8 @@ exports.remove = function (options, callback) {
         return callback(err);
       }
 
+      if (!user) return callback();
+
       var isSuAdmin =  _.find(_.get(user, 'role.authorities'), function (authory) {
         return authory === 100000;
       });

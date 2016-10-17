@@ -49,8 +49,6 @@ angular.module('controllers').controller('trash', ['$scope', '$state', '$statePa
           var data = res.data;
           $scope.contents = data.contents;
           $scope.totalPages = data.pages;
-
-          if ($scope.transmitting) $scope.transmitting = false;
         });
     }; $scope.loadContents();
 
@@ -76,12 +74,14 @@ angular.module('controllers').controller('trash', ['$scope', '$state', '$statePa
         .then(function () {
           $scope.loadContents();
 
+          $('#recoveryModal').modal('hide');
+
+          $scope.transmitting = false;
+
           $scope.$emit('notification', {
             type: 'success',
             message: '恢复内容成功'
           });
-
-          $('#recoveryModal').modal('hide');
         }, function () {
           $scope.$emit('notification', {
             type: 'danger',
@@ -100,12 +100,14 @@ angular.module('controllers').controller('trash', ['$scope', '$state', '$statePa
         .then(function () {
           $scope.loadContents();
 
+          $('#deleteModal').modal('hide');
+
+          $scope.transmitting = false;
+
           $scope.$emit('notification', {
             type: 'success',
             message: '删除内容成功'
           });
-
-          $('#deleteModal').modal('hide');
         }, function () {
           $scope.$emit('notification', {
             type: 'danger',
@@ -124,12 +126,14 @@ angular.module('controllers').controller('trash', ['$scope', '$state', '$statePa
         .then(function () {
           $scope.loadContents();
 
+          $('#deleteListModal').modal('hide');
+
+          $scope.transmitting = false;
+
           $scope.$emit('notification', {
             type: 'success',
             message: '删除内容成功'
           });
-
-          $('#deleteListModal').modal('hide');
         }, function () {
           $scope.$emit('notification', {
             type: 'danger',

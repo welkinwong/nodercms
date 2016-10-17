@@ -8,6 +8,7 @@ angular.module('controllers').controller('categories', ['$scope', '$http', 'acco
     /**
      * 初始化变量
      */
+    $scope.transmitting = false;
     $scope.actionTitle = '';
     $scope.deleteCategoryId = '';
     $scope.types = [{
@@ -147,6 +148,8 @@ angular.module('controllers').controller('categories', ['$scope', '$http', 'acco
      * 删除分类
      */
     $scope.deleteModel = function () {
+      $scope.transmitting = true;
+
       $http.delete('/api/categories/' + $scope.deleteCategoryId)
         .success(function () {
           _.forEach($scope.categories, function (category, i) {
@@ -168,12 +171,14 @@ angular.module('controllers').controller('categories', ['$scope', '$http', 'acco
 
           $scope.$emit('mainCategoriesUpdate');
 
+          $('#deleteModal').modal('hide');
+
+          $scope.transmitting = false;
+
           $scope.$emit('notification', {
             type: 'success',
             message: '删除分类成功'
           });
-
-          $('#deleteModal').modal('hide');
         })
         .error(function () {
           $scope.$emit('notification', {
