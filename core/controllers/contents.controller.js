@@ -271,13 +271,13 @@ exports.update = function (req, res) {
         optional: true,
         custom: {
           options: [function (value) {
-            if (value === 'draft' || value === 'pushed' || value === 'deleted') {
+            if (value === 'draft' || value === 'pushed') {
               return true;
             } else {
               return false;
             }
           }],
-          errorMessage: 'status 需为 draft 或 pushed 或 deleted'
+          errorMessage: 'status 需为 draft 或 pushed'
         }
       },
       'deleted': {
@@ -340,7 +340,7 @@ exports.update = function (req, res) {
         },
         custom: {
           options: [function (value) {
-            if (value === 'draft' || value === 'pushed' || value === 'deleted') {
+            if (value === 'draft' || value === 'pushed') {
               return true;
             } else {
               return false;
@@ -442,11 +442,11 @@ exports.update = function (req, res) {
     data.alias = req.body.alias;
     data.date = req.body.date;
     data.thumbnail = req.body.thumbnail;
-    data.media = req.body.media;
+    data.media = req.body.media || [];
     data.abstract = req.body.abstract;
     data.content = req.body.content;
-    data.tags = req.body.tags;
-    data.extensions = req.body.extensions;
+    data.tags = req.body.tags || [];
+    data.extensions = req.body.extensions || {};
   }
 
   var query = {

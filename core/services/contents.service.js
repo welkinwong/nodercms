@@ -330,7 +330,7 @@ exports.save = function (options, callback) {
         });
       }],
       pullMedia: ['updateContent', function (callback, results) {
-        if (_.isEmpty(data.media)) data.media = [];
+        if (!data.media) return callback();
 
         var oldMedia = results.updateContent.media;
         var newMedia = data.media;
@@ -355,7 +355,7 @@ exports.save = function (options, callback) {
           _.pull(pullMedia, newThumbnail);
         }
 
-        mediaModel.update({_id: {$in: pullMedia}}, {$pull: {quotes: _id}}, {
+        mediaModel.update({ _id: { $in: pullMedia } }, { $pull: { quotes: _id } }, {
           multi: true,
           runValidators: true
         }, function (err) {
@@ -363,7 +363,7 @@ exports.save = function (options, callback) {
         });
       }],
       addMedia: ['updateContent', function (callback, results) {
-        if (_.isEmpty(data.media)) data.media = [];
+        if (!data.media) return callback();
 
         var oldMedia = results.updateContent.media;
         var newMedia = data.media;
@@ -382,7 +382,7 @@ exports.save = function (options, callback) {
           addMedia.push(newThumbnail);
         }
 
-        mediaModel.update({_id: {$in: addMedia}}, {$addToSet: {quotes: _id}}, {
+        mediaModel.update({ _id: { $in: addMedia } }, { $addToSet: { quotes: _id } }, {
           multi: true,
           runValidators: true
         }, function (err) {
@@ -400,7 +400,7 @@ exports.save = function (options, callback) {
   } else {
     async.auto({
       checkAlias: function (callback) {
-        exports.checkAlias({alias: data.alias}, function (err, alias) {
+        exports.checkAlias({ alias: data.alias }, function (err, alias) {
           if (err) callback(err);
 
           data.alias = alias;
