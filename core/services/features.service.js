@@ -193,14 +193,14 @@ exports.save = function (options, callback) {
             return callback(err);
           }
 
-          if (!_.get(model, 'mixed.items')) {
+          if (!_.get(model, 'mixed.limit')) {
             callback({
               type: 'system',
               error: '找不到推荐模型条目数限制'
             });
           }
 
-          if (count >= model.mixed.items) {
+          if (count >= model.mixed.limit) {
             callback({
               type: 'system',
               error: '超出推荐模型条目数限制'
