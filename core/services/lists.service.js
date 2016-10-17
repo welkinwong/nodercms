@@ -46,7 +46,7 @@ exports.all = function (callback) {
     function (categories, callback) {
       async.map(categories, function (category, callback) {
         if (category.node) {
-          contents.find({ category: { $in: category.node }, status: 'pushed' })
+          contents.find({ category: { $in: category.node }, status: 'pushed', deleted: false })
             .sort('-date')
             .limit(50)
             .select('category title alias user date reading thumbnail')
@@ -71,7 +71,7 @@ exports.all = function (callback) {
               callback(null, category);
             });
         } else {
-          contents.find({ category: category._id, status: 'pushed', date: { $lte: new Date() } })
+          contents.find({ category: category._id, status: 'pushed', deleted: false, date: { $lte: new Date() } })
             .sort('-date')
             .limit(50)
             .select('category title alias user date reading thumbnail')
@@ -125,7 +125,7 @@ exports.channel = function (options, callback) {
     },
     function (columns, callback) {
       async.map(columns, function (column, callback) {
-        contents.find({ category: column._id, status: 'pushed', date: { $lte: new Date() } })
+        contents.find({ category: column._id, status: 'pushed', deleted: false, date: { $lte: new Date() } })
           .sort('-date')
           .limit(50)
           .select('category title alias user date reading thumbnail abstract')
@@ -179,7 +179,7 @@ exports.column = function (options, callback) {
 
   if (!isNaN(options.currentPage)) currentPage = options.currentPage;
 
-  contentsService.list({ _id: _id, status: 'pushed', pageSize: pageSize, currentPage: currentPage, date: { '$lte': new Date() } }, function (err, result) {
+  contentsService.list({ _id: _id, status: 'pushed', deleted: false, pageSize: pageSize, currentPage: currentPage, date: { '$lte': new Date() } }, function (err, result) {
     if (err) return callback(err);
 
     var pagesList = [];
@@ -241,7 +241,7 @@ exports.column = function (options, callback) {
  * @param {Function} callback
  */
 exports.reading = function (options, callback) {
-  var query = { status: 'pushed', date: { $lte: new Date() }  };
+  var query = { status: 'pushed', deleted: false, date: { $lte: new Date() }  };
   var sort = '-reading.total';
   var limit = options.limit || 50;
 
@@ -353,7 +353,7 @@ exports.search = function (options, callback) {
 
   if (!isNaN(options.currentPage)) currentPage = options.currentPage;
 
-  contentsService.list({ words: words, status: 'pushed', pageSize: pageSize, currentPage: currentPage, date: { '$lte': new Date() } }, function (err, result) {
+  contentsService.list({ words: words, status: 'pushed', deleted: false, pageSize: pageSize, currentPage: currentPage, date: { '$lte': new Date() } }, function (err, result) {
     if (err) return callback(err);
 
     var pagesList = [];
