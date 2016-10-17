@@ -47,7 +47,7 @@ angular.module('directives').directive('ndMediaSelect',  ['$templateCache', '$ti
               activeMediaItems = _.filter(scope.mediaStore, { 'active': true }).length;
           }
 
-          if (scope.selectLimit - activeMediaItems < 1) {
+          if (scope.selectLimit && scope.selectLimit - activeMediaItems < 1) {
             scope.disabledUploadThumbnail = true;
           } else {
             scope.disabledUploadThumbnail = false;
@@ -60,7 +60,7 @@ angular.module('directives').directive('ndMediaSelect',  ['$templateCache', '$ti
          * @param callback
          */
         scope.$parent.mediaSelect = function (options, callback) {
-          scope.selectLimit = options.limit || 4;
+          scope.selectLimit = options.limit || null;
           scope.callback = callback || null;
 
           checkDisabledUploadThumbnail();
