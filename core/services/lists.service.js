@@ -51,6 +51,7 @@ exports.all = function (callback) {
             .limit(50)
             .select('category title alias user date reading thumbnail')
             .populate('category', 'name path')
+            .populate('user', 'nickname email')
             .populate('thumbnail', 'fileName description date src')
             .exec(function (err, contents) {
               if (err) return callback(err);
@@ -76,6 +77,7 @@ exports.all = function (callback) {
             .limit(50)
             .select('category title alias user date reading thumbnail')
             .populate('category', 'name path')
+            .populate('user', 'nickname email')
             .populate('thumbnail', 'fileName description date')
             .exec(function (err, contents) {
               if (err) return callback(err);
@@ -130,6 +132,7 @@ exports.channel = function (options, callback) {
           .limit(50)
           .select('category title alias user date reading thumbnail abstract')
           .populate('category', 'name path')
+          .populate('user', 'nickname email')
           .populate('thumbnail', 'fileName description date')
           .exec(function (err, contents) {
             if (err) return callback(err);
