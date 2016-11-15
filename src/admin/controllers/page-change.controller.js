@@ -47,16 +47,30 @@ angular.module('controllers').controller('pageChange', ['$scope', '$state', '$st
           if (data) {
             if (!_.isEmpty(data.pageMedia)) {
               _.forEach(data.pageMedia, function (medium) {
-                $scope.pageMedia.push({
+                var fileNameLast = _.get(medium.fileName.match(/^.+\.(\w+)$/), 1);
+
+                var _medium = {
                   file: null,
                   fileName: medium.fileName,
+                  fileNameLast: fileNameLast,
+                  isImage: false,
                   description: medium.description,
                   src: medium.src,
                   _id: medium._id,
                   uploadStatus: 'success',
                   active: false,
                   edited: false
-                });
+                };
+
+                switch (fileNameLast) {
+                  case 'jpg':
+                  case 'jpeg':
+                  case 'png':
+                  case 'gif':
+                    _medium.isImage = true;
+                }
+
+                $scope.pageMedia.push(_medium);
               });
             }
 
