@@ -128,9 +128,18 @@ angular.module('controllers').controller('categoriesChange', ['$scope', '$state'
         $scope.type = results.category.type;
         $scope.name = results.category.name;
         $scope.directory = /[A-z0-9\_\-]+$/.exec(results.category.path)[0];
-        $scope.oldPath = angular.copy(results.category.path);
-        var regexPath = /^\/[A-z0-9\_\-\/]+(?=[\/])/.exec(results.category.path);
-        $scope.prePath = regexPath ? regexPath[0] : '';
+
+        if ($scope.type === 'link') {
+          $scope.oldPath = angular.copy(results.category.mixed.prePath);
+          var regexPath = /^\/[A-z0-9\_\-\/]+(?=[\/])/.exec(results.category.mixed.prePath);
+          $scope.prePath = regexPath ? regexPath[0] : '';
+          debugger;
+        } else {
+          $scope.oldPath = angular.copy(results.category.path);
+          var regexPath = /^\/[A-z0-9\_\-\/]+(?=[\/])/.exec(results.category.path);
+          $scope.prePath = regexPath ? regexPath[0] : '';
+        }
+
         if (results.category.mixed) $scope.pageSize = results.category.mixed.pageSize;
         $scope.isShow = results.category.isShow;
         $scope.sort = results.category.sort;
