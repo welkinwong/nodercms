@@ -12,7 +12,7 @@ exports.get = function (callback) {
   if (siteInfoCache) {
     callback(null, siteInfoCache);
   } else {
-    optionsModel.findOne({name: 'siteInfo'}, function (err, siteInfo) {
+    optionsModel.findOne({ name: 'siteInfo' }, function (err, siteInfo) {
       if (err) {
         err.type = 'database';
         return callback(err);
