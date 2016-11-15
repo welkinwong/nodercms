@@ -59,8 +59,8 @@ angular.module('controllers').controller('media', ['$scope', '$state', '$statePa
     /**
      * 监控当前页面改变
      */
-    $scope.$watch('currentPage', function () {
-      $scope.loadMedia();
+    $scope.$watch('currentPage', function (newPage, oldPage) {
+      if (newPage !== oldPage) $scope.loadMedia();
     });
 
     /**
