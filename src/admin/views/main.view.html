@@ -84,7 +84,10 @@
           </div>
           <div class="row">
             <div class="col-xs-5 text-right"><p><b>程序版本：</b></p></div>
-            <div class="col-xs-7"><p>v{{systemInfo.version}}</p></div>
+            <div class="col-xs-7">
+              <p>v{{systemInfo.version}} <small ng-if="!compareVersion(systemInfo.version, officialSystemInfo.version)" class="text-muted">已是最新版本</small></p>
+              <p><a ng-if="compareVersion(systemInfo.version, officialSystemInfo.version)" class="btn btn-info btn-xs" href="http://www.nodercms.com/download" target="_blank" role="button">最新版本 v{{officialSystemInfo.version}}</a></p>
+            </div>
           </div>
           <div class="row">
             <div class="col-xs-5 text-right"><p><b>操作系统：</b></p></div>

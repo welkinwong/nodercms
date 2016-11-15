@@ -13,12 +13,14 @@ angular.module('controllers').controller('main', ['$scope', '$http',
 			origin: window.location.origin
 		};
 		$scope.systemInfo = {};
+		$scope.officialSystemInfo = {};
 		$scope.nodeInfo = {};
 		$scope.databaseInfo = {};
 		$scope.contentsTotal = '';
 		$scope.mediaTotal = '';
 		$scope.adminsTotal = '';
 		$scope.readingList = {};
+		$scope.versionIsLatest = true;
 
 		$http.get('/api/dashboard')
 			.then(function (res) {
@@ -37,6 +39,31 @@ angular.module('controllers').controller('main', ['$scope', '$http',
 					message: '读取控制面板数据失败'
 				});
 			});
+
+		/**
+		 * NoderCMS 官方信息
+		 */
+		$http.get('http://console.nodercms.com/openApi/info')
+			.then(function (res) {
+				var data = res.data;
+
+				$scope.officialSystemInfo = data;
+			}, function () {
+				$scope.$emit('notification', {
+					type: 'danger',
+					message: '官方信息读取失败'
+				});
+			});
+
+		/**
+		 * 比较是否最新版本
+		 */
+		$scope.compareVersion = function (version, officialVersion) {
+			console.log(officialVersion);
+			if (officialVersion && version !== officialVersion) {
+				return true
+			} else return false;
+		};
 
 		/**
 		 * 统计
