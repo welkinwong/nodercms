@@ -71,8 +71,6 @@ angular.module('controllers').controller('featuresChange', ['$scope', '$state','
           $scope.thumbnail.croppedImage = feature.thumbnail.src;
         }
 
-        console.log(feature);
-
         if (!_.isEmpty(feature.media)) {
           _.map(feature.media, function (medium) {
             var fileNameLast = _.get(medium.fileName.match(/^.+\.(\w+)$/), 1);

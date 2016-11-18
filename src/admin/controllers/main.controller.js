@@ -59,10 +59,7 @@ angular.module('controllers').controller('main', ['$scope', '$http',
 		 * 比较是否最新版本
 		 */
 		$scope.compareVersion = function (version, officialVersion) {
-			console.log(officialVersion);
-			if (officialVersion && version !== officialVersion) {
-				return true
-			} else return false;
+			return officialVersion && version !== officialVersion ? true : false;
 		};
 
 		/**
