@@ -285,6 +285,7 @@ exports.reading = function (options, callback) {
           .limit(limit)
           .select('category title alias user date reading thumbnail')
           .populate('category', 'name path')
+          .populate('user', 'nickname email')
           .populate('thumbnail', 'fileName description date')
           .exec(function (err, contents) {
             if (err) return callback(err);
@@ -317,6 +318,7 @@ exports.reading = function (options, callback) {
       .limit(limit)
       .select('category title alias user date reading thumbnail')
       .populate('category', 'name path')
+      .populate('user', 'nickname email')
       .populate('thumbnail', 'fileName description date')
       .exec(function (err, contents) {
         if (err) {
