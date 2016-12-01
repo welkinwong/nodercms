@@ -19,12 +19,18 @@ exports.all = function (callback) {
     categoriesModel.find({})
       .select('type name path isShow sort model views keywords description mixed')
       .populate('model', 'type name description mixed system extensions')
+      .populate('mixed.pageMedia', 'fileName description date src')
       .lean()
       .exec(function (err, categories) {
         if (err) {
           err.type = 'database';
           return callback(err);
         }
+
+        // 删除非单页分类的 pageMedia
+        _.map(categories, function (category) {
+          if (category.type !== 'page') delete category.mixed.pageMedia;
+        });
 
         cache.set('categories', categories, 1000 * 60 * 60 * 24);
 
