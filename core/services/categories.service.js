@@ -29,7 +29,7 @@ exports.all = function (callback) {
 
         // 删除非单页分类的 pageMedia
         _.map(categories, function (category) {
-          if (category.type !== 'page') delete category.mixed.pageMedia;
+          if (category.type !== 'page' && category.mixed) delete category.mixed.pageMedia;
         });
 
         cache.set('categories', categories, 1000 * 60 * 60 * 24);
