@@ -178,7 +178,7 @@ exports.update = function (req, res) {
 
   if (req.body.password) data.password = sha1(req.body.password);
 
-  usersService.save({ _id: _id, data: data }, function (err, user) {
+  usersService.save({ _id: _id, data: data }, function (err) {
     if (err) {
       logger[err.type]().error(__filename, err);
       return res.status(500).end();

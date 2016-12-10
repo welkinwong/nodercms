@@ -195,13 +195,6 @@ exports.update = function (req, res) {
 				options: [6],
 				errorMessage: 'password 不能小于6位'
 			}
-		},
-		'role': {
-			notEmpty: {
-				options: [true],
-				errorMessage: 'email 不能为空'
-			},
-			isMongoId: { errIorMessage: 'role 需为 mongoId' },
 		}
 	});
 
@@ -212,13 +205,12 @@ exports.update = function (req, res) {
 
 	var data = {
 		nickname: req.body.nickname,
-		email: req.body.email,
-		role: req.body.role
+		email: req.body.email
 	};
 
 	if (req.body.password) data.password = sha1(req.body.password);
 
-	usersService.save({ _id: req.session.user, data: data }, function (err) {
+	usersService.save({ _id: req.session.user, data: data, userSelf: true }, function (err) {
 		if (err) {
 			logger[err.type]().error(__filename, err);
 			return res.status(400).end();

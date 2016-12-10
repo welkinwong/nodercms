@@ -73,7 +73,7 @@ exports.one = function (options, callback) {
  * @param {Function} callback
  */
 exports.save = function (options, callback) {
-  if (!options.data && !_.get(options, 'data.role')) {
+  if (!options.data || (!options.userSelf && !_.get(options, 'data.role'))) {
     var err = {
       type: 'system',
       error: '没有传入 data 或 role'
@@ -84,72 +84,67 @@ exports.save = function (options, callback) {
 
   var _id = options._id;
   var data = options.data;
+  var userSelf = options.userSelf;
 
-  async.waterfall([
-    function (callback) {
-      rolesModel.findById(data.role)
-        .lean()
-        .exec(function (err, role) {
+  if (_id) {
+    usersModel.findById(_id)
+      .populate('role')
+      .exec(function (err, user) {
+        if (err) {
+          err.type = 'database';
+          return callback(err);
+        }
+
+        var isSuAdmin =  _.find(_.get(user, 'role.authorities'), function (authory) {
+          return authory === 100000;
+        });
+
+        if (isSuAdmin && !userSelf) {
+          var err = {
+            type: 'system',
+            error: '不允许更新权限存在 100000 的用户'
+          };
+          return callback(err);
+        }
+
+        usersModel.update({ _id: _id }, data, { runValidators: true }, function (err) {
           if (err) {
             err.type = 'database';
             return callback(err);
           }
 
-          if (!role) {
-            var err = {
-              type: 'system',
-              error: '没有找到 role'
-            };
-            return callback(err);
-          }
-
-          var isSuAdmin =  _.find(role.authorities, function (authory) {
-            return authory === 100000;
-          });
-
-          if (isSuAdmin) {
-            var err = {
-              type: 'system',
-              error: '不允许创建权限存在 100000 的用户'
-            };
-            return callback(err);
-          }
-
           callback();
         });
-    },
-    function (callback) {
-      if (_id) {
-        usersModel.findById(_id)
-          .populate('role')
-          .exec(function (err, user) {
-            if (err) {
-              err.type = 'database';
-              return callback(err);
-            }
+      });
+  } else {
+    rolesModel.findById(data.role)
+      .lean()
+      .exec(function (err, role) {
+        if (err) {
+          err.type = 'database';
+          return callback(err);
+        }
 
-            var isSuAdmin =  _.find(_.get(user, 'role.authorities'), function (authory) {
-              return authory === 100000;
-            });
+        if (!role) {
+          var err = {
+            type: 'system',
+            error: '没有找到 role'
+          };
+          return callback(err);
+        }
 
-            if (isSuAdmin) {
-              var err = {
-                type: 'system',
-                error: '不允许更新权限存在 100000 的用户'
-              };
-              return callback(err);
-            }
+        var isSuAdmin =  _.find(role.authorities, function (authory) {
+          return authory === 100000;
+        });
 
-            usersModel.update({ _id: _id }, data, {runValidators: true}, function (err) {
-              if (err) {
-                err.type = 'database';
-                return callback(err);
-              }
+        if (isSuAdmin) {
+          var err = {
+            type: 'system',
+            error: '不允许创建权限存在 100000 的用户'
+          };
+          return callback(err);
+        }
 
-              callback();
-            });
-          });
-      } else {
         new usersModel(data).save(function (err, user) {
           if (err) {
             err.type = 'database';
@@ -158,7 +153,18 @@ exports.save = function (options, callback) {
 
           callback(null, user);
         });
-      }
+      });
+  }
+
+
+
+
+  async.waterfall([
+    function (callback) {
+
+    },
+    function (callback) {
+
     }
   ], function (err, result) {
     if (err) return callback(err);

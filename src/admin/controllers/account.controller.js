@@ -56,8 +56,7 @@ angular.module('controllers').controller('account', ['$scope', '$rootScope', '$s
 
       var user = {
         nickname: $scope.nickname,
-        email: $scope.email,
-        role: $scope.role._id
+        email: $scope.email
       };
 
       if ($scope.password) user.password = $scope.password;
