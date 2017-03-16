@@ -1,3 +1,5474 @@
-angular.module("nodercms",["ngAnimate","ipCookie","ui.router","ngFileUpload","angular-img-cropper","controllers","services","directives","filters","views"]).config(["$stateProvider","$urlRouterProvider","$locationProvider","$httpProvider",function(e,t,n,a){"use strict";a.defaults.headers.common={"content-type":"application/json;charset=utf-8"},a.interceptors.push("authorityInterceptor"),n.html5Mode(!0),t.otherwise(function(e){e.get("$state").go("main")}),e.state("install",{url:"^/admin/install",controller:"install",templateProvider:["$templateCache",function(e){return e.get("install.view.html")}],resolve:{checkInstallResolve:["checkInstallResolve",function(e){return e.leaveToSignInOrNone()}]}}).state("signIn",{url:"^/admin/sign-in",controller:"signIn",templateProvider:["$templateCache",function(e){return e.get("sign-in.view.html")}],resolve:{checkInstallResolve:["checkInstallResolve",function(e){return e.enterToInstallOrNone()}]}}).state("main",{url:"^/admin",controller:"main",templateProvider:["$templateCache",function(e){return e.get("main.view.html")}],resolve:{account:"account"}}).state("main.features",{url:"^/admin/features",controller:"features",templateProvider:["$templateCache",function(e){return e.get("features.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("features","read")}]}}).state("main.features.create",{url:"^/admin/features/:model/create",controller:"featuresChange",templateProvider:["$templateCache",function(e){return e.get("features-change.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("features","edit")}]}}).state("main.features.update",{url:"^/admin/features/:model/feature/:feature",controller:"featuresChange",templateProvider:["$templateCache",function(e){return e.get("features-change.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("features","edit")}]}}).state("main.notFoundContents",{url:"^/admin/contents",templateProvider:["$templateCache",function(e){return e.get("not-fount-contents.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("contents","read")}]}}).state("main.contents",{url:"^/admin/contents/category/:category",controller:"contents",templateProvider:["$templateCache",function(e){return e.get("contents.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("contents","read")}]}}).state("main.contents.create",{url:"^/admin/contents/category/:category/create",controller:"contentChange",templateProvider:["$templateCache",function(e){return e.get("content-change.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("contents","edit")}]}}).state("main.contents.update",{url:"^/admin/contents/category/:category/content/:content",controller:"contentChange",templateProvider:["$templateCache",function(e){return e.get("content-change.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("contents","edit")}]}}).state("main.trash",{url:"^/admin/contents/trash",controller:"trash",templateProvider:["$templateCache",function(e){return e.get("trash.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("contents","read")}]}}).state("main.notFoundPages",{url:"^/admin/pages",templateProvider:["$templateCache",function(e){return e.get("not-found-pages.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("pages","read")}]}}).state("main.pages",{url:"^/admin/pages/:page",controller:"pageChange",templateProvider:["$templateCache",function(e){return e.get("page-change.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("pages","read")}]}}).state("main.media",{url:"^/admin/media",controller:"media",templateProvider:["$templateCache",function(e){return e.get("media.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("media","read")}]}}).state("main.account",{url:"^/admin/account",controller:"account",templateProvider:["$templateCache",function(e){return e.get("account.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("account","read")}]}}).state("main.siteInfo",{url:"^/admin/setting/site-info",controller:"siteInfo",templateProvider:["$templateCache",function(e){return e.get("site-info.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("siteInfo","read")}]}}).state("main.categories",{url:"^/admin/setting/categories",controller:"categories",templateProvider:["$templateCache",function(e){return e.get("categories.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("categories","read")}]}}).state("main.categories.create",{url:"^/admin/setting/categories/create",controller:"categoriesChange",templateProvider:["$templateCache",function(e){return e.get("categories-change.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("categories","edit")}]}}).state("main.categories.update",{url:"^/admin/setting/categories/:_id",controller:"categoriesChange",templateProvider:["$templateCache",function(e){return e.get("categories-change.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("categories","edit")}]}}).state("main.contentModels",{url:"^/admin/setting/content-models",controller:"contentModels",templateProvider:["$templateCache",function(e){return e.get("content-models.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("contentModels","read")}]}}).state("main.contentModels.create",{url:"^/admin/setting/content-models/create",controller:"contentModelChange",templateProvider:["$templateCache",function(e){return e.get("content-model-change.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("contentModels","edit")}]}}).state("main.contentModels.update",{url:"^/admin/setting/content-models/:_id",controller:"contentModelChange",templateProvider:["$templateCache",function(e){return e.get("content-model-change.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("contentModels","edit")}]}}).state("main.featureModels",{url:"^/admin/setting/feature-models",controller:"featureModels",templateProvider:["$templateCache",function(e){return e.get("feature-models.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("featureModels","read")}]}}).state("main.featureModels.create",{url:"^/admin/setting/feature-models/create",controller:"featureModelChange",templateProvider:["$templateCache",function(e){return e.get("feature-model-change.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("featureModels","edit")}]}}).state("main.featureModels.update",{url:"^/admin/setting/feature-models/:_id",controller:"featureModelChange",templateProvider:["$templateCache",function(e){return e.get("feature-model-change.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("featureModels","edit")}]}}).state("main.roles",{url:"^/admin/setting/roles",controller:"roles",templateProvider:["$templateCache",function(e){return e.get("roles.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("roles","read")}]}}).state("main.roles.create",{url:"^/admin/setting/roles/create",controller:"rolesChange",templateProvider:["$templateCache",function(e){return e.get("roles-change.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("roles","edit")}]}}).state("main.roles.update",{url:"^/admin/setting/roles/:_id",controller:"rolesChange",templateProvider:["$templateCache",function(e){return e.get("roles-change.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("roles","edit")}]}}).state("main.adminUsers",{url:"^/admin/setting/admin-users",controller:"adminUsers",templateProvider:["$templateCache",function(e){return e.get("admin-users.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("adminUsers","read")}]}}).state("main.adminUsers.create",{url:"^/admin/setting/admin-users/create",controller:"adminUsersChange",templateProvider:["$templateCache",function(e){return e.get("admin-users-change.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("adminUsers","edit")}]}}).state("main.adminUsers.update",{url:"^/admin/setting/admin-users/:_id",controller:"adminUsersChange",templateProvider:["$templateCache",function(e){return e.get("admin-users-change.view.html")}],resolve:{checkAuth:["checkAuthResolve",function(e){return e("adminUsers","edit")}]}})}]).run(["checkSignIn","$templateCache",function(e){e()}]),angular.module("controllers",[]),angular.module("services",[]),angular.module("directives",[]),angular.module("filters",[]),angular.module("views",[]),angular.module("controllers").controller("account",["$scope","$rootScope","$state","$stateParams","$http","account",function(e,t,n,a,i,o){"use strict";e.transmitting=!0,e.email="",e.oldEmail="",e.nickname="",e.password="",e.confirmpwd="",e.role="",e.editAuth=!1,o.auths().then(function(t){e.editAuth=t.account.edit},function(){e.$emit("notification",{type:"danger",message:"读取权限失败"})}),o.get().then(function(t){e.email=t.email,e.oldEmail=t.email,e.nickname=t.nickname,e.role=t.role,e.transmitting=!1},function(){e.$emit("notification",{type:"danger",message:"帐号更新失败"})}),e.update=function(){e.transmitting=!0;var t={nickname:e.nickname,email:e.email};e.password&&(t.password=e.password),i.put("/api/account",t).then(function(){o.reset(),e.$emit("mainUserUpdate"),e.transmitting=!1,e.$emit("notification",{type:"success",message:"帐号更新成功"})},function(){e.transmitting=!1,e.$emit("notification",{type:"danger",message:"帐号更新失败"})})}}]),angular.module("controllers").controller("adminUsersChange",["$scope","$state","$stateParams","$http",function(e,t,n,a){"use strict";e.transmitting=!1,e.action="create",e._id=n._id,e.checkEmailing=!1,e.inputing=!1,e.email="",e.oldEmail="",e.nickname="",e.password="",e.confirmpwd="",e.roles=[],e.role="",async.parallel({roles:function(e){a.get("/api/roles").then(function(t){var n=t.data,a=_.reject(n,function(e){return _.find(e.authorities,function(e){return 1e5===e})});e(null,a)},function(){e("获取角色列表失败")})},user:function(t){n._id?(e.action="update",a.get("/api/admin-users/"+n._id).then(function(e){t(null,e.data)},function(){t("获取用户失败")})):t(null)}},function(a,i){return a?e.$emit("notification",{type:"danger",message:a}):(e.roles=i.roles,void(n._id&&i.user?(e.oldEmail=angular.copy(i.user.email),e.email=i.user.email,e.nickname=i.user.nickname,e.role=i.user.role._id):n._id&&t.go("main.adminUsers")))}),e.saveUser=function(){e.transmitting=!0;var i={email:e.email.toLowerCase(),nickname:e.nickname,role:e.role};e.password&&(i.password=e.password),n._id?(i._id=n._id,a.put("/api/admin-users/"+n._id,i).then(function(){e.$emit("notification",{type:"success",message:"保存用户成功"}),e.$emit("mainUserUpdate"),t.go("main.adminUsers",null,{reload:"main.adminUsers"})},function(){e.$emit("notification",{type:"danger",message:"保存用户失败"})})):a.post("/api/admin-users",i).then(function(){e.$emit("notification",{type:"success",message:"创建用户成功"}),e.$emit("mainUserUpdate"),t.go("main.adminUsers",null,{reload:"main.adminUsers"})},function(){e.$emit("notification",{type:"danger",message:"创建用户失败"})})}}]),angular.module("controllers").controller("adminUsers",["$scope","$timeout","$state","$http","account",function(e,t,n,a,i){"use strict";e.transmitting=!1,e.users=[],e.deleteUserId="",e.editAuth=!1,i.auths().then(function(t){e.editAuth=t.adminUsers.edit},function(){e.$emit("notification",{type:"danger",message:"读取权限失败"})}),a.get("/api/admin-users").then(function(t){var n=t.data;_.forEach(n,function(e){var t=_.find(_.get(e,"role.authorities"),function(e){return 1e5===e});t&&(e.isSupAdmin=!0)}),e.users=t.data},function(){e.$emit("notification",{type:"danger",message:"读取后台用户失败"})}),e.deleteUser=function(){e.transmitting=!0,a["delete"]("/api/admin-users/"+e.deleteUserId).then(function(){for(var t=0;t<e.users.length;t++)if(e.deleteUserId===e.users[t]._id)return e.users.splice(t,1),$("#deleteModal").modal("hide"),e.transmitting=!1,e.$emit("notification",{type:"success",message:"删除用户成功"})},function(){e.$emit("notification",{type:"danger",message:"删除用户失败"})})}}]),angular.module("controllers").controller("categoriesChange",["$scope","$state","$stateParams","$http",function(e,t,n,a){"use strict";e.transmitting=!0,e.action="create",e._id=n._id,e.inputing=!1,e.checkDirectorying=!1,e.types=[{type:"channel",name:"频道"},{type:"column",name:"栏目"},{type:"page",name:"单页"},{type:"link",name:"链接"}],e.models=[],e.viewfiles=[],e.type="column",e.name="",e.directory="",e.pageSize=15,e.url="",e.oldPath="",e.prePath="",e.path="",e.sort=0,e.isShow=!0,e.model="",e.views={layout:"",channel:"",column:"",content:"",page:""},e.isEdit=!0,e.keywords="",e.description="",e._id=n._id?n._id:"null",e.translateType=function(t){return _.find(e.types,{type:t}).name},a.get("/api/models",{params:{type:"content"}}).then(function(t){e.models=t.data},function(){e.$emit("notification",{type:"danger",message:"读取内容模型失败"})}),async.parallel({viewfiles:function(e){a.get("/api/views").then(function(t){e(null,t.data)},function(t){e(t.data)})},category:function(i){n._id?(e.action="update",a.get("/api/categories/"+n._id).then(function(e){var n=e.data;n?i(null,n):t.go("main.categories")},function(e){i(e.data)})):i(null)}},function(t,n){if(t)return e.$emit("notification",{type:"danger",message:"获取分类失败"}),e.transmitting=!0,!1;if(e.viewfiles=n.viewfiles,e.views.layout="layout-default",e.views.channel="channel-default",e.views.column="column-default",e.views.content="content-default",e.views.page="page-default",n.category){if(e.type=n.category.type,e.name=n.category.name,e.directory=/[A-z0-9\_\-]+$/.exec(n.category.path)[0],"link"===e.type){e.oldPath=angular.copy(n.category.mixed.prePath);var a=/^\/[A-z0-9\_\-\/]+(?=[\/])/.exec(n.category.mixed.prePath);e.prePath=a?a[0]:""}else{e.oldPath=angular.copy(n.category.path);var a=/^\/[A-z0-9\_\-\/]+(?=[\/])/.exec(n.category.path);e.prePath=a?a[0]:""}n.category.mixed&&(e.pageSize=n.category.mixed.pageSize),e.isShow=n.category.isShow,e.sort=n.category.sort,e.model=n.category.model&&n.category.model._id||"",n.category.views&&(e.views.layout=n.category.views.layout||"layout-default",e.views.channel=n.category.views.channel||"channel-default",e.views.column=n.category.views.column||"column-default",e.views.content=n.category.views.content||"content-default",e.views.page=n.category.views.page||"page-default"),e.keywords=n.category.keywords||"",e.description=n.category.description||"",n.category.mixed&&(e.url=n.category.mixed.url||"",e.isEdit=_.isEmpty(n.category.mixed)?!0:n.category.mixed.isEdit)}e.transmitting=!1}),e.saveCategory=function(){e.transmitting=!0;var i={type:e.type,name:e.name,isShow:e.isShow,sort:e.sort};switch(e.type){case"channel":i.path="/"+e.directory.toLowerCase(),i["views.layout"]=e.views.layout,i["views.channel"]=e.views.channel,i.keywords=e.keywords,i.description=e.description;break;case"column":i.model=e.model,e.prePath?i.path=e.prePath+"/"+e.directory.toLowerCase():i.path="/"+e.directory.toLowerCase(),i["mixed.pageSize"]=e.pageSize,i["views.layout"]=e.views.layout,i["views.column"]=e.views.column,i["views.content"]=e.views.content,i.keywords=e.keywords,i.description=e.description;break;case"page":e.prePath?i.path=e.prePath+"/"+e.directory.toLowerCase():i.path="/"+e.directory.toLowerCase(),i["views.layout"]=e.views.layout,i["views.page"]=e.views.page,i["mixed.isEdit"]=e.isEdit,i.keywords=e.keywords,i.description=e.description;break;case"link":e.prePath?i["mixed.prePath"]=e.prePath+"/":i["mixed.prePath"]="/",i["mixed.url"]=e.url}n._id?(i._id=n._id,a.put("/api/categories/"+n._id,i).then(function(){e.$emit("notification",{type:"success",message:"保存分类成功"}),e.$emit("mainCategoriesUpdate"),t.go("main.categories",null,{reload:"main.categories"})},function(){e.$emit("notification",{type:"danger",message:"保存分类失败"})})):a.post("/api/categories",i).then(function(){e.$emit("notification",{type:"success",message:"新增分类成功"}),e.$emit("mainCategoriesUpdate"),t.go("main.categories",null,{reload:"main.categories"})},function(){e.$emit("notification",{type:"danger",message:"保存分类失败"})})}}]),angular.module("controllers").controller("categories",["$scope","$http","account",function(e,t,n){"use strict";e.transmitting=!1,e.actionTitle="",e.deleteCategoryId="",e.types=[{type:"channel",name:"频道"},{type:"column",name:"栏目"},{type:"page",name:"单页"},{type:"link",name:"链接"}],e.categories=[],e.categoriesList=[],e.editAuth=!1,n.auths().then(function(t){e.editAuth=t.categories.edit},function(){e.$emit("notification",{type:"danger",message:"读取权限失败"})}),e.categoriesSort=function(){function t(e){function t(e){return _.map(e,function(e){var n=_.partition(o,function(t){return t.path?new RegExp("^"+e.path+"/[A-z0-9-_]+$").test(t.path):new RegExp("^"+e.path+"/$").test(t.mixed.prePath)});return o=n[1],_.isEmpty(n[0])||(e.nodes=t(_.sortBy(n[0],"sort"))),e})}var a=_.partition(n,function(e){return e.path?2===e.path.split("/").length:2===e.mixed.prePath.split("/").length}),i=_.sortBy(a[0],"sort"),o=a[1],s=t(i);e(s)}var n=angular.copy(e.categories);e.categoriesList=[],t(function(t){!function n(t,a){_.map(t,function(i,o){var i=angular.copy(i);delete i._nodes,i.indent={"text-indent":1.5*a+"em"},o==t.length-1&&0!=a?i.prefix="└ ":0!=a&&(i.prefix="├ "),e.categoriesList.push(i),i.nodes&&n(i.nodes,a+1)})}(t,0)})},e.translate=function(t){for(var n=0;n<e.types.length;n++)if(t===e.types[n].type)return e.types[n].name},t.get("/api/categories").then(function(t){e.categories=t.data,e.categoriesSort()},function(){e.$emit("notification",{type:"danger",message:"读取分类失败"})}),e.deleteModel=function(){e.transmitting=!0,t["delete"]("/api/categories/"+e.deleteCategoryId).success(function(){_.forEach(e.categories,function(t,n){if(e.deleteCategoryId===t._id){e.categories.splice(n,1);var a=new RegExp("^"+t.path+"/","i");return _.forEachRight(e.categories,function(t,n){a.test(t.path)&&e.categories.splice(n,1)}),!1}}),e.categoriesSort(),e.$emit("mainCategoriesUpdate"),$("#deleteModal").modal("hide"),e.transmitting=!1,e.$emit("notification",{type:"success",message:"删除分类成功"})}).error(function(){e.$emit("notification",{type:"danger",message:"删除分类失败"})})}}]),angular.module("controllers").controller("contentChange",["$scope","$state","$stateParams","$http","$timeout","pinyin","Upload","$filter",function(e,t,n,a,i,o,s,r){"use strict";e.transmitting=!1,e.action="create",e.categoryId=n.category,e._id=n.content,e.status="draft",e.title="",e.oldTitle="",e.alias="",e.oldAlias="",e["abstract"]="",e.content="",e.tags="",e.extensions={},e.releaseDate="now",e.date=r("date")(new Date,"yyyy年MM月dd日"),e.hour=r("date")(new Date,"hh"),e.minute=r("date")(new Date,"mm"),e.thumbnail={},e.media=[],e.disabledExtMediaAdd={},e.$watch("title",function(t){t!==e.oldTitle?e.alias=o(t):e.alias=e.oldAlias}),$(".input-group.date").datepicker({format:"yyyy年mm月dd日",todayBtn:"linked",language:"zh-CN",autoclose:!0,todayHighlight:!0}),n.content&&(e.action="update",e.transmitting=!0,a.get("/api/contents/"+n.content,{params:{markdown:!0}}).then(function(n){if(n.data){var a=n.data;e.status=a.status,e.title=a.title,e.oldTitle=_.clone(a.title),e.alias=a.alias,e.oldAlias=_.clone(a.alias),n.data.thumbnail&&(e.thumbnail._id=n.data.thumbnail._id,e.thumbnail.uploadStatus="success",e.thumbnail.croppedImage=n.data.thumbnail.src),_.isEmpty(n.data.media)||_.map(n.data.media,function(t){var n=_.get(t.fileName.match(/^.+\.(\w+)$/),1),a={file:null,fileName:t.fileName,fileNameLast:n,isImage:!1,description:t.description,src:t.src,_id:t._id,uploadStatus:"success",active:!1,edited:!1};switch(n){case"jpg":case"jpeg":case"png":case"gif":a.isImage=!0}e.media.push(a)}),"pushed"===n.data.status&&(e.date=r("date")(a.date,"yyyy年MM月dd日"),e.hour=r("date")(a.date,"HH"),e.minute=r("date")(a.date,"mm"),e.releaseDate="current"),a["abstract"]&&(e["abstract"]=a["abstract"]),a.content&&(e.content=a.content),a.tags&&(e.tags=a.tags.join(",")),a.extensions&&(e.extensions=a.extensions,_.map(e.category.model.extensions,function(t){"media"===t.type&&(e.extensions[t.key]&&t.mixed.limit-e.extensions[t.key].length<1?e.disabledExtMediaAdd[t.key]=!0:e.disabledExtMediaAdd[t.key]=!1)})),e.transmitting=!1}else t.go("main.contents",{category:e.$parent.category._id},{reload:"main.contents"})},function(){e.$emit("notification",{type:"danger",message:"获取内容失败"})})),e.addExtensionMedia=function(t,n){e.extensions[t]=e.extensions[t]||[],e.mediaSelect({limit:n-e.extensions[t].length},function(a){e.extensions[t]=_.concat(e.extensions[t],a),n-e.extensions[t].length<1?e.disabledExtMediaAdd[t]=!0:e.disabledExtMediaAdd[t]=!1})},e.removeExtensionsMedia=function(t,n,a){_.pull(e.extensions[t],a),n-e.extensions[t].lengt<1?e.disabledExtMediaAdd[t]=!0:e.disabledExtMediaAdd[t]=!1},e.saveContent=function(){var i={status:e.status,category:e.$parent.category._id,title:e.title,alias:e.alias};if(e.thumbnail._id&&(i.thumbnail=e.thumbnail._id),_.isEmpty(e.media)||(i.media=_.map(e.media,"_id")),(""!==e["abstract"]||void 0!==e["abstract"])&&(i["abstract"]=e["abstract"]),(""!==e.content||void 0!==e.content)&&(i.content=e.content),"current"===e.releaseDate?i.date=moment(e.date,"YYYY年MM月DD日").hour(e.hour).minute(e.minute).format():"now"===e.releaseDate&&(i.date=moment().format()),""!==e.tags&&void 0!==e.tags){var o=angular.copy(e.tags);o=o.replace(/，| /g,","),i.tags=o.split(",")}$.isEmptyObject(e.extensions)||(i.extensions=e.extensions),n.content?a.put("/api/contents/"+n.content,i).then(function(){e.$emit("notification",{type:"success",message:"修改内容成功"}),t.go("main.contents",{category:e.$parent.category._id},{reload:"main.contents"})}):a.post("/api/contents",i).then(function(n){"draft"===e.status?e.$emit("notification",{type:"success",message:"保存草稿成功"}):"pushed"===e.status&&e.$emit("notification",{type:"success",message:"发布内容成功"}),t.go("main.contents",{category:e.$parent.category._id},{reload:"main.contents"})},function(){e.$emit("notification",{type:"danger",message:"发布内容失败"})})}}]),angular.module("controllers").controller("contentModelChange",["$scope","$state","$stateParams","$http",function(e,t,n,a){"use strict";e.transmitting=!0,e.action="create",e._id=n._id,e.keyFormAction="",e.keyIndex="",e.name="",e.description="",e.system={thumbnail:!0,"abstract":!0,content:!0,tags:!0},e.thumbnailSize={width:400,height:300},e.extensions=[],e.keyType=[{name:"文本框",type:"text"},{name:"数字框",type:"number"},{name:"文本域",type:"textarea"},{name:"下拉框",type:"select"},{name:"媒体",type:"media"}],e.key={key:"",name:"",type:"text",description:"",mixed:{select:[],limit:4}},e.keyTypeSelect={name:"",value:""},e.keyTypeSelectInvalid={name:!0,value:!0},e.keyNonUnique=!1,e.$watch("key.key",function(){if("add"===e.keyFormAction)for(var t=0;t<e.extensions.length;t++)if(e.key.key===e.extensions[t].key)return e.keyNonUnique=!0;e.keyNonUnique=!1}),$("#keyForm").on("input","#keyTypeSelectName",function(){e.$apply(function(){e.keyTypeSelectInvalid.name=!1})}).on("blur","#keyTypeSelectName",function(){e.$apply(function(){e.keyTypeSelect.name||(e.keyTypeSelectInvalid.name=!0)})}).on("input","#keyTypeSelectValue",function(){e.$apply(function(){e.keyTypeSelectInvalid.value=!1})}).on("blur","#keyTypeSelectValue",function(){e.$apply(function(){e.keyTypeSelect.value||(e.keyTypeSelectInvalid.value=!0)})}),n._id?(e.action="update",a.get("/api/models/"+n._id).then(function(n){var a=n.data;a?(e.name=a.name,e.description=a.description,e.system=a.system,a.system.thumbnail&&a.mixed&&a.mixed.thumbnailSize&&(e.thumbnailSize=a.mixed.thumbnailSize),e.extensions=a.extensions,e.transmitting=!1):t.go("main.contentModels")},function(){e.$emit("notification",{type:"danger",message:"获取内容模型失败"})})):e.transmitting=!1,e.keyModel=function(t,n){t?(e.keyFormAction="edit",e.keyIndex=n,e.key=angular.copy(t)):(e.keyFormAction="add",e.keyForm.$setPristine(),e.keyForm.$setUntouched(),e.key={key:"",name:"",type:"text",description:"",mixed:{select:[],limit:4}}),$("#keyModal").modal("show")},e.addKeyTypeSelect=function(){e.key.mixed.select=e.key.mixed.select||[],e.key.mixed.select.push(angular.copy(e.keyTypeSelect)),e.keyTypeSelect={name:"",value:""},e.keyTypeSelectInvalid={name:!0,value:!0},e.keyForm.keyTypeSelectName.$setUntouched(),e.keyForm.keyTypeSelectValue.$setUntouched()},e.deleteKeyTypeSelect=function(t){e.key.mixed.select.splice(t,1)},e.deleteKey=function(t){e.extensions.splice(t,1)},e.saveKey=function(){switch(e.key.type){case"text":case"number":case"textarea":delete e.key.mixed.select,delete e.key.mixed.limit;break;case"select":delete e.key.mixed.limit;break;case"media":delete e.key.mixed.select}"add"===e.keyFormAction?e.extensions.push(e.key):"edit"===e.keyFormAction&&(e.extensions[e.keyIndex]=e.key),$("#keyModal").modal("hide")},e.saveModel=function(){e.transmitting=!0;var i={type:"content",name:e.name,description:e.description,system:e.system,extensions:e.extensions};e.system.thumbnail&&(i.mixed=i.mixed||{},i.mixed.thumbnailSize=e.thumbnailSize),n._id?(i._id=n._id,a.put("/api/models/"+n._id,i).success(function(){for(var n=0;n<e.$parent.models.length;n++)if(i._id===e.$parent.models[n]._id)return e.$parent.models[n]=i,e.$emit("notification",{type:"success",message:"保存内容模型成功"}),e.$emit("mainCategoriesUpdate"),t.go("main.contentModels")}).error(function(){e.$emit("notification",{type:"danger",message:"保存内容模型失败"})})):a.post("/api/models",i).success(function(n){i._id=n._id,e.$parent.models.push(i),e.$emit("notification",{type:"success",message:"保存内容模型成功"}),e.$emit("mainCategoriesUpdate"),t.go("main.contentModels")}).error(function(){e.$emit("notification",{type:"danger",message:"保存内容模型失败"})})}}]),angular.module("controllers").controller("contentModels",["$scope","$http","account",function(e,t,n){"use strict";e.transmitting=!1,e.models=[],e.deleteModelId="",e.systemKey=[{name:"thumbnail",value:"缩略图"},{name:"abstract",value:"摘要"},{name:"content",value:"内容"},{name:"tags",value:"标签"}],e.editAuth=!1,n.auths().then(function(t){e.editAuth=t.contentModels.edit},function(){e.$emit("notification",{type:"danger",message:"读取权限失败"})}),t.get("/api/models",{params:{type:"content"}}).then(function(t){e.models=t.data},function(){e.$emit("notification",{type:"danger",message:"读取内容模型失败"})}),e.deleteModel=function(){e.transmitting=!0,t["delete"]("/api/models/"+e.deleteModelId).then(function(){for(var t=0;t<e.models.length;t++)if(e.deleteModelId===e.models[t]._id)return e.models.splice(t,1),$("#deleteModal").modal("hide"),e.transmitting=!1,e.$emit("notification",{type:"success",message:"删除内容模型成功"})},function(){e.$emit("notification",{type:"danger",message:"删除内容模型失败"})})}}]),angular.module("controllers").controller("contents",["$scope","$state","$stateParams","$http","account",function(e,t,n,a,i){"use strict";e.transmitting=!1,e.category={},e.contents=[],e.currentPage=1,e.totalPages=0,e.deleteContentId="",e.statusType=[{name:"草稿",value:"draft"},{name:"已发布",value:"pushed"}],e.editAuth=!1,i.auths().then(function(t){e.editAuth=t.contents.edit},function(){e.$emit("notification",{type:"danger",message:"读取权限失败"})}),a.get("/api/categories/"+n.category).then(function(t){e.category=t.data}),e.loadContents=function(){a.get("/api/contents",{params:{_id:n.category,deleted:!1,currentPage:e.currentPage,pageSize:20}}).then(function(t){var n=t.data;e.contents=n.contents,e.totalPages=n.pages},function(){e.$emit("notification",{type:"danger",message:"读取内容列表失败"})})},e.loadContents(),e.$watch("currentPage",function(){e.loadContents()}),e.deleteContent=function(){e.transmitting=!0,a["delete"]("/api/contents/"+e.deleteContentId).then(function(){e.loadContents(),$("#deleteModal").modal("hide"),e.transmitting=!1,e.$emit("notification",{type:"success",message:"删除内容成功"})},function(){e.$emit("notification",{type:"danger",message:"删除内容失败"})})}}]),angular.module("controllers").controller("featureModelChange",["$scope","$state","$stateParams","$http",function(e,t,n,a){"use strict";e.transmitting=!0,e.action="create",e._id=n._id,e.inputing=!1,e.checkCallnameing=!1,e.name="",e.limit=5,e.sort=0,e.callname="",e.oldCallname="",e.description="",e.system={thumbnail:!0,title:!0,url:!0},e.thumbnailSize={width:400,height:300},e.extensions=[],e.keyType=[{name:"文本框",type:"text"},{name:"数字框",type:"number"},{name:"文本域",type:"textarea"},{name:"下拉框",type:"select"},{name:"媒体",type:"media"}],e.key={key:"",name:"",type:"text",select:[],description:"",mixed:{select:[],limit:4}},e.keyTypeSelect={name:"",value:""},e.keyTypeSelectInvalid={name:!0,value:!0},e.keyNonUnique=!1,e.$watch("key.key",function(){if("add"===e.keyFormAction)for(var t=0;t<e.extensions.length;t++)if(e.key.key===e.extensions[t].key)return e.keyNonUnique=!0;e.keyNonUnique=!1}),$("#keyForm").on("input","#keyTypeSelectName",function(){e.$apply(function(){e.keyTypeSelectInvalid.name=!1})}).on("blur","#keyTypeSelectName",function(){e.$apply(function(){e.keyTypeSelect.name||(e.keyTypeSelectInvalid.name=!0)})}).on("input","#keyTypeSelectValue",function(){e.$apply(function(){e.keyTypeSelectInvalid.value=!1})}).on("blur","#keyTypeSelectValue",function(){e.$apply(function(){e.keyTypeSelect.value||(e.keyTypeSelectInvalid.value=!0)})}),n._id?(e.transmitting=!0,e.action="update",a.get("/api/models/"+n._id).then(function(n){var a=n.data;a?(e.name=a.name,e.description=a.description,e.limit=a.mixed.limit,e.callname=a.mixed.callname,e.oldCallname=angular.copy(e.callname),e.system=a.system,a.system.thumbnail&&a.mixed&&a.mixed.thumbnailSize&&(e.thumbnailSize=a.mixed.thumbnailSize),e.extensions=a.extensions,e.transmitting=!1):t.go("main.fetureModels")},function(){e.$emit("notification",{type:"danger",message:"获取内容模型失败"})})):e.transmitting=!1,e.keyModel=function(t,n){t?(e.keyFormAction="edit",e.keyIndex=n,e.key=angular.copy(t)):(e.keyFormAction="add",e.keyForm.$setPristine(),e.keyForm.$setUntouched(),e.key={key:"",name:"",type:"text",description:"",mixed:{select:[],limit:4}}),$("#keyModal").modal("show")},e.addKeyTypeSelect=function(){e.key.mixed.select.push(angular.copy(e.keyTypeSelect)),e.keyTypeSelect={name:"",value:""},e.keyTypeSelectInvalid={name:!0,value:!0},e.keyForm.keyTypeSelectName.$setUntouched(),e.keyForm.keyTypeSelectValue.$setUntouched()},e.deleteKeyTypeSelect=function(t){e.key.mixed.select.splice(t,1)},e.deleteKey=function(t){e.extensions.splice(t,1)},e.saveKey=function(){switch(e.key.type){case"text":case"number":case"textarea":delete e.key.mixed.select,delete e.key.mixed.limit;break;case"select":delete e.key.mixed.limit;break;case"media":delete e.key.mixed.select}"add"===e.keyFormAction?e.extensions.push(e.key):"edit"===e.keyFormAction&&(e.extensions[e.keyIndex]=e.key),$("#keyModal").modal("hide")},e.saveModel=function(){e.transmitting=!0;var i={type:"feature",name:e.name,description:e.description,mixed:{callname:e.callname,limit:e.limit,sort:e.sort},system:e.system,extensions:e.extensions};e.system.thumbnail&&(i.mixed.thumbnailSize=e.thumbnailSize),n._id?(i._id=n._id,a.put("/api/models/"+n._id,i).success(function(){for(var n=0;n<e.$parent.models.length;n++)if(i._id===e.$parent.models[n]._id)return e.$parent.models[n]=i,e.$emit("notification",{type:"success",message:"保存推荐位成功"}),e.$emit("mainCategoriesUpdate"),t.go("main.featureModels")}).error(function(){e.$emit("notification",{type:"danger",message:"保存推荐位失败"})})):a.post("/api/models",i).success(function(n){i._id=n._id,e.$parent.models.push(i),e.$emit("notification",{type:"success",message:"保存推荐位成功"}),e.$emit("mainCategoriesUpdate"),t.go("main.featureModels")}).error(function(){e.$emit("notification",{type:"danger",message:"保存推荐位失败"})})}}]),angular.module("controllers").controller("featureModels",["$scope","$http","account",function(e,t,n){"use strict";e.transmitting=!1,e.models=[],e.deleteModelId="",e.systemKey=[{name:"sort",value:"排序"},{name:"thumbnail",value:"缩略图"},{name:"title",value:"标题"},{name:"url",value:"链接"}],e.editAuth=!1,n.auths().then(function(t){e.editAuth=t.featureModels.edit},function(){e.$emit("notification",{type:"danger",message:"读取权限失败"})}),t.get("/api/models",{params:{type:"feature"}}).then(function(t){e.models=t.data},function(){e.$emit("notification",{
-type:"danger",message:"读取内容模型失败"})}),e.deleteModel=function(){e.transmitting=!0,t["delete"]("/api/models/"+e.deleteModelId).then(function(){for(var t=0;t<e.models.length;t++)if(e.deleteModelId===e.models[t]._id)return e.models.splice(t,1),$("#deleteModal").modal("hide"),e.transmitting=!1,e.$emit("notification",{type:"success",message:"删除推荐位成功"})},function(){e.$emit("notification",{type:"danger",message:"删除推荐位失败"})})}}]),angular.module("controllers").controller("featuresChange",["$scope","$state","$stateParams","$http",function(e,t,n,a){"use strict";e.transmitting=!0,e.action="create",e._id="",e.sort=0,e.title="",e.url="",e.thumbnail={},e.extensions={},e.model={},e.media=[],e.disabledExtMediaAdd={},async.parallel({model:function(e){a.get("/api/models/"+n.model).then(function(t){e(null,t.data)},function(){e("读取推荐模型失败")})},feature:function(e){return n.feature?void a.get("/api/features/"+n.feature).then(function(t){e(null,t.data)},function(){e("读取推荐失败")}):e()}},function(t,a){if(t)return e.$emit("notification",{type:"danger",message:t}),!1;var i=a.model,o=a.feature;e.model=i,n.feature&&(e._id=o._id,e.action="update",e.sort=o.sort,e.title=o.title,e.url=o.url,e.extensions=o.extensions,o.thumbnail&&(e.thumbnail._id=o.thumbnail._id,e.thumbnail.uploadStatus="success",e.thumbnail.croppedImage=o.thumbnail.src),_.isEmpty(o.media)||_.map(o.media,function(t){var n=_.get(t.fileName.match(/^.+\.(\w+)$/),1),a={file:null,fileName:t.fileName,fileNameLast:n,isImage:!1,description:t.description,src:t.src,_id:t._id,uploadStatus:"success",active:!1,edited:!1};switch(n){case"jpg":case"jpeg":case"png":case"gif":a.isImage=!0}e.media.push(a)})),e.transmitting=!1}),e.addExtensionMedia=function(t,n){e.extensions[t]=e.extensions[t]||[],e.mediaSelect({limit:n-e.extensions[t].length},function(a){e.extensions[t]=_.concat(e.extensions[t],a),n-e.extensions[t].length<1?e.disabledExtMediaAdd[t]=!0:e.disabledExtMediaAdd[t]=!1})},e.removeExtensionsMedia=function(t,n,a){_.pull(e.extensions[t],a),n-e.extensions[t].lengt<1?e.disabledExtMediaAdd[t]=!0:e.disabledExtMediaAdd[t]=!1},e.saveFeature=function(){e.transmitting=!0;var i={model:e.model._id,sort:e.sort,title:e.title};e.url&&(i.url=e.url),e.thumbnail._id&&(i.thumbnail=e.thumbnail._id),_.isEmpty(e.media)||(i.media=_.map(e.media,"_id")),_.isEmpty(e.extensions)||(i.extensions=e.extensions),n.feature?a.put("/api/features/"+n.feature,i).then(function(){e.$emit("notification",{type:"success",message:"更新推荐成功"}),t.go("main.features",null,{reload:"main.features"})},function(){e.$emit("notification",{type:"danger",message:"更新推荐失败"})}):a.post("/api/features",i).then(function(){e.$emit("notification",{type:"success",message:"发布推荐成功"}),t.go("main.features",null,{reload:"main.features"})},function(){e.$emit("notification",{type:"danger",message:"发布推荐失败"})})}}]),angular.module("controllers").controller("features",["$scope","$rootScope","$http","account",function(e,t,n,a){"use strict";e.transmitting=!1,e.noFeatureModel=!1,e.deleteFeatureInfo={modelId:"",featureId:""},e.models=[],e.currentAuth=!1,e.editAuth=!1,a.auths().then(function(t){e.editAuth=t.features.edit},function(){e.$emit("notification",{type:"danger",message:"读取权限失败"})}),async.parallel({model:function(e){n.get("/api/models",{params:{type:"feature"}}).then(function(t){e(null,t.data)},function(){e("读取推荐模型失败")})},features:function(e){n.get("/api/features").then(function(t){e(null,t.data)},function(){e("读取推荐失败")})}},function(t,n){return t?(e.$emit("notification",{type:"danger",message:t}),!1):_.isEmpty(n.model)?e.noFeatureModel=!0:void(e.models=_.map(n.model,function(e){return e.features=_.filter(n.features,function(t){return t.model===e._id}),e}))}),e.deleteFeature=function(){e.transmitting=!0;var t=e.deleteFeatureInfo;n["delete"]("/api/features/"+t.featureId).then(function(){var n=_.find(e.models,{_id:t.modelId});_.forEach(n.features,function(e,a){return e._id===t.featureId?(n.features.splice(a,1),!1):void 0}),$("#deleteModal").modal("hide"),e.transmitting=!1,e.$emit("notification",{type:"success",message:"删除推荐成功"})},function(){e.$emit("notification",{type:"danger",message:"删除推荐失败"})})}}]),angular.module("controllers").controller("install",["$scope","$state","$http","$timeout",function(e,t,n,a){"use strict";e.transmitting=!1,e.page="license",e.databaseHost="localhost",e.databasePort=27017,e.database="nodercms",e.databaseUser="",e.databasePassword="",e.databaseError=!1,e.themes=[],e.theme="default",e.themeError=!1,e.title="",e.email="",e.nickname="",e.password="",e.siteInfoError=!1,e.hasInstall=!1,e.installingTimeout=null,e.installingPoll=null,e.loadThemes=function(){n.get("/api/install/themes").then(function(t){var n=t.data;e.themes=n,e.themeError=!1},function(){e.themeError=!0})},e.loadThemes(),e.testDatabase=function(){e.transmitting=!0;var t={host:e.databaseHost,port:e.databasePort,db:e.database,user:e.databaseUser,pass:e.databasePassword};n.put("/api/install/test-database",t).then(function(){e.transmitting=!1,e.databaseError=!1,e.page="siteInfo"},function(){e.transmitting=!1,e.databaseError=!0})},e.submitInstall=function(){e.transmitting=!0,e.installing();var t={databaseHost:e.databaseHost,databasePort:e.databasePort,database:e.database,databaseUser:e.databaseUser,databasePassword:e.databasePassword,title:e.title,theme:e.theme,email:e.email.toLowerCase(),nickname:e.nickname,password:e.password};n.post("/api/install",t).then(function(){e.hasInstall=!0},function(){e.installingTimeout&&a.cancel(e.installingTimeout),e.installingPoll&&a.cancel(e.installingPoll),e.transmitting=!1,e.siteInfoError=!0,e.page="siteInfo"})},e.installing=function(){e.page="installing",e.installingTimeout=a(function t(){e.hasInstall?e.page="installed":e.installingPoll=a(t,1e3)},1e3)}}]),angular.module("controllers").controller("main",["$scope","$http",function(e,t){"use strict";e.website={hostname:window.location.hostname,origin:window.location.origin},e.systemInfo={},e.officialSystemInfo={},e.nodeInfo={},e.databaseInfo={},e.contentsTotal="",e.mediaTotal="",e.adminsTotal="",e.readingList={},e.versionIsLatest=!0,t.get("/api/dashboard").then(function(t){var n=t.data;e.systemInfo=n.systemInfo,e.nodeInfo=n.nodeInfo,e.databaseInfo=n.databaseInfo,e.contentsTotal=n.contentsTotal,e.mediaTotal=n.mediaTotal,e.adminsTotal=n.adminsTotal,e.readingList=n.readingList},function(){e.$emit("notification",{type:"danger",message:"读取控制面板数据失败"})}),t.get("http://console.nodercms.com/openApi/info").then(function(t){var n=t.data;e.officialSystemInfo=n},function(){e.$emit("notification",{type:"danger",message:"官方信息读取失败"})}),e.compareVersion=function(e,t){return t&&e!==t?!0:!1},t.put("/api/statistics",{hostname:e.website.hostname})}]),angular.module("controllers").controller("media",["$scope","$state","$stateParams","$http","account",function(e,t,n,a,i){"use strict";e.transmitting=!1,e.media=[],e.currentPage=1,e.totalPages=0,e.deleteMediumId="",e.editAuth=!1,i.auths().then(function(t){e.editAuth=t.media.edit},function(){e.$emit("notification",{type:"danger",message:"读取权限失败"})}),e.loadMedia=function(){a.get("/api/media",{params:{currentPage:e.currentPage,pageSize:20}}).then(function(t){var n=t.data;_.map(n.media,function(e){var t=_.get(e.fileName.match(/^.+\.(\w+)$/),1);switch(e.fileNameLast=t,e.isImage=!1,t){case"jpg":case"jpeg":case"png":case"gif":e.isImage=!0}}),e.media=n.media,e.totalPages=n.pages})},e.loadMedia(),e.$watch("currentPage",function(t,n){t!==n&&e.loadMedia()}),e.deleteMedium=function(){e.transmitting=!0,a["delete"]("/api/media/"+e.deleteMediumId).then(function(){e.loadMedia(),$("#deleteModal").modal("hide"),e.transmitting=!1,e.$emit("notification",{type:"success",message:"删除媒体成功"})},function(){e.$emit("notification",{type:"danger",message:"删除媒体失败"})})}}]),angular.module("controllers").controller("pageChange",["$scope","$state","$stateParams","$http","account","$sce",function(e,t,n,a,i,o){"use strict";e.transmitting=!0,e._id=n.page,e.name="",e.pageContent="",e.pageMedia=[],e.editAuth=!1,e.readAuth=!1;var s=i.auths().then(function(t){return e.editAuth=t.pages.edit,e.readAuth=t.pages.read,t.pages.read&&!t.pages.edit?a.get("/api/pages/"+n.page):t.pages.edit?a.get("/api/pages/"+n.page,{params:{markdown:!0}}):void 0},function(){e.$emit("notification",{type:"danger",message:"读取权限失败"})});n.page&&s.then(function(t){var n=t.data;n?(_.isEmpty(n.pageMedia)||_.forEach(n.pageMedia,function(t){var n=_.get(t.fileName.match(/^.+\.(\w+)$/),1),a={file:null,fileName:t.fileName,fileNameLast:n,isImage:!1,description:t.description,src:t.src,_id:t._id,uploadStatus:"success",active:!1,edited:!1};switch(n){case"jpg":case"jpeg":case"png":case"gif":a.isImage=!0}e.pageMedia.push(a)}),e.name=n.name,e.editAuth?e.pageContent=n.pageContent:e.readAuth&&(e.pageContent=o.trustAsHtml(n.pageContent)),e.transmitting=!1):e.transmitting=!0},function(){e.$emit("notification",{type:"danger",message:"获取内容失败"})}),e.savePage=function(){e.transmitting=!0;var i={pageContent:e.pageContent};_.isEmpty(e.pageMedia)||(i.pageMedia=_.map(e.pageMedia,"_id")),a.put("/api/pages/"+n.page,i).then(function(){e.transmitting=!1,e.$emit("notification",{type:"success",message:"更新单页成功"}),t.go("main.pages",{page:n.page},{reload:"main.pages"})},function(){e.$emit("notification",{type:"danger",message:"更新单页失败"})})}}]),angular.module("controllers").controller("rolesChange",["$scope","$state","$stateParams","$http",function(e,t,n,a){"use strict";e.transmitting=!1,e.action="create",e._id=n._id,e.name="",e.description="",e.authorities=[],async.parallel({authorities:function(e){a.get("/api/authorities").then(function(t){var n=_.reject(t.data,{code:1e5});e(null,n)},function(){e("获取权限失败")})},role:function(t){n._id?(e.action="update",a.get("/api/roles/"+n._id).then(function(e){var n=e.data;t(null,n)},function(){t("获取角色失败")})):t(null)}},function(t,n){return t?(e.$emit("notification",{type:"danger",message:t}),!1):(e.authorities=_.map(n.authorities,function(e){return e.select=0,e}),void(n.role&&(e.name=n.role.name,e.description=n.role.description,_.forEach(e.authorities,function(e){e.select=0;var t=_.find(e.authorities,{name:"read"}).code,a=_.find(e.authorities,{name:"edit"}).code,i=_.find(n.role.authorities,function(e){return e===t}),o=_.find(n.role.authorities,function(e){return e===a});i&&o?e.select=2:i&&(e.select=1)}))))}),e.saveRole=function(){e.transmitting=!0;var i={name:e.name,description:e.description,authorities:[]};_.forEach(e.authorities,function(e){switch(e.select){case 0:break;case 1:_.forEach(e.authorities,function(e){"read"===e.name&&i.authorities.push(e.code)});break;case 2:_.forEach(e.authorities,function(e){"read"===e.name&&i.authorities.push(e.code),"edit"===e.name&&i.authorities.push(e.code)})}}),n._id?(i._id=n._id,a.put("/api/roles/"+n._id,i).then(function(){e.$emit("notification",{type:"success",message:"保存角色成功"}),e.$emit("mainUserUpdate"),t.go("main.roles",null,{reload:"main.roles"})},function(){e.$emit("notification",{type:"danger",message:"保存角色失败"})})):a.post("/api/roles",i).then(function(){e.$emit("notification",{type:"success",message:"新增角色成功"}),e.$emit("mainUserUpdate"),t.go("main.roles",null,{reload:"main.roles"})},function(){e.$emit("notification",{type:"danger",message:"新增角色失败"})})}}]),angular.module("controllers").controller("roles",["$scope","$http","account",function(e,t,n){"use strict";e.transmitting=!1,e.roles=[],e.deleteRoleId="",e.editAuth=!1,n.auths().then(function(t){e.editAuth=t.roles.edit},function(){e.$emit("notification",{type:"danger",message:"读取权限失败"})}),t.get("/api/roles").then(function(t){var n=_.reject(t.data,function(e){var t=_.find(e.authorities,function(e){return 1e5===e});return t});e.roles=n},function(){e.$emit("notification",{type:"danger",message:"获取角色列表失败"})}),e.deleteRole=function(){e.transmitting=!0,t["delete"]("/api/roles/"+e.deleteRoleId).success(function(){_.pullAllBy(e.roles,[{_id:e.deleteRoleId}],"_id"),$("#deleteModal").modal("hide"),e.transmitting=!1,e.$emit("notification",{type:"success",message:"删除角色成功"})}).error(function(){$("#deleteModal").modal("hide"),e.$emit("notification",{type:"danger",message:"删除角色失败"})})}}]),angular.module("controllers").controller("signIn",["$scope","$timeout","$state","$http",function(e,t,n,a){"use strict";function i(){e.wrongEmailOrPassword=!1}function o(){e.wrongCaptcha=!1}e.transmitting=!1,e.email="",e.password="",e.captcha="",e.captchaData="",e.autoSignIn=!1,e.wrongEmailOrPassword=!1,e.wrongCaptcha=!1,e.$watch("email",i),e.$watch("password",i),e.$watch("captcha",o),e.getCaptcha=function(){a.get("/api/account/captcha").then(function(t){e.captchaData=t.data})},e.getCaptcha(),e.signIn=function(){e.transmitting=!0,a.put("/api/account/sign-in",{email:e.email,password:e.password,captcha:e.captcha.toLowerCase(),autoSignIn:e.autoSignIn}).then(function(){n.go("main")},function(n){e.getCaptcha();var a=n.data;switch(_.get(a,"error.code")){case"WRONG_EMAIL_OR_PASSWORD":e.wrongEmailOrPassword=!0;break;case"WRONG_CAPTCHA":e.wrongCaptcha=!0}e.animateShake=!0,t(function(){e.animateShake=!1,e.transmitting=!1},600)})}}]),angular.module("controllers").controller("siteInfo",["$scope","$http","account",function(e,t,n){"use strict";e.transmitting=!0,e.themes=[],e.theme="",e.title="",e.keywords="",e.description="",e.codeHeader="",e.codeFooter="",e.editAuth=!1,e.readAuth=!1,n.auths().then(function(t){e.editAuth=t.siteInfo.edit,e.readAuth=t.siteInfo.read},function(){e.$emit("notification",{type:"danger",message:"读取权限失败"})}),t.get("/api/site-info").success(function(t){e.themes=t.themes,e.theme=t.siteInfo.theme||"default",e.title=t.siteInfo.title,e.keywords=t.siteInfo.keywords,e.description=t.siteInfo.description,e.codeHeader=t.siteInfo.codeHeader,e.codeFooter=t.siteInfo.codeFooter,e.transmitting=!1}).error(function(){e.$emit("notification",{type:"danger",message:"获取网站配置失败"})}),e.submitSiteInfo=function(){e.transmitting=!0,t.put("/api/site-info",{theme:e.theme,title:e.title,keywords:e.keywords,description:e.description,codeHeader:e.codeHeader,codeFooter:e.codeFooter}).success(function(){e.transmitting=!1,e.$emit("notification",{type:"success",message:"网站配置已保存"})}).error(function(){e.transmitting=!1,e.$emit("notification",{type:"danger",message:"网站配置保存失败"})})}}]),angular.module("controllers").controller("trash",["$scope","$state","$stateParams","$http","account",function(e,t,n,a,i){"use strict";e.transmitting=!1,e.category={},e.contents=[],e.currentPage=1,e.totalPages=0,e.deleteContentId="",e.recoveryContentId="",e.statusType=[{name:"草稿",value:"draft"},{name:"已发布",value:"pushed"}],e.editAuth=!1,i.auths().then(function(t){e.editAuth=t.contents.edit},function(){e.$emit("notification",{type:"danger",message:"读取权限失败"})}),e.loadContents=function(){a.get("/api/contents",{params:{deleted:!0,currentPage:e.currentPage,pageSize:20}}).then(function(t){var n=t.data;e.contents=n.contents,e.totalPages=n.pages})},e.loadContents(),e.$watch("currentPage",function(){e.loadContents()}),e.recoveryContent=function(){e.transmitting=!0;var t={deleted:!1,part:!0};a.put("/api/contents/"+e.recoveryContentId,t).then(function(){e.loadContents(),$("#recoveryModal").modal("hide"),e.transmitting=!1,e.$emit("notification",{type:"success",message:"恢复内容成功"})},function(){e.$emit("notification",{type:"danger",message:"恢复内容失败"})})},e.deleteContent=function(){e.transmitting=!0,a["delete"]("/api/contents/"+e.deleteContentId).then(function(){e.loadContents(),$("#deleteModal").modal("hide"),e.transmitting=!1,e.$emit("notification",{type:"success",message:"删除内容成功"})},function(){e.$emit("notification",{type:"danger",message:"删除内容失败"})})},e.deleteListContent=function(){e.transmitting=!0,a["delete"]("/api/contents",{params:{ids:_.map(e.contents,"_id")}}).then(function(){e.loadContents(),$("#deleteListModal").modal("hide"),e.transmitting=!1,e.$emit("notification",{type:"success",message:"删除内容成功"})},function(){e.$emit("notification",{type:"danger",message:"删除内容失败"})})}}]),angular.module("services").factory("account",["$rootScope","$http","$q","$cacheFactory",function(e,t,n,a){"use strict";var i=a("account");return{get:function(){var e=n.defer();return i.get("user")?e.resolve(i.get("user")):t.get("/api/account").then(function(t){var n=t.data;i.put("user",n),e.resolve(n)},function(t){e.reject(t.data)}),e.promise},auths:function(){var e=this;return e.get().then(function(e){var t={features:{read:!1,edit:!1},contents:{read:!1,edit:!1},pages:{read:!1,edit:!1},media:{read:!1,edit:!1},account:{read:!1,edit:!1},siteInfo:{read:!1,edit:!1},categories:{read:!1,edit:!1},contentModels:{read:!1,edit:!1},featureModels:{read:!1,edit:!1},roles:{read:!1,edit:!1},adminUsers:{read:!1,edit:!1}};return _.forEach(_.get(e,"role.authorities"),function(e){if(1e5===e)return _.forEach(t,function(e,n){t[n]={read:!0,edit:!0}}),!1;switch(e){case 100100:t.features.read=!0;break;case 100101:t.features.edit=!0;break;case 100200:t.contents.read=!0;break;case 100201:t.contents.edit=!0;break;case 100300:t.pages.read=!0;break;case 100301:t.pages.edit=!0;break;case 100400:t.media.read=!0;break;case 100401:t.media.edit=!0;break;case 109e3:t.account.read=!0;break;case 109001:t.account.edit=!0;break;case 110100:t.siteInfo.read=!0;break;case 110101:t.siteInfo.edit=!0;break;case 110200:t.categories.read=!0;break;case 110201:t.categories.edit=!0;break;case 110300:t.contentModels.read=!0;break;case 110301:t.contentModels.edit=!0;break;case 110400:t.featureModels.read=!0;break;case 110401:t.featureModels.edit=!0;break;case 110500:t.roles.read=!0;break;case 110501:t.roles.edit=!0;break;case 110600:t.adminUsers.read=!0;break;case 110601:t.adminUsers.edit=!0}}),t},function(e){return e})},reset:function(){i.remove("user")}}}]),angular.module("services").factory("authorityInterceptor",["$q","$injector",function(e,t){"use strict";return{responseError:function(n){if(401===n.status&&n.data&&n.data.error)switch(t.get("account").reset(),n.data.error.code){case"NOT_LOGGED_IN":t.get("$state").go("signIn");break;case"NO_AUTHORITY":var a=t.get("$state");"main"!==a.current.name&&a.go("main",{},{reload:"main"})}return 404===n.status&&n.data&&n.data.error&&"USER_NOT_FOUND"===n.data.error.code&&t.get("$state").go("signIn"),e.reject(n)}}}]),angular.module("services").factory("base64ToBlobFile",[function(){"use strict";return function(e,t,n){t=t||"BlobFile.png",n=n||"";for(var a=1024,i=atob(e.replace("data:image/png;base64,","")),o=i.length,s=Math.ceil(o/a),r=new Array(s),c=0;s>c;++c){for(var l=c*a,u=Math.min(l+a,o),d=new Array(u-l),m=l,g=0;u>m;++g,++m)d[g]=i[m].charCodeAt(0);r[c]=new Uint8Array(d)}var p=new Blob(r,{type:n});return p.name=t,p.lastModifiedDate=new Date,p}}]),angular.module("services").factory("checkAuthResolve",["$rootScope","$q","$state","account",function(e,t,n,a){"use strict";return function(i,o){var s=t.defer();return a.auths().then(function(e){e[i][o]?s.resolve():(a.reset(),n.go("main",null,{reload:"main"}))},function(){a.reset(),e.$emit("notification",{type:"danger",message:"读取权限失败"})}),s.promise}}]),angular.module("services").factory("checkInstallResolve",["$q","$state","$http",function(e,t,n){"use strict";return{leaveToSignInOrNone:function(){var a=e.defer();return n.get("/api/install").then(function(e){var n=e.data;n.hasInstall?t.go("signIn"):a.resolve()},function(){t.go("signIn")}),a.promise},enterToInstallOrNone:function(){var a=e.defer();return n.get("/api/install").then(function(e){var n=e.data;n.hasInstall?a.resolve():t.go("install")},function(){a.resolve()}),a.promise}}}]),angular.module("services").factory("checkSignIn",["$rootScope","$state","ipCookie",function(e,t,n){"use strict";return function(){e.$on("$stateChangeStart",function(e,a,i,o,s){n("nodercmsSid")||"signIn"===a.name||"install"===a.name||(e.preventDefault(),t.go("signIn"))})}}]),angular.module("services").factory("pinyin",["$http","$q",function(e,t){"use strict";function n(e){for(var t in a)if(-1!==a[t].indexOf(e))return t;return!1}var a={a:"啊阿锕",ai:"埃挨哎唉哀皑癌蔼矮艾碍爱隘诶捱嗳嗌嫒瑷暧砹锿霭",an:"鞍氨安俺按暗岸胺案谙埯揞犴庵桉铵鹌顸黯",ang:"肮昂盎",ao:"凹敖熬翱袄傲奥懊澳坳拗嗷噢岙廒遨媪骜聱螯鏊鳌鏖",ba:"芭捌扒叭吧笆八疤巴拔跋靶把耙坝霸罢爸茇菝萆捭岜灞杷钯粑鲅魃",bai:"白柏百摆佰败拜稗薜掰鞴",ban:"斑班搬扳般颁板版扮拌伴瓣半办绊阪坂豳钣瘢癍舨",bang:"邦帮梆榜膀绑棒磅蚌镑傍谤蒡螃",bao:"苞胞包褒雹保堡饱宝抱报暴豹鲍爆勹葆宀孢煲鸨褓趵龅",bo:"剥薄玻菠播拨钵波博勃搏铂箔伯帛舶脖膊渤泊驳亳蕃啵饽檗擘礴钹鹁簸跛",bei:"杯碑悲卑北辈背贝钡倍狈备惫焙被孛陂邶埤蓓呗怫悖碚鹎褙鐾",ben:"奔苯本笨畚坌锛",beng:"崩绷甭泵蹦迸唪嘣甏",bi:"逼鼻比鄙笔彼碧蓖蔽毕毙毖币庇痹闭敝弊必辟壁臂避陛匕仳俾芘荜荸吡哔狴庳愎滗濞弼妣婢嬖璧贲畀铋秕裨筚箅篦舭襞跸髀",bian:"鞭边编贬扁便变卞辨辩辫遍匾弁苄忭汴缏煸砭碥稹窆蝙笾鳊",biao:"标彪膘表婊骠飑飙飚灬镖镳瘭裱鳔",bie:"鳖憋别瘪蹩鳘",bin:"彬斌濒滨宾摈傧浜缤玢殡膑镔髌鬓",bing:"兵冰柄丙秉饼炳病并禀邴摒绠枋槟燹",bu:"捕卜哺补埠不布步簿部怖拊卟逋瓿晡钚醭",ca:"擦嚓礤",cai:"猜裁材才财睬踩采彩菜蔡",can:"餐参蚕残惭惨灿骖璨粲黪",cang:"苍舱仓沧藏伧",cao:"操糙槽曹草艹嘈漕螬艚",ce:"厕策侧册测刂帻恻",ceng:"层蹭噌",cha:"插叉茬茶查碴搽察岔差诧猹馇汊姹杈楂槎檫钗锸镲衩",chai:"拆柴豺侪茈瘥虿龇",chan:"搀掺蝉馋谗缠铲产阐颤冁谄谶蒇廛忏潺澶孱羼婵嬗骣觇禅镡裣蟾躔",chang:"昌猖场尝常长偿肠厂敞畅唱倡伥鬯苌菖徜怅惝阊娼嫦昶氅鲳",chao:"超抄钞朝嘲潮巢吵炒怊绉晁耖",che:"车扯撤掣彻澈坼屮砗",chen:"郴臣辰尘晨忱沉陈趁衬称谌抻嗔宸琛榇肜胂碜龀",cheng:"撑城橙成呈乘程惩澄诚承逞骋秤埕嵊徵浈枨柽樘晟塍瞠铖裎蛏酲",chi:"吃痴持匙池迟弛驰耻齿侈尺赤翅斥炽傺墀芪茌搋叱哧啻嗤彳饬沲媸敕胝眙眵鸱瘛褫蚩螭笞篪豉踅踟魑",chong:"充冲虫崇宠茺忡憧铳艟",chou:"抽酬畴踌稠愁筹仇绸瞅丑俦圳帱惆溴妯瘳雠鲋",chu:"臭初出橱厨躇锄雏滁除楚础储矗搐触处亍刍憷绌杵楮樗蜍蹰黜",chuan:"揣川穿椽传船喘串掾舛惴遄巛氚钏镩舡",chuang:"疮窗幢床闯创怆",chui:"吹炊捶锤垂陲棰槌",chun:"春椿醇唇淳纯蠢促莼沌肫朐鹑蝽",chuo:"戳绰蔟辶辍镞踔龊",ci:"疵茨磁雌辞慈瓷词此刺赐次荠呲嵯鹚螅糍趑",cong:"聪葱囱匆从丛偬苁淙骢琮璁枞",cu:"凑粗醋簇猝殂蹙",cuan:"蹿篡窜汆撺昕爨",cui:"摧崔催脆瘁粹淬翠萃悴璀榱隹",cun:"村存寸磋忖皴",cuo:"撮搓措挫错厝脞锉矬痤鹾蹉躜",da:"搭达答瘩打大耷哒嗒怛妲疸褡笪靼鞑",dai:"呆歹傣戴带殆代贷袋待逮怠埭甙呔岱迨逯骀绐玳黛",dan:"耽担丹单郸掸胆旦氮但惮淡诞弹蛋亻儋卩萏啖澹檐殚赕眈瘅聃箪",dang:"当挡党荡档谠凼菪宕砀铛裆",dao:"刀捣蹈倒岛祷导到稻悼道盗叨啁忉洮氘焘忑纛",de:"德得的锝",deng:"蹬灯登等瞪凳邓噔嶝戥磴镫簦",di:"堤低滴迪敌笛狄涤翟嫡抵底地蒂第帝弟递缔氐籴诋谛邸坻莜荻嘀娣柢棣觌砥碲睇镝羝骶",dian:"颠掂滇碘点典靛垫电佃甸店惦奠淀殿丶阽坫埝巅玷癜癫簟踮",diao:"碉叼雕凋刁掉吊钓调轺铞蜩粜貂",die:"跌爹碟蝶迭谍叠佚垤堞揲喋渫轶牒瓞褶耋蹀鲽鳎",ding:"丁盯叮钉顶鼎锭定订丢仃啶玎腚碇町铤疔耵酊",dong:"东冬董懂动栋侗恫冻洞垌咚岽峒夂氡胨胴硐鸫",dou:"兜抖斗陡豆逗痘蔸钭窦窬蚪篼酡",du:"都督毒犊独读堵睹赌杜镀肚度渡妒芏嘟渎椟橐牍蠹笃髑黩",duan:"端短锻段断缎彖椴煅簖",dui:"堆兑队对怼憝碓",dun:"墩吨蹲敦顿囤钝盾遁炖砘礅盹镦趸",duo:"掇哆多夺垛躲朵跺舵剁惰堕咄哚缍柁铎裰踱",e:"蛾峨鹅俄额讹娥恶厄扼遏鄂饿噩谔垩垭苊莪萼呃愕屙婀轭曷腭硪锇锷鹗颚鳄",en:"恩蒽摁唔嗯",er:"而儿耳尔饵洱二贰迩珥铒鸸鲕",fa:"发罚筏伐乏阀法珐垡砝",fan:"藩帆番翻樊矾钒繁凡烦反返范贩犯饭泛蘩幡犭梵攵燔畈蹯",fang:"坊芳方肪房防妨仿访纺放匚邡彷钫舫鲂",fei:"菲非啡飞肥匪诽吠肺废沸费芾狒悱淝妃绋绯榧腓斐扉祓砩镄痱蜚篚翡霏鲱",fen:"芬酚吩氛分纷坟焚汾粉奋份忿愤粪偾瀵棼愍鲼鼢",feng:"丰封枫蜂峰锋风疯烽逢冯缝讽奉凤俸酆葑沣砜",fu:"佛否夫敷肤孵扶拂辐幅氟符伏俘服浮涪福袱弗甫抚辅俯釜斧脯腑府腐赴副覆赋复傅付阜父腹负富讣附妇缚咐匐凫郛芙苻茯莩菔呋幞滏艴孚驸绂桴赙黻黼罘稃馥虍蚨蜉蝠蝮麸趺跗鳆",ga:"噶嘎蛤尬呷尕尜旮钆",gai:"该改概钙盖溉丐陔垓戤赅胲",gan:"干甘杆柑竿肝赶感秆敢赣坩苷尴擀泔淦澉绀橄旰矸疳酐",gang:"冈刚钢缸肛纲岗港戆罡颃筻",gong:"杠工攻功恭龚供躬公宫弓巩汞拱贡共蕻廾咣珙肱蚣蛩觥",gao:"篙皋高膏羔糕搞镐稿告睾诰郜蒿藁缟槔槁杲锆",ge:"哥歌搁戈鸽胳疙割革葛格阁隔铬个各鬲仡哿塥嗝纥搿膈硌铪镉袼颌虼舸骼髂",gei:"给",gen:"根跟亘茛哏艮",geng:"耕更庚羹埂耿梗哽赓鲠",gou:"钩勾沟苟狗垢构购够佝诟岣遘媾缑觏彀鸲笱篝鞲",gu:"辜菇咕箍估沽孤姑鼓古蛊骨谷股故顾固雇嘏诂菰哌崮汩梏轱牯牿胍臌毂瞽罟钴锢瓠鸪鹄痼蛄酤觚鲴骰鹘",gua:"刮瓜剐寡挂褂卦诖呱栝鸹",guai:"乖拐怪哙",guan:"棺关官冠观管馆罐惯灌贯倌莞掼涫盥鹳鳏",guang:"光广逛犷桄胱疒",gui:"瑰规圭硅归龟闺轨鬼诡癸桂柜跪贵刽匦刿庋宄妫桧炅晷皈簋鲑鳜",gun:"辊滚棍丨衮绲磙鲧",guo:"锅郭国果裹过馘蠃埚掴呙囗帼崞猓椁虢锞聒蜮蜾蝈",ha:"哈",hai:"骸孩海氦亥害骇咴嗨颏醢",han:"酣憨邯韩含涵寒函喊罕翰撼捍旱憾悍焊汗汉邗菡撖阚瀚晗焓颔蚶鼾",hen:"夯痕很狠恨",hang:"杭航沆绗珩桁",hao:"壕嚎豪毫郝好耗号浩薅嗥嚆濠灏昊皓颢蚝",he:"呵喝荷菏核禾和何合盒貉阂河涸赫褐鹤贺诃劾壑藿嗑嗬阖盍蚵翮",hei:"嘿黑",heng:"哼亨横衡恒訇蘅",hong:"轰哄烘虹鸿洪宏弘红黉讧荭薨闳泓",hou:"喉侯猴吼厚候后堠後逅瘊篌糇鲎骺",hu:"呼乎忽瑚壶葫胡蝴狐糊湖弧虎唬护互沪户冱唿囫岵猢怙惚浒滹琥槲轷觳烀煳戽扈祜鹕鹱笏醐斛",hua:"花哗华猾滑画划化话劐浍骅桦铧稞",huai:"槐徊怀淮坏还踝",huan:"欢环桓缓换患唤痪豢焕涣宦幻郇奂垸擐圜洹浣漶寰逭缳锾鲩鬟",huang:"荒慌黄磺蝗簧皇凰惶煌晃幌恍谎隍徨湟潢遑璜肓癀蟥篁鳇",hui:"灰挥辉徽恢蛔回毁悔慧卉惠晦贿秽会烩汇讳诲绘诙茴荟蕙哕喙隳洄彗缋珲晖恚虺蟪麾",hun:"荤昏婚魂浑混诨馄阍溷缗",huo:"豁活伙火获或惑霍货祸攉嚯夥钬锪镬耠蠖",ji:"击圾基机畸稽积箕肌饥迹激讥鸡姬绩缉吉极棘辑籍集及急疾汲即嫉级挤几脊己蓟技冀季伎祭剂悸济寄寂计记既忌际妓继纪居丌乩剞佶佴脔墼芨芰萁蒺蕺掎叽咭哜唧岌嵴洎彐屐骥畿玑楫殛戟戢赍觊犄齑矶羁嵇稷瘠瘵虮笈笄暨跻跽霁鲚鲫髻麂",jia:"嘉枷夹佳家加荚颊贾甲钾假稼价架驾嫁伽郏拮岬浃迦珈戛胛恝铗镓痂蛱笳袈跏",jian:"歼监坚尖笺间煎兼肩艰奸缄茧检柬碱硷拣捡简俭剪减荐槛鉴践贱见键箭件健舰剑饯渐溅涧建僭谏谫菅蒹搛囝湔蹇謇缣枧柙楗戋戬牮犍毽腱睑锏鹣裥笕箴翦趼踺鲣鞯",jiang:"僵姜将浆江疆蒋桨奖讲匠酱降茳洚绛缰犟礓耩糨豇",jiao:"蕉椒礁焦胶交郊浇骄娇嚼搅铰矫侥脚狡角饺缴绞剿教酵轿较叫佼僬茭挢噍峤徼姣纟敫皎鹪蛟醮跤鲛",jie:"窖揭接皆秸街阶截劫节桔杰捷睫竭洁结解姐戒藉芥界借介疥诫届偈讦诘喈嗟獬婕孑桀獒碣锴疖袷颉蚧羯鲒骱髫",jin:"巾筋斤金今津襟紧锦仅谨进靳晋禁近烬浸尽卺荩堇噤馑廑妗缙瑾槿赆觐钅锓衿矜",jing:"劲荆兢茎睛晶鲸京惊精粳经井警景颈静境敬镜径痉靖竟竞净刭儆阱菁獍憬泾迳弪婧肼胫腈旌",jiong:"炯窘冂迥扃",jiu:"揪究纠玖韭久灸九酒厩救旧臼舅咎就疚僦啾阄柩桕鹫赳鬏",ju:"鞠拘狙疽驹菊局咀矩举沮聚拒据巨具距踞锯俱句惧炬剧倨讵苣苴莒掬遽屦琚枸椐榘榉橘犋飓钜锔窭裾趄醵踽龃雎鞫",juan:"捐鹃娟倦眷卷绢鄄狷涓桊蠲锩镌隽",jue:"撅攫抉掘倔爵觉决诀绝厥劂谲矍蕨噘崛獗孓珏桷橛爝镢蹶觖",jun:"均菌钧军君峻俊竣浚郡骏捃狻皲筠麇",ka:"喀咖卡佧咔胩",ke:"咯坷苛柯棵磕颗科壳咳可渴克刻客课岢恪溘骒缂珂轲氪瞌钶疴窠蝌髁",kai:"开揩楷凯慨剀垲蒈忾恺铠锎",kan:"刊堪勘坎砍看侃凵莰莶戡龛瞰",kang:"康慷糠扛抗亢炕坑伉闶钪",kao:"考拷烤靠尻栲犒铐",ken:"肯啃垦恳垠裉颀",keng:"吭忐铿",kong:"空恐孔控倥崆箜",kou:"抠口扣寇芤蔻叩眍筘",ku:"枯哭窟苦酷库裤刳堀喾绔骷",kua:"夸垮挎跨胯侉",kuai:"块筷侩快蒯郐蒉狯脍",kuan:"宽款髋",kuang:"匡筐狂框矿眶旷况诓诳邝圹夼哐纩贶",kui:"亏盔岿窥葵奎魁傀馈愧溃馗匮夔隗揆喹喟悝愦阕逵暌睽聩蝰篑臾跬",kun:"坤昆捆困悃阃琨锟醌鲲髡",kuo:"括扩廓阔蛞",la:"垃拉喇蜡腊辣啦剌摺邋旯砬瘌",lai:"莱来赖崃徕涞濑赉睐铼癞籁",lan:"蓝婪栏拦篮阑兰澜谰揽览懒缆烂滥啉岚懔漤榄斓罱镧褴",lang:"琅榔狼廊郎朗浪莨蒗啷阆锒稂螂",lao:"捞劳牢老佬姥酪烙涝唠崂栳铑铹痨醪",le:"勒乐肋仂叻嘞泐鳓",lei:"雷镭蕾磊累儡垒擂类泪羸诔荽咧漯嫘缧檑耒酹",ling:"棱冷拎玲菱零龄铃伶羚凌灵陵岭领另令酃塄苓呤囹泠绫柃棂瓴聆蛉翎鲮",leng:"楞愣",li:"厘梨犁黎篱狸离漓理李里鲤礼莉荔吏栗丽厉励砾历利傈例俐痢立粒沥隶力璃哩俪俚郦坜苈莅蓠藜捩呖唳喱猁溧澧逦娌嫠骊缡珞枥栎轹戾砺詈罹锂鹂疠疬蛎蜊蠡笠篥粝醴跞雳鲡鳢黧",lian:"俩联莲连镰廉怜涟帘敛脸链恋炼练挛蔹奁潋濂娈琏楝殓臁膦裢蠊鲢",liang:"粮凉梁粱良两辆量晾亮谅墚椋踉靓魉",liao:"撩聊僚疗燎寥辽潦了撂镣廖料蓼尥嘹獠寮缭钌鹩耢",lie:"列裂烈劣猎冽埒洌趔躐鬣",lin:"琳林磷霖临邻鳞淋凛赁吝蔺嶙廪遴檩辚瞵粼躏麟",liu:"溜琉榴硫馏留刘瘤流柳六抡偻蒌泖浏遛骝绺旒熘锍镏鹨鎏","long":"龙聋咙笼窿隆垄拢陇弄垅茏泷珑栊胧砻癃",lou:"楼娄搂篓漏陋喽嵝镂瘘耧蝼髅",lu:"芦卢颅庐炉掳卤虏鲁麓碌露路赂鹿潞禄录陆戮垆摅撸噜泸渌漉璐栌橹轳辂辘氇胪镥鸬鹭簏舻鲈",lv:"驴吕铝侣旅履屡缕虑氯律率滤绿捋闾榈膂稆褛",luan:"峦孪滦卵乱栾鸾銮",lue:"掠略锊",lun:"轮伦仑沦纶论囵",luo:"萝螺罗逻锣箩骡裸落洛骆络倮荦摞猡泺椤脶镙瘰雒",ma:"妈麻玛码蚂马骂嘛吗唛犸嬷杩麽",mai:"埋买麦卖迈脉劢荬咪霾",man:"瞒馒蛮满蔓曼慢漫谩墁幔缦熳镘颟螨鳗鞔",mang:"芒茫盲忙莽邙漭朦硭蟒",meng:"氓萌蒙檬盟锰猛梦孟勐甍瞢懵礞虻蜢蠓艋艨黾",miao:"猫苗描瞄藐秒渺庙妙喵邈缈缪杪淼眇鹋蜱",mao:"茅锚毛矛铆卯茂冒帽貌贸侔袤勖茆峁瑁昴牦耄旄懋瞀蛑蝥蟊髦",me:"么",mei:"玫枚梅酶霉煤没眉媒镁每美昧寐妹媚坶莓嵋猸浼湄楣镅鹛袂魅",men:"门闷们扪玟焖懑钔",mi:"眯醚靡糜迷谜弥米秘觅泌蜜密幂芈冖谧蘼嘧猕獯汨宓弭脒敉糸縻麋",mian:"棉眠绵冕免勉娩缅面沔湎腼眄",mie:"蔑灭咩蠛篾",min:"民抿皿敏悯闽苠岷闵泯珉",ming:"明螟鸣铭名命冥茗溟暝瞑酩",miu:"谬",mo:"摸摹蘑模膜磨摩魔抹末莫墨默沫漠寞陌谟茉蓦馍嫫镆秣瘼耱蟆貊貘",mou:"谋牟某厶哞婺眸鍪",mu:"拇牡亩姆母墓暮幕募慕木目睦牧穆仫苜呒沐毪钼",na:"拿哪呐钠那娜纳捺肭镎衲箬",nai:"氖乃奶耐奈鼐艿萘柰",nan:"南男难囊喃囡楠腩蝻赧",nao:"挠脑恼闹孬垴猱瑙硇铙蛲",ne:"淖呢讷",nei:"馁内",nen:"嫩能枘恁",ni:"妮霓倪泥尼拟你匿腻逆溺伲坭猊怩滠昵旎祢慝睨铌鲵",nian:"蔫拈年碾撵捻念廿辇黏鲇鲶",niang:"娘酿",niao:"鸟尿茑嬲脲袅",nie:"捏聂孽啮镊镍涅乜陧蘖嗫肀颞臬蹑",nin:"您柠",ning:"狞凝宁拧泞佞蓥咛甯聍",niu:"牛扭钮纽狃忸妞蚴",nong:"脓浓农侬",nu:"奴努怒呶帑弩胬孥驽",nv:"女恧钕衄",nuan:"暖",nuenue:"虐",nue:"疟谑",nuo:"挪懦糯诺傩搦喏锘",ou:"哦欧鸥殴藕呕偶沤怄瓯耦",pa:"啪趴爬帕怕琶葩筢",pai:"拍排牌徘湃派俳蒎",pan:"攀潘盘磐盼畔判叛爿泮袢襻蟠蹒",pang:"乓庞旁耪胖滂逄",pao:"抛咆刨炮袍跑泡匏狍庖脬疱",pei:"呸胚培裴赔陪配佩沛掊辔帔淠旆锫醅霈",pen:"喷盆湓",peng:"砰抨烹澎彭蓬棚硼篷膨朋鹏捧碰坯堋嘭怦蟛",pi:"砒霹批披劈琵毗啤脾疲皮匹痞僻屁譬丕陴邳郫圮鼙擗噼庀媲纰枇甓睥罴铍痦癖疋蚍貔",pian:"篇偏片骗谝骈犏胼褊翩蹁",piao:"飘漂瓢票剽嘌嫖缥殍瞟螵",pie:"撇瞥丿苤氕",pin:"拼频贫品聘拚姘嫔榀牝颦",ping:"乒坪苹萍平凭瓶评屏俜娉枰鲆",po:"坡泼颇婆破魄迫粕叵鄱溥珀钋钷皤笸",pou:"剖裒踣",pu:"扑铺仆莆葡菩蒲埔朴圃普浦谱曝瀑匍噗濮璞氆镤镨蹼",qi:"期欺栖戚妻七凄漆柒沏其棋奇歧畦崎脐齐旗祈祁骑起岂乞企启契砌器气迄弃汽泣讫亟亓圻芑萋葺嘁屺岐汔淇骐绮琪琦杞桤槭欹祺憩碛蛴蜞綦綮趿蹊鳍麒",qia:"掐恰洽葜",qian:"牵扦钎铅千迁签仟谦乾黔钱钳前潜遣浅谴堑嵌欠歉佥阡芊芡荨掮岍悭慊骞搴褰缱椠肷愆钤虔箝",qiang:"枪呛腔羌墙蔷强抢嫱樯戗炝锖锵镪襁蜣羟跫跄",qiao:"橇锹敲悄桥瞧乔侨巧鞘撬翘峭俏窍劁诮谯荞愀憔缲樵毳硗跷鞒",qie:"切茄且怯窃郄唼惬妾挈锲箧",qin:"钦侵亲秦琴勤芹擒禽寝沁芩蓁蕲揿吣嗪噙溱檎螓衾",qing:"青轻氢倾卿清擎晴氰情顷请庆倩苘圊檠磬蜻罄箐謦鲭黥",qiong:"琼穷邛茕穹筇銎",qiu:"秋丘邱球求囚酋泅俅氽巯艽犰湫逑遒楸赇鸠虬蚯蝤裘糗鳅鼽",qu:"趋区蛆曲躯屈驱渠取娶龋趣去诎劬蕖蘧岖衢阒璩觑氍祛磲癯蛐蠼麴瞿黢",quan:"圈颧权醛泉全痊拳犬券劝诠荃獾悛绻辁畎铨蜷筌鬈",que:"缺炔瘸却鹊榷确雀阙悫",qun:"裙群逡",ran:"然燃冉染苒髯",rang:"瓤壤攘嚷让禳穰",rao:"饶扰绕荛娆桡",ruo:"惹若弱",re:"热偌",ren:"壬仁人忍韧任认刃妊纫仞荏葚饪轫稔衽",reng:"扔仍",ri:"日",rong:"戎茸蓉荣融熔溶容绒冗嵘狨缛榕蝾",rou:"揉柔肉糅蹂鞣",ru:"茹蠕儒孺如辱乳汝入褥蓐薷嚅洳溽濡铷襦颥",ruan:"软阮朊",rui:"蕊瑞锐芮蕤睿蚋",run:"闰润",sa:"撒洒萨卅仨挲飒",sai:"腮鳃塞赛噻",san:"三叁伞散彡馓氵毵糁霰",sang:"桑嗓丧搡磉颡",sao:"搔骚扫嫂埽臊瘙鳋",se:"瑟色涩啬铩铯穑",sen:"森",seng:"僧",sha:"莎砂杀刹沙纱傻啥煞脎歃痧裟霎鲨",shai:"筛晒酾",shan:"珊苫杉山删煽衫闪陕擅赡膳善汕扇缮剡讪鄯埏芟潸姗骟膻钐疝蟮舢跚鳝",shang:"墒伤商赏晌上尚裳垧绱殇熵觞",shao:"梢捎稍烧芍勺韶少哨邵绍劭苕潲蛸笤筲艄",she:"奢赊蛇舌舍赦摄射慑涉社设厍佘猞畲麝",shen:"砷申呻伸身深娠绅神沈审婶甚肾慎渗诜谂吲哂渖椹矧蜃",sheng:"声生甥牲升绳省盛剩胜圣丞渑媵眚笙",shi:"师失狮施湿诗尸虱十石拾时什食蚀实识史矢使屎驶始式示士世柿事拭誓逝势是嗜噬适仕侍释饰氏市恃室视试谥埘莳蓍弑唑饣轼耆贳炻礻铈铊螫舐筮豕鲥鲺",shou:"收手首守寿授售受瘦兽扌狩绶艏",shu:"蔬枢梳殊抒输叔舒淑疏书赎孰熟薯暑曙署蜀黍鼠属术述树束戍竖墅庶数漱恕倏塾菽忄沭涑澍姝纾毹腧殳镯秫鹬",shua:"刷耍唰涮",shuai:"摔衰甩帅蟀",shuan:"栓拴闩",shuang:"霜双爽孀",shui:"谁水睡税",shun:"吮瞬顺舜恂",shuo:"说硕朔烁蒴搠嗍濯妁槊铄",si:"斯撕嘶思私司丝死肆寺嗣四伺似饲巳厮俟兕菥咝汜泗澌姒驷缌祀祠锶鸶耜蛳笥",song:"松耸怂颂送宋讼诵凇菘崧嵩忪悚淞竦",sou:"搜艘擞嗽叟嗖嗾馊溲飕瞍锼螋",su:"苏酥俗素速粟僳塑溯宿诉肃夙谡蔌嗉愫簌觫稣",suan:"酸蒜算",sui:"虽隋随绥髓碎岁穗遂隧祟蓑冫谇濉邃燧眭睢",sun:"孙损笋荪狲飧榫跣隼",suo:"梭唆缩琐索锁所唢嗦娑桫睃羧",ta:"塌他它她塔獭挞蹋踏闼溻遢榻沓",tai:"胎苔抬台泰酞太态汰邰薹肽炱钛跆鲐",tan:"坍摊贪瘫滩坛檀痰潭谭谈坦毯袒碳探叹炭郯蕈昙钽锬覃",tang:"汤塘搪堂棠膛唐糖傥饧溏瑭铴镗耥螗螳羰醣",thang:"倘躺淌",theng:"趟烫",tao:"掏涛滔绦萄桃逃淘陶讨套挑鼗啕韬饕",te:"特",teng:"藤腾疼誊滕",ti:"梯剔踢锑提题蹄啼体替嚏惕涕剃屉荑悌逖绨缇鹈裼醍",tian:"天添填田甜恬舔腆掭忝阗殄畋钿蚺",tiao:"条迢眺跳佻祧铫窕龆鲦",tie:"贴铁帖萜餮",ting:"厅听烃汀廷停亭庭挺艇莛葶婷梃蜓霆",tong:"通桐酮瞳同铜彤童桶捅筒统痛佟僮仝茼嗵恸潼砼",tou:"偷投头透亠",tu:"凸秃突图徒途涂屠土吐兔堍荼菟钍酴",tuan:"湍团疃",tui:"推颓腿蜕褪退忒煺",tun:"吞屯臀饨暾豚窀",tuo:"拖托脱鸵陀驮驼椭妥拓唾乇佗坨庹沱柝砣箨舄跎鼍",wa:"挖哇蛙洼娃瓦袜佤娲腽",wai:"歪外",wan:"豌弯湾玩顽丸烷完碗挽晚皖惋宛婉万腕剜芄苋菀纨绾琬脘畹蜿箢",wang:"汪王亡枉网往旺望忘妄罔尢惘辋魍",wei:"威巍微危韦违桅围唯惟为潍维苇萎委伟伪尾纬未蔚味畏胃喂魏位渭谓尉慰卫倭偎诿隈葳薇帏帷崴嵬猥猬闱沩洧涠逶娓玮韪軎炜煨熨痿艉鲔",wen:"瘟温蚊文闻纹吻稳紊问刎愠阌汶璺韫殁雯",weng:"嗡翁瓮蓊蕹",wo:"挝蜗涡窝我斡卧握沃莴幄渥杌肟龌",wu:"巫呜钨乌污诬屋无芜梧吾吴毋武五捂午舞伍侮坞戊雾晤物勿务悟误兀仵阢邬圬芴庑怃忤浯寤迕妩骛牾焐鹉鹜蜈鋈鼯",xi:"昔熙析西硒矽晰嘻吸锡牺稀息希悉膝夕惜熄烯溪汐犀檄袭席习媳喜铣洗系隙戏细僖兮隰郗茜葸蓰奚唏徙饩阋浠淅屣嬉玺樨曦觋欷熹禊禧钸皙穸蜥蟋舾羲粞翕醯鼷",xia:"瞎虾匣霞辖暇峡侠狭下厦夏吓掀葭嗄狎遐瑕硖瘕罅黠",xian:"锨先仙鲜纤咸贤衔舷闲涎弦嫌显险现献县腺馅羡宪陷限线冼藓岘猃暹娴氙祆鹇痫蚬筅籼酰跹",xiang:"相厢镶香箱襄湘乡翔祥详想响享项巷橡像向象芗葙饷庠骧缃蟓鲞飨",xiao:"萧硝霄削哮嚣销消宵淆晓小孝校肖啸笑效哓咻崤潇逍骁绡枭枵筱箫魈",xie:"楔些歇蝎鞋协挟携邪斜胁谐写械卸蟹懈泄泻谢屑偕亵勰燮薤撷廨瀣邂绁缬榭榍歙躞",xin:"薪芯锌欣辛新忻心信衅囟馨莘歆铽鑫",xing:"星腥猩惺兴刑型形邢行醒幸杏性姓陉荇荥擤悻硎",xiong:"兄凶胸匈汹雄熊芎",xiu:"休修羞朽嗅锈秀袖绣莠岫馐庥鸺貅髹",xu:"墟戌需虚嘘须徐许蓄酗叙旭序畜恤絮婿绪续讴诩圩蓿怵洫溆顼栩煦砉盱胥糈醑",xuan:"轩喧宣悬旋玄选癣眩绚儇谖萱揎馔泫洵渲漩璇楦暄炫煊碹铉镟痃",xue:"靴薛学穴雪血噱泶鳕",xun:"勋熏循旬询寻驯巡殉汛训讯逊迅巽埙荀薰峋徇浔曛窨醺鲟",ya:"压押鸦鸭呀丫芽牙蚜崖衙涯雅哑亚讶伢揠吖岈迓娅琊桠氩砑睚痖",yan:"焉咽阉烟淹盐严研蜒岩延言颜阎炎沿奄掩眼衍演艳堰燕厌砚雁唁彦焰宴谚验厣靥赝俨偃兖讠谳郾鄢芫菸崦恹闫阏洇湮滟妍嫣琰晏胭腌焱罨筵酽魇餍鼹",yang:"殃央鸯秧杨扬佯疡羊洋阳氧仰痒养样漾徉怏泱炀烊恙蛘鞅",yao:"邀腰妖瑶摇尧遥窑谣姚咬舀药要耀夭爻吆崾徭瀹幺珧杳曜肴鹞窈繇鳐",ye:"椰噎耶爷野冶也页掖业叶曳腋夜液谒邺揶馀晔烨铘",yi:"一壹医揖铱依伊衣颐夷遗移仪胰疑沂宜姨彝椅蚁倚已乙矣以艺抑易邑屹亿役臆逸肄疫亦裔意毅忆义益溢诣议谊译异翼翌绎刈劓佾诒圪圯埸懿苡薏弈奕挹弋呓咦咿噫峄嶷猗饴怿怡悒漪迤驿缢殪贻旖熠钇镒镱痍瘗癔翊衤蜴舣羿翳酏黟",yin:"茵荫因殷音阴姻吟银淫寅饮尹引隐印胤鄞堙茚喑狺夤氤铟瘾蚓霪龈",ying:"英樱婴鹰应缨莹萤营荧蝇迎赢盈影颖硬映嬴郢茔莺萦撄嘤膺滢潆瀛瑛璎楹鹦瘿颍罂",yo:"哟唷",yong:"拥佣臃痈庸雍踊蛹咏泳涌永恿勇用俑壅墉慵邕镛甬鳙饔",you:"幽优悠忧尤由邮铀犹油游酉有友右佑釉诱又幼卣攸侑莸呦囿宥柚猷牖铕疣蝣鱿黝鼬",yu:"迂淤于盂榆虞愚舆余俞逾鱼愉渝渔隅予娱雨与屿禹宇语羽玉域芋郁吁遇喻峪御愈欲狱育誉浴寓裕预豫驭禺毓伛俣谀谕萸蓣揄喁圄圉嵛狳饫庾阈妪妤纡瑜昱觎腴欤於煜燠聿钰鹆瘐瘀窳蝓竽舁雩龉",yuan:"鸳渊冤元垣袁原援辕园员圆猿源缘远苑愿怨院塬沅媛瑗橼爰眢鸢螈鼋",yue:"曰约越跃钥岳粤月悦阅龠樾刖钺",yun:"耘云郧匀陨允运蕴酝晕韵孕郓芸狁恽纭殒昀氲",za:"匝砸杂拶咂",zai:"栽哉灾宰载再在咱崽甾",zan:"攒暂赞瓒昝簪糌趱錾",zang:"赃脏葬奘戕臧",zao:"遭糟凿藻枣早澡蚤躁噪造皂灶燥唣缫",ze:"责择则泽仄赜啧迮昃笮箦舴",zei:"贼",zen:"怎谮",zeng:"增憎曾赠缯甑罾锃",zha:"扎喳渣札轧铡闸眨栅榨咋乍炸诈揸吒咤哳怍砟痄蚱齄",zhai:"摘斋宅窄债寨砦",zhan:"瞻毡詹粘沾盏斩辗崭展蘸栈占战站湛绽谵搌旃",zhang:"樟章彰漳张掌涨杖丈帐账仗胀瘴障仉鄣幛嶂獐嫜璋蟑",zhao:"招昭找沼赵照罩兆肇召爪诏棹钊笊",zhe:"遮折哲蛰辙者锗蔗这浙谪陬柘辄磔鹧褚蜇赭",zhen:"珍斟真甄砧臻贞针侦枕疹诊震振镇阵缜桢榛轸赈胗朕祯畛鸩",zheng:"蒸挣睁征狰争怔整拯正政帧症郑证诤峥钲铮筝",zhi:"芝枝支吱蜘知肢脂汁之织职直植殖执值侄址指止趾只旨纸志挚掷至致置帜峙制智秩稚质炙痔滞治窒卮陟郅埴芷摭帙忮彘咫骘栉枳栀桎轵轾攴贽膣祉祗黹雉鸷痣蛭絷酯跖踬踯豸觯",zhong:"中盅忠钟衷终种肿重仲众冢锺螽舂舯踵",zhou:"舟周州洲诌粥轴肘帚咒皱宙昼骤啄着倜诹荮鬻纣胄碡籀舳酎鲷",zhu:"珠株蛛朱猪诸诛逐竹烛煮拄瞩嘱主著柱助蛀贮铸筑住注祝驻伫侏邾苎茱洙渚潴驺杼槠橥炷铢疰瘃蚰竺箸翥躅麈",zhua:"抓",zhuai:"拽",zhuan:"专砖转撰赚篆抟啭颛",zhuang:"桩庄装妆撞壮状丬",zhui:"椎锥追赘坠缀萑骓缒",zhun:"谆准",zhuo:"捉拙卓桌琢茁酌灼浊倬诼廴蕞擢啜浞涿杓焯禚斫",zi:"兹咨资姿滋淄孜紫仔籽滓子自渍字谘嵫姊孳缁梓辎赀恣眦锱秭耔笫粢觜訾鲻髭",zong:"鬃棕踪宗综总纵腙粽",zou:"邹走奏揍鄹鲰",zu:"租足卒族祖诅阻组俎菹啐徂驵蹴",zuan:"钻纂攥缵",zui:"嘴醉最罪",zun:"尊遵撙樽鳟",zuo:"昨左佐柞做作坐座阝阼胙祚酢",cou:"薮楱辏腠",nang:"攮哝囔馕曩",o:"喔",dia:"嗲",chuai:"嘬膪踹",cen:"岑涔",diu:"铥",nou:"耨",fou:"缶",bia:"髟"};return function(e){if(""===e||void 0===e||null===e)return"";for(var t="",a=e.toLowerCase(),i=0;i<a.length;i++){var o=a.substr(i,1),s=n(o),r=/[A-z0-9\-\_]/;r.test(o)?t+=o:s?(i>0&&(t+=" "),t+=s,i<a.length-1&&(t+=" ")):t+=" "}for(t=t.replace(/ /g,"-");t.indexOf("--")>0;)t=t.replace("--","-");return t}}]),angular.module("directives").directive("ndBlurred",function(){return{require:"ngModel",link:function(e,t,n,a){a.$blurred=!0,t.on("focus",function(){e.$apply(function(){a.$blurred=!1})}).on("blur",function(){e.$apply(function(){a.$blurred=!0})})}}}),angular.module("directives").directive("ndEditor",["$templateCache","$timeout","$filter","$http","Upload",function(e,t,n,a,i){return{restrict:"E",template:e.get("editor.view.html"),scope:{content:"=",disabled:"=",rows:"="},link:function(e,t,n,a){"use strict";var i=null,o=e.$parent.mediaSelect;e.transmitting=!0,e.description="",e.videoSource="",e.insertVideo=function(){var t=i.getSelection(),n=i.getContent(),a=/\n$/.test(n.substr(0,t.start)),o=/^\n/.test(n.substr(t.end,n.length)),s="";a||0===t.start||(s+="\n"),s+="\n"+e.videoSource+"\n",o||(s+="\n"),i.replaceSelection(s),$("#videoInsert").modal("hide"),e.videoSource="",e.videoInsertForm.$setUntouched();var r=i.getContent().length-(n.length-t.end);i.setSelection(r,r),e.content=i.getContent()},$("#content").markdown({resize:"vertical",iconlibrary:"fa",language:"zh",onShow:function(e){i=e},onChange:function(t){e.$apply(function(){e.content=t.getContent()})},buttons:[[{},{data:[{},{name:"cmdMedia",title:"媒体库",icon:{fa:"fa fa-archive"},callback:function(t){o({},function(n){var a=t.getSelection(),i=t.getContent(),o=/\n$/.test(i.substr(0,a.start)),s=/^\n/.test(i.substr(a.end,i.length)),r="";if(1===n.length){var c=a.text?a.text:n[0].fileName;n[0].isImage?(o||0===a.start||(r+="\n"),r+="\n!["+c+"]("+encodeURI(n[0].src)+' "'+n[0].fileName+'")\n',s||(r+="\n")):r+="["+c+"]("+encodeURI(n[0].src)+' "'+n[0].fileName+'")'}else if(n.length>1)for(var l=0;l<n.length;l++)0!==l||o||(r+="\n"),r+=n[l].isImage?"\n!["+n[l].fileName+"]("+encodeURI(n[l].src)+' "'+n[l].fileName+'")\n':"\n["+n[l].fileName+"]("+encodeURI(n[l].src)+' "'+n[l].fileName+'")\n',l!==n.length-1||s||(r+="\n");t.replaceSelection(r);var u=t.getContent().length-(i.length-a.end);t.setSelection(u,u),e.content=t.getContent()})}},{name:"cmdVideo",title:"视频",hotkey:"Ctrl+D",icon:{fa:"fa fa-video-camera"},callback:function(e){$("#videoInsert").modal("show")}}]}]]}),e.$watch("disabled",function(){$("#content").siblings(".btn-toolbar").find("button").prop("disabled",e.disabled);
-})}}}]),angular.module("directives").directive("ndMediaSelect",["$templateCache","$timeout","$filter","$http","Upload",function(e,t,n,a,i){return{restrict:"E",replace:!0,template:e.get("media-select.view.html"),scope:{media:"="},link:function(e,t,n,o){"use strict";function s(){var t;switch(e.selectView){case"list":t=_.filter(e.media,{active:!0}).length;break;case"store":t=_.filter(e.mediaStore,{active:!0}).length}e.selectLimit&&e.selectLimit-t<1?e.disabledUploadThumbnail=!0:e.disabledUploadThumbnail=!1}function r(){e.mediaStore=[],a.get("/api/media",{params:{currentPage:1,pageSize:9}}).then(function(t){var n=t.data.media;_.map(n,function(t){var n=_.get(t.fileName.match(/^.+\.(\w+)$/),1),a={file:null,fileName:t.fileName,fileNameLast:n,isImage:!1,description:t.description,src:t.src,_id:t._id,uploadStatus:"success",active:!1,edited:!1};switch(n){case"jpg":case"jpeg":case"png":case"gif":a.isImage=!0}e.mediaStore.push(a)})})}e.transmitting=!0,e.mediaStore=[],e.selectView="list",e.thumbnailInfoView=!1,e.medium={},e.mediumId="",e.fileNameFirst="",e.fileNameLast="",e.description="",e.disabledSelectViewRemove=!0,e.disabledSelectViewinsert=!0,e.selectLimit=0,e.callback=null,e.disabledUploadThumbnail=!1,e.$parent.mediaSelect=function(n,a){e.selectLimit=n.limit||null,e.callback=a||null,s(),t.modal("show")},e.selectViewSlide=function(t){e.thumbnailInfoView=!1,e.medium.edited=!1,_.map(e.media,function(e){return e.active=!1}),_.map(e.mediaStore,function(e){return e.active=!1}),e.disabledSelectViewRemove=!0,e.disabledSelectViewinsert=!0,s(),e.selectView=t},e.thumbnailInfoSlide=function(t,n){if(n.stopPropagation(),t._id!==e.mediumId){e.transmitting=!1,e.thumbnailInfoView=!0,e.medium.edited=!1,t.edited=!0,e.medium=t,e.mediumId=t._id;var a=t.fileName.match(/^(.+)(\.\w+)$/);e.fileNameFirst=_.get(a,1),e.fileNameLast=_.get(a,2),e.description=t.description}else e.thumbnailInfoView=!e.thumbnailInfoView,t.edited=!t.edited},e.saveThumbnailInfo=function(){e.transmitting=!0;var t={fileName:e.fileNameFirst+e.fileNameLast};e.description&&(t.description=e.description),a.put("/api/media/"+e.mediumId,t).then(function(){e.transmitting=!1,e.medium.fileName=_.clone(e.fileNameFirst+e.fileNameLast),e.medium.description=_.clone(e.description),e.$emit("notification",{type:"success",message:"图片信息保存成功"})},function(){e.$emit("notification",{type:"danger",message:"图片信息保存失败"})})},r(),e.uploadMedia=function(t){return t?(_.map(t,function(t){i.dataUrl(t).then(function(n){var a=_.get(t.name.match(/^.+\.(\w+)$/),1),i={file:n,fileName:t.name,fileNameLast:a,isImage:!1,src:"",_id:"",uploadStatus:"uploading",active:!1,edited:!1};switch(a){case"jpg":case"jpeg":case"png":case"gif":i.isImage=!0}e.media.push(i)})}),void async.eachLimit(t,3,function(t,n){i.upload({url:"/api/media",data:{file:t}}).then(function(a){var o=a.data;_.map(e.media,function(e){i.dataUrl(t).then(function(t){t===e.file&&(e._id=o._id,e.src=o.src,e.uploadStatus="success")})}),r(),n(null)},function(e){n(e)})},function(t){t&&e.$emit("notification",{type:"danger",message:"上传缩略图失败"})})):!1},t.on("hidden.bs.modal",function(){e.$apply(function(){e.selectView="list"})}),e.slideMediaActive=function(t){if(t.active===!1&&e.disabledUploadThumbnail)return!1;switch(t.active=!t.active,e.selectView){case"list":_.filter(e.media,function(e){return e.active})[0]?(e.disabledSelectViewRemove=!1,e.disabledSelectViewinsert=!1):(e.disabledSelectViewRemove=!0,e.disabledSelectViewinsert=!0);break;case"store":_.filter(e.mediaStore,function(e){return e.active})[0]?e.disabledSelectViewinsert=!1:e.disabledSelectViewinsert=!0}s()},e.removeMedia=function(){_.remove(e.media,function(e){return e.active}),e.disabledSelectViewRemove=!0,e.disabledSelectViewinsert=!0,s()},e.addMedia=function(){_.map(e.mediaStore,function(t){if(t.active){var n=_.find(e.media,function(e){return e._id===t._id?(e.active=!0,e):void 0});n||e.media.unshift(t)}});var n=_(e.media).filter(function(e){return e.active}).map(function(e){return _.pick(e,["_id","description","fileName","fileNameLast","isImage","src"])}).value();t.modal("hide"),e.callback(n),_.map(e.media,function(e){e.active=!1}),e.disabledSelectViewRemove=!0,e.disabledSelectViewinsert=!0,s()}}}}]),angular.module("directives").directive("ndNavigation",["$templateCache","$rootScope","$state","$timeout","$http","$filter","account",function(e,t,n,a,i,o,s){return{restrict:"E",template:e.get("navigation.view.html"),link:function(e,r){function c(){a(function(){$(".sub-list").each(function(){var e=$(this);e.children(".item").hasClass("active")?e.siblings(".item").addClass("active select"):e.slideUp("fast",function(){e.siblings(".sub-list-heading").removeClass("select")}).siblings(".sub-list-heading").removeClass("active")})})}function l(){s.get().then(function(t){e.user=t},function(){e.$emit("notification",{type:"danger",message:"读取用户失败"})}),s.auths().then(function(t){e.auths=t},function(){e.$emit("notification",{type:"danger",message:"读取权限失败"})})}function u(){i.get("/api/categories").then(function(t){var n=t.data;e.categories=o("filter")(n,function(e){return"channel"!==e.type&&"link"!==e.type?!0:void 0}),_.find(n,{type:"page",mixed:{isEdit:!0}})?e.notFoundPages=!1:e.notFoundPages=!0,_.find(n,{type:"column"})?e.notFoundContents=!1:e.notFoundContents=!0,a(function(){c()})})}e.notFoundPages=!1,e.notFoundContents=!1,e.auth={},e.categories=[],e.user={},l(),e.signOut=function(){i.put("/api/account/sign-out").then(function(){s.reset(),n.go("signIn")},function(){e.$emit("notification",{type:"danger",message:"退出登录失败"})})},u(),t.$on("$stateChangeSuccess",function(){a(function(){c()})}),t.$on("mainCategoriesUpdate",function(){u()}),t.$on("mainUserUpdate",function(){s.reset(),l()}),$(".navigation").on("click",".sub-list-heading",function(){var e=$(this);e.hasClass("select")?e.siblings(".sub-list").slideUp("fast",function(){$(this).siblings(".sub-list-heading").removeClass("select")}):e.siblings(".sub-list").slideDown("fast",function(){$(this).siblings(".sub-list-heading").addClass("select")}),$(".sub-list:visible").not(e.siblings(".sub-list")).slideUp("fast",function(){$(this).siblings(".sub-list-heading").removeClass("select")})})}}}]),angular.module("directives").directive("ndNotification",["$timeout","$rootScope",function(e,t){return{replace:!0,link:function(n){function a(){i=!0,e(function(){o-- >0?a():(i=!1,n.notificationShow=!1)},1e3)}var i,o;t.$on("notification",function(e,t){o=3,n.type=t.type,n.message=t.message,n.notificationShow=!0,i||a()})}}}]),angular.module("directives").directive("ndPagination",["$templateCache",function(e){return{restrict:"E",template:e.get("pagination.view.html"),scope:{currentPage:"=",totalPages:"="},link:function(e,t,n){e.pagesList=[],e.changePage=function(){switch(e.pagesList=[],!0){case e.totalPages<=7:for(var t=0;t<e.totalPages;t++)e.pagesList[t]={name:t+1,index:t+1};break;case e.currentPage<=3:e.pagesList=[{name:1,index:1},{name:2,index:2},{name:3,index:3},{name:4,index:4},{name:5,index:5},{name:6,index:6},{name:"..."+e.totalPages,index:e.totalPages}];break;case e.currentPage>3&&e.currentPage<=e.totalPages-3:e.pagesList.push({name:"1...",index:1});for(var t=e.currentPage-2;t<=e.currentPage+2;t++)e.pagesList.push({name:t,index:t});e.pagesList.push({name:"..."+e.totalPages,index:e.totalPages});break;case e.currentPage>e.totalPages-3:e.pagesList.push({name:"1...",index:1});for(var t=e.totalPages-5;t<=e.totalPages;t++)e.pagesList.push({name:t,index:t})}$("body,html").scrollTop(0)},e.$watchGroup(["currentPage","totalPages"],function(){e.changePage()})}}}]),angular.module("directives").directive("ndSame",function(){return{require:"ngModel",link:function(e,t,n,a){t.add(n.ndSame).on("input",function(){e.$apply(function(){var e=t.val()===$(n.ndSame).val();a.$setValidity("same",e)})})}}}),angular.module("directives").directive("ndThumbnail",["$templateCache","$timeout","$filter","$http","Upload","base64ToBlobFile",function(e,t,n,a,i,o){return{restrict:"E",template:e.get("thumbnail.view.html"),scope:{thumbnail:"=",disabled:"=",width:"=",height:"="},link:function(e,t,n,a){"use strict";e.thumbnail={_id:e.thumbnail._id||null,file:null,sourceImage:"",croppedImage:e.thumbnail.croppedImage||"",uploadStatus:e.thumbnail.uploadStatus||"initial"},e.minWidth=e.width/2,e.minHeight=e.height/2,e.cropThumbnail=function(t){return _.isEmpty(t)?!1:(e.thumbnail.file=t[0],void i.dataUrl(e.thumbnail.file).then(function(t){e.thumbnail.sourceImage=t,$("#corpModal").modal("show")}))},$("#corpModal").on("hide.bs.modal",function(){"initial"===e.thumbnail.uploadStatus&&e.$apply(function(){e.thumbnail={_id:null,file:null,sourceImage:"",croppedImage:"",uploadStatus:"initial"}})}),e.uploadThumbnail=function(){e.thumbnail.uploadStatus="uploading",i.upload({url:"/api/media",data:{file:o(e.thumbnail.croppedImage,e.thumbnail.file.name.replace(/\.\w+$/,"")+".jpg","image/jpeg")}}).then(function(t){var n=t.data;e.thumbnail.uploadStatus="success",e.thumbnail._id=n._id},function(){e.$emit("notification",{type:"danger",message:"缩略图上传失败"})}),$("#corpModal").modal("hide")},e.removeThumbnail=function(){e.thumbnail={_id:null,file:null,sourceImage:"",croppedImage:"",uploadStatus:"initial"}}}}}]),angular.module("directives").directive("ndVcallname",["$http",function(e){"use strict";return{require:"ngModel",link:function(t,n,a,i){function o(){var o=n.val(),s=t.$eval(a.oldCallname);return o===s?i.$setValidity("vCallname",!0):(t.inputing=!1,t.checkCallnameing=!0,void e.get("/api/models",{params:{type:"feature","mixed.callname":o}}).then(function(e){e.data[0]?i.$setValidity("vcallname",!1):i.$setValidity("vcallname",!0),t.checkCallnameing=!1},function(){t.$emit("notification",{type:"danger",message:"调用名验证未知错误"}),t.checkCallnameing=!1}))}i.$setValidity("vcallname",!0),n.on("input",function(){t.$apply(function(){t.inputing=!0})}).on("blur",function(){t.$apply(function(){o()})})}}}]),angular.module("directives").directive("ndVdirectory",["$http",function(e){"use strict";return{require:"ngModel",scope:{prePath:"=",oldPath:"="},link:function(t,n,a,i){function o(){var a=t.prePath,o=n.val().toLowerCase(),s=t.oldPath;t.inputing=!1,t.checkDirectorying=!0;var r=["admin","api","openapi","open","themes","media","assets"];if(!a)for(var c=0;c<r.length;c++)if(o===r[c])return t.checkDirectorying=!1,i.$setValidity("vdirectory",!1);var l;return l=a?a+"/"+o:"/"+o,l===s?i.$setValidity("vdirectory",!0):void e.get("/api/categories",{params:{path:l}}).then(function(e){var n=e.data;n?i.$setValidity("vdirectory",!1):i.$setValidity("vdirectory",!0),t.checkDirectorying=!1},function(){t.$emit("notification",{type:"danger",message:"目录名验证未知错误"}),t.checkDirectorying=!1})}i.$setValidity("vdirectory",!0),t.$watch("prePath",function(e,t){e!==t&&o()}),n.on("input",function(){t.$apply(function(){t.inputing=!0})}).on("blur",function(){t.$apply(function(){o()})})}}}]),angular.module("directives").directive("ndVemail",["$http",function(e){"use strict";return{require:"ngModel",link:function(t,n,a,i){n.on("input",function(){t.$apply(function(){t.inputing=!0})}).on("blur",function(){t.$eval(a.ndVemail)?t.$apply(function(){t.inputing=!1,t.checkEmailing=!0,e.get("/api/users",{params:{email:n.val()}}).then(function(e){e.data?i.$setValidity("vemail",!1):i.$setValidity("vemail",!0),t.checkEmailing=!1},function(){t.$emit("notification",{type:"danger",message:"邮箱验证未知错误"}),t.checkEmailing=!1})}):t.$apply(function(){i.$setValidity("vemail",!0)})})}}}]),angular.module("filters").filter("thumbnailSrc",function(){return function(e){return e?"/media/"+moment(e.date).format("YYYYMM")+"/"+e._id+"/"+e.fileName:void 0}}),angular.module("filters").filter("translate",function(){return function(e,t){if(!(_.isObject(t)&&t.display&&t.same&&t.source))return e;var n=_.find(t.source,function(n){return n[t.same]==e});return n[t.display]}}),angular.module("filters").filter("words",function(){return function(e,t){return e&&e.length>t&&(e=e.substr(0,parseInt(t,10)-3)+"..."),e}});
+/**
+ * I'm the King of the World!
+ */
+angular.module('nodercms', [
+  'ngAnimate',
+  'ipCookie',
+  'ui.router',
+  'ngFileUpload',
+  'angular-img-cropper',
+  // 'angular-loading-bar',
+  'controllers',
+  'services',
+  'directives',
+  'filters',
+  'views'
+])
+.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider',
+  function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+    'use strict';
+
+    // 修改默认请求头
+    $httpProvider.defaults.headers.common = {'content-type': 'application/json;charset=utf-8'};
+
+    // 拦截无权限请求
+    $httpProvider.interceptors.push('authorityInterceptor');
+
+    // 开启 HTML5 模式
+    $locationProvider.html5Mode(true);
+
+    // 将所有未匹配路由转至根目录
+    $urlRouterProvider.otherwise(function ($injector) { $injector.get('$state').go('main') });
+
+    // 路由
+    $stateProvider
+      // 安装
+      .state('install', {
+        url: '^/admin/install',
+        controller: 'install',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('install.view.html');
+        }],
+        resolve: {
+          checkInstallResolve: ['checkInstallResolve', function (resolve) { return resolve.leaveToSignInOrNone() }],
+        }
+      })
+
+      // 登录
+      .state('signIn', {
+        url: '^/admin/sign-in',
+        controller: 'signIn',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('sign-in.view.html');
+        }],
+        resolve: {
+          checkInstallResolve: ['checkInstallResolve', function (resolve) { return resolve.enterToInstallOrNone() }],
+        }
+      })
+
+      // 控制面板
+      .state('main', {
+        url: '^/admin',
+        controller: 'main',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('main.view.html');
+        }],
+		    resolve: {
+          account: 'account'
+		    }
+      })
+
+      // 推荐管理
+      .state('main.features', {
+        url: '^/admin/features',
+        controller: 'features',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('features.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('features', 'read') }]
+        }
+      })
+
+      // 新增推荐
+      .state('main.features.create', {
+        url: '^/admin/features/:model/create',
+        controller: 'featuresChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('features-change.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('features', 'edit') }]
+        }
+      })
+
+      // 更新推荐
+      .state('main.features.update', {
+        url: '^/admin/features/:model/feature/:feature',
+        controller: 'featuresChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('features-change.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('features', 'edit') }]
+        }
+      })
+
+      // 没有内容
+      .state('main.notFoundContents', {
+        url: '^/admin/contents',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('not-fount-contents.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('contents', 'read') }]
+        }
+      })
+
+      // 内容列表
+      .state('main.contents', {
+        url: '^/admin/contents/category/:category',
+        controller: 'contents',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('contents.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('contents', 'read') }]
+        }
+      })
+
+      // 栏目列表 - 新建内容
+      .state('main.contents.create', {
+        url: '^/admin/contents/category/:category/create',
+        controller: 'contentChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('content-change.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('contents', 'edit') }]
+        }
+      })
+
+      // 栏目列表 - 更新内容
+      .state('main.contents.update', {
+        url: '^/admin/contents/category/:category/content/:content',
+        controller: 'contentChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('content-change.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('contents', 'edit') }]
+        }
+      })
+
+      // 回收站
+      .state('main.trash', {
+        url: '^/admin/contents/trash',
+        controller: 'trash',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('trash.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('contents', 'read') }]
+        }
+      })
+
+      // 没有单页时
+      .state('main.notFoundPages', {
+        url: '^/admin/pages',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('not-found-pages.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('pages', 'read') }]
+        }
+      })
+
+      // 单页
+      .state('main.pages', {
+        url: '^/admin/pages/:page',
+        controller: 'pageChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('page-change.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('pages', 'read') }]
+        }
+      })
+
+      // 媒体库
+      .state('main.media', {
+        url: '^/admin/media',
+        controller: 'media',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('media.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('media', 'read') }]
+        }
+      })
+
+      // 帐号设置
+      .state('main.account', {
+        url: '^/admin/account',
+        controller: 'account',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('account.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('account', 'read') }]
+        }
+      })
+
+      // 网站配置
+      .state('main.siteInfo', {
+        url: '^/admin/setting/site-info',
+        controller: 'siteInfo',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('site-info.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('siteInfo', 'read') }]
+        }
+      })
+
+      // 分类管理
+      .state('main.categories', {
+        url: '^/admin/setting/categories',
+        controller: 'categories',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('categories.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('categories', 'read') }]
+        }
+      })
+
+      // 分类管理 - 创建分类
+      .state('main.categories.create', {
+        url: '^/admin/setting/categories/create',
+        controller: 'categoriesChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('categories-change.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('categories', 'edit') }]
+        }
+      })
+
+      // 分类管理 - 更新分类
+      .state('main.categories.update', {
+        url: '^/admin/setting/categories/:_id',
+        controller: 'categoriesChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('categories-change.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('categories', 'edit') }]
+        }
+      })
+
+      // 内容模型
+      .state('main.contentModels', {
+        url: '^/admin/setting/content-models',
+        controller: 'contentModels',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('content-models.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('contentModels', 'read') }]
+        }
+      })
+
+      // 内容模型 - 创建模型
+      .state('main.contentModels.create', {
+        url: '^/admin/setting/content-models/create',
+        controller: 'contentModelChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('content-model-change.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('contentModels', 'edit') }]
+        }
+      })
+
+      // 内容模型 - 更新模型
+      .state('main.contentModels.update', {
+        url: '^/admin/setting/content-models/:_id',
+        controller: 'contentModelChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('content-model-change.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('contentModels', 'edit') }]
+        }
+      })
+
+      // 推荐位配置
+      .state('main.featureModels', {
+        url: '^/admin/setting/feature-models',
+        controller: 'featureModels',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('feature-models.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('featureModels', 'read') }]
+        }
+      })
+
+      // 推荐位配置 - 新增推荐位
+      .state('main.featureModels.create', {
+        url: '^/admin/setting/feature-models/create',
+        controller: 'featureModelChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('feature-model-change.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('featureModels', 'edit') }]
+        }
+      })
+
+      // 推荐位配置 - 更新推荐位
+      .state('main.featureModels.update', {
+        url: '^/admin/setting/feature-models/:_id',
+        controller: 'featureModelChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('feature-model-change.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('featureModels', 'edit') }]
+        }
+      })
+
+      // 角色权限
+      .state('main.roles', {
+        url: '^/admin/setting/roles',
+        controller: 'roles',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('roles.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('roles', 'read') }]
+        }
+      })
+
+      // 角色权限 - 添加角色
+      .state('main.roles.create', {
+        url: '^/admin/setting/roles/create',
+        controller: 'rolesChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('roles-change.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('roles', 'edit') }]
+        }
+      })
+
+      // 角色权限 - 更新角色
+      .state('main.roles.update', {
+        url: '^/admin/setting/roles/:_id',
+        controller: 'rolesChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('roles-change.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('roles', 'edit') }]
+        }
+      })
+
+      // 后台用户
+      .state('main.adminUsers', {
+        url: '^/admin/setting/admin-users',
+        controller: 'adminUsers',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('admin-users.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('adminUsers', 'read') }]
+        }
+      })
+
+      // 后台用户 - 创建用户
+      .state('main.adminUsers.create', {
+        url: '^/admin/setting/admin-users/create',
+        controller: 'adminUsersChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('admin-users-change.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('adminUsers', 'edit') }]
+        }
+      })
+
+      // 后台用户 - 更新用户
+      .state('main.adminUsers.update', {
+        url: '^/admin/setting/admin-users/:_id',
+        controller: 'adminUsersChange',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('admin-users-change.view.html');
+        }],
+        resolve: {
+          checkAuth: ['checkAuthResolve', function (resolve) { return resolve('adminUsers', 'edit') }]
+        }
+      });
+  }
+]).run(['checkSignIn', '$templateCache', function (checkSignIn) {
+  // 检查用户是否登录
+  checkSignIn();
+}]);
+
+/**
+ * 创建 Controllers, Services, Directives, Filters 模块
+ */
+angular.module('controllers', []);
+angular.module('services', []);
+angular.module('directives', []);
+angular.module('filters', []);
+angular.module('views', []);
+/**
+ * Account Controller
+ */
+angular.module('controllers').controller('account', ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'account',
+  function ($scope, $rootScope, $state, $stateParams, $http, account) {
+    'use strict';
+
+    /**
+     * 初始化变量
+     */
+    $scope.transmitting = true;
+    $scope.email = '';
+    $scope.oldEmail = '';
+    $scope.nickname = '';
+    $scope.password = '';
+    $scope.confirmpwd = '';
+    $scope.role = '';
+    $scope.editAuth = false;
+
+    /**
+     * 读取用户编辑权限以及返回读取当前单页
+     */
+    account.auths()
+      .then(function (auths) {
+        $scope.editAuth = auths.account.edit;
+      }, function () {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: '读取权限失败'
+        });
+      });
+
+    /**
+     * 获取个人信息
+     */
+    account.get()
+      .then(function (user) {
+        $scope.email = user.email;
+        $scope.oldEmail = user.email;
+        $scope.nickname = user.nickname;
+        $scope.role = user.role;
+
+        $scope.transmitting = false;
+      }, function () {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: '帐号更新失败'
+        });
+      });
+
+    /**
+     * 更新个人信息
+     */
+    $scope.update = function () {
+      $scope.transmitting = true;
+
+      var user = {
+        nickname: $scope.nickname,
+        email: $scope.email
+      };
+
+      if ($scope.password) user.password = $scope.password;
+
+      $http.put('/api/account', user)
+        .then(function () {
+          account.reset();
+
+          $scope.$emit('mainUserUpdate');
+
+          $scope.transmitting = false;
+
+          $scope.$emit('notification', {
+            type: 'success',
+            message: '帐号更新成功'
+          });
+        }, function () {
+          $scope.transmitting = false;
+
+          $scope.$emit('notification', {
+            type: 'danger',
+            message: '帐号更新失败'
+          });
+        });
+    };
+  }
+]);
+/**
+ * Admin Users Change Controller
+ */
+angular.module('controllers').controller('adminUsersChange', ['$scope', '$state', '$stateParams', '$http',
+  function ($scope, $state, $stateParams, $http) {
+    'use strict';
+
+    /**
+     * 初始化变量
+     */
+    $scope.transmitting = false;
+    $scope.action = 'create';
+    $scope._id = $stateParams._id;
+    $scope.checkEmailing = false;
+    $scope.inputing = false;
+    $scope.email = '';
+    $scope.oldEmail = '';
+    $scope.nickname = '';
+    $scope.password = '';
+    $scope.confirmpwd = '';
+    $scope.roles = [];
+    $scope.role = '';
+
+    /**
+     * 读取角色与用户
+     */
+    async.parallel({
+      // 获取权限列表
+      roles: function (callback) {
+        $http.get('/api/roles')
+          .then(function (res) {
+            var data = res.data;
+
+            var newRoles= _.reject(data, function (role) {
+              return _.find(role.authorities, function (authority) {
+                return authority === 100000;
+              });
+            });
+
+            callback(null, newRoles);
+          }, function () {
+            callback('获取角色列表失败');
+          });
+      },
+
+      // 获取当前用户
+      user: function (callback) {
+        if ($stateParams._id) {
+          $scope.action = 'update';
+
+          $http.get('/api/admin-users/' + $stateParams._id)
+            .then(function (res) {
+              callback(null, res.data);
+            }, function () {
+              callback('获取用户失败');
+            })
+        } else {
+          callback(null);
+        }
+      }
+    }, function (err, results) {
+      if (err) {
+        return $scope.$emit('notification', {
+          type: 'danger',
+          message: err
+        });
+      }
+
+      $scope.roles = results.roles;
+
+      if ($stateParams._id && results.user) {
+        $scope.oldEmail = angular.copy(results.user.email);
+        $scope.email = results.user.email;
+        $scope.nickname = results.user.nickname;
+        $scope.role = results.user.role._id;
+      } else if ($stateParams._id) {
+        $state.go('main.adminUsers');
+      }
+    });
+
+    /**
+     * 保存用户
+     */
+    $scope.saveUser = function () {
+      $scope.transmitting = true;
+
+      var user = {
+        email: $scope.email.toLowerCase(),
+        nickname: $scope.nickname,
+        role: $scope.role
+      };
+
+      if ($scope.password) user.password = $scope.password;
+
+      if ($stateParams._id) {
+        user._id = $stateParams._id;
+
+        $http.put('/api/admin-users/' + $stateParams._id, user)
+          .then(function () {
+            $scope.$emit('notification', {
+              type: 'success',
+              message: '保存用户成功'
+            });
+
+            $scope.$emit('mainUserUpdate');
+
+            $state.go('main.adminUsers', null, { reload: 'main.adminUsers' });
+          }, function () {
+            $scope.$emit('notification', {
+              type: 'danger',
+              message: '保存用户失败'
+            });
+          });
+      } else {
+        $http.post('/api/admin-users', user)
+          .then(function () {
+            $scope.$emit('notification', {
+              type: 'success',
+              message: '创建用户成功'
+            });
+
+            $scope.$emit('mainUserUpdate');
+
+            $state.go('main.adminUsers', null, { reload: 'main.adminUsers' });
+          }, function () {
+            $scope.$emit('notification', {
+              type: 'danger',
+              message: '创建用户失败'
+            });
+          });
+      }
+    };
+
+  }
+]);
+/**
+ * Admin Users Controller
+ */
+angular.module('controllers').controller('adminUsers', ['$scope', '$timeout', '$state', '$http', 'account',
+  function ($scope, $timeout, $state, $http, account) {
+    'use strict';
+
+    /**
+     * 初始化变量
+     */
+    $scope.transmitting = false;
+    $scope.users = [];
+    $scope.deleteUserId = '';
+    $scope.editAuth = false;
+
+    /**
+     * 读取用户编辑权限以及返回读取当前单页
+     */
+    account.auths()
+      .then(function (auths) {
+        $scope.editAuth = auths.adminUsers.edit;
+      }, function () {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: '读取权限失败'
+        });
+      });
+
+    /**
+     * 读取后台用户
+     */
+    $http.get('/api/admin-users')
+      .then(function (res) {
+        var data = res.data;
+
+        _.forEach(data, function (user) {
+          var isSupAdmin = _.find(_.get(user, 'role.authorities'), function (authority) {
+            return authority === 100000;
+          });
+
+          if (isSupAdmin) user.isSupAdmin = true;
+        });
+
+        $scope.users = res.data;
+      }, function () {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: '读取后台用户失败'
+        });
+      });
+
+    /**
+     * 删除后台用户
+     */
+    $scope.deleteUser = function () {
+      $scope.transmitting = true;
+
+      $http.delete('/api/admin-users/' + $scope.deleteUserId)
+        .then(function () {
+          for (var i = 0; i < $scope.users.length; i++) {
+            if ($scope.deleteUserId === $scope.users[i]._id) {
+              $scope.users.splice(i, 1);
+
+              $('#deleteModal').modal('hide');
+
+              $scope.transmitting = false;
+
+              return $scope.$emit('notification', {
+                type: 'success',
+                message: '删除用户成功'
+              });
+            }
+          }
+        }, function () {
+          $scope.$emit('notification', {
+            type: 'danger',
+            message: '删除用户失败'
+          });
+        });
+    };
+  }
+]);
+/**
+ * Categories Change Controller
+ */
+angular.module('controllers').controller('categoriesChange', ['$scope', '$state', '$stateParams', '$http',
+  function ($scope, $state, $stateParams, $http) {
+    'use strict';
+
+    /**
+     * 初始化变量
+     */
+    $scope.transmitting = true;
+    $scope.action = 'create';
+    $scope._id = $stateParams._id;
+    $scope.inputing = false;
+    $scope.checkDirectorying = false;
+    $scope.types = [{
+      type: 'channel',
+      name: '频道'
+    }, {
+      type: 'column',
+      name: '栏目'
+    }, {
+      type: 'page',
+      name: '单页'
+    }, {
+      type: 'link',
+      name: '链接'
+    }];
+    $scope.models = [];
+    $scope.viewfiles = [];
+    $scope.type = 'column';
+    $scope.name = '';
+    $scope.directory = '';
+    $scope.pageSize = 15;
+    $scope.homePageSize = 8;
+    $scope.url = '';
+    $scope.oldPath = '';
+    $scope.prePath = '';
+    $scope.path = '';
+    $scope.sort = 0;
+    $scope.isShow = true;
+    $scope.model = '';
+    $scope.views = {
+      layout: '',
+      channel: '',
+      column: '',
+      content: '',
+      page: ''
+    };
+    $scope.isEdit = true;
+    $scope.keywords =  '';
+    $scope.description = '';
+    $scope._id = $stateParams._id ? $stateParams._id : 'null';
+
+    /**
+     * 翻译 Type
+     */
+    $scope.translateType = function (type) {
+      return _.find($scope.types, { type: type }).name;
+    };
+
+    /**
+     * 读取内容模型
+     */
+    $http.get('/api/models', {
+      params: {
+        type: 'content'
+      }
+    }).then(function (res) {
+      $scope.models = res.data;
+    }, function () {
+      $scope.$emit('notification', {
+        type: 'danger',
+        message: '读取内容模型失败'
+      });
+    });
+
+    /**
+     * 读取模板列表
+     */
+    async.parallel({
+      viewfiles: function (callback) {
+        $http.get('/api/views')
+          .then(function (res) {
+            callback(null, res.data);
+          }, function (res) {
+            callback(res.data);
+          });
+      },
+      category: function (callback) {
+        if ($stateParams._id) {
+          $scope.action = 'update';
+
+          $http.get('/api/categories/' + $stateParams._id)
+            .then(function (res) {
+              var data = res.data;
+
+              if (data) {
+                callback(null, data)
+              } else {
+                $state.go('main.categories');
+              }
+            }, function (res) {
+              callback(res.data);
+            });
+        } else {
+          callback(null);
+        }
+      }
+    }, function (err, results) {
+      if (err) {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: '获取分类失败'
+        });
+
+        $scope.transmitting = true;
+        return false;
+      }
+
+      $scope.viewfiles = results.viewfiles;
+      $scope.views.layout = 'layout-default';
+      $scope.views.channel = 'channel-default';
+      $scope.views.column = 'column-default';
+      $scope.views.content = 'content-default';
+      $scope.views.page = 'page-default';
+      $scope.views.homepage = 'home-category-default';
+
+      if (results.category) {
+        $scope.type = results.category.type;
+        $scope.name = results.category.name;
+        $scope.icon = results.category.icon;
+        $scope.directory = /[A-z0-9\_\-]+$/.exec(results.category.path)[0];
+
+        if ($scope.type === 'link') {
+          $scope.oldPath = angular.copy(results.category.mixed.prePath);
+          var regexPath = /^\/[A-z0-9\_\-\/]+(?=[\/])/.exec(results.category.mixed.prePath);
+          $scope.prePath = regexPath ? regexPath[0] : '';
+          debugger;
+        } else {
+          $scope.oldPath = angular.copy(results.category.path);
+          var regexPath = /^\/[A-z0-9\_\-\/]+(?=[\/])/.exec(results.category.path);
+          $scope.prePath = regexPath ? regexPath[0] : '';
+        }
+
+        if (results.category.mixed) {
+          $scope.pageSize = results.category.mixed.pageSize;
+          $scope.homePageSize = results.category.mixed.homePageSize;
+        }
+        $scope.isShow = results.category.isShow;
+        $scope.sort = results.category.sort;
+        $scope.model = results.category.model && results.category.model._id || '';
+        if (results.category.views) {
+          $scope.views.layout = results.category.views.layout || 'layout-default';
+          $scope.views.channel = results.category.views.channel || 'channel-default';
+          $scope.views.column = results.category.views.column || 'column-default';
+          $scope.views.content = results.category.views.content || 'content-default';
+          $scope.views.page = results.category.views.page || 'page-default';
+          $scope.views.homepage = results.category.views.homepage || 'home-category-default';
+        }
+        $scope.keywords = results.category.keywords || '';
+        $scope.description = results.category.description || '';
+
+        if (results.category.mixed) {
+          $scope.url = results.category.mixed.url || '';
+          $scope.isEdit = !_.isEmpty(results.category.mixed) ? results.category.mixed.isEdit : true;
+        }
+      }
+
+      $scope.transmitting = false;
+    });
+
+    /**
+     * 保存分类
+     */
+    $scope.saveCategory = function () {
+      $scope.transmitting = true;
+
+      var category = {
+        type: $scope.type,
+        name: $scope.name,
+        isShow: $scope.isShow,
+        sort: $scope.sort,
+        icon: $scope.icon
+      };
+
+      switch ($scope.type) {
+        case 'channel':
+          category.path = '/' + $scope.directory.toLowerCase();
+          category['views.layout'] = $scope.views.layout;
+          category['views.channel'] = $scope.views.channel;
+          category['views.homepage'] = $scope.views.homepage;
+          category.keywords = $scope.keywords;
+          category.description = $scope.description;
+
+          break;
+        case 'column':
+          category.model = $scope.model;
+          if ($scope.prePath) {
+            category.path = $scope.prePath + '/' + $scope.directory.toLowerCase();
+          } else {
+            category.path = '/' + $scope.directory.toLowerCase();
+          }
+          category['mixed.pageSize'] = $scope.pageSize;
+          category['mixed.homePageSize'] = $scope.homePageSize;
+          category['views.layout'] = $scope.views.layout;
+          category['views.column'] = $scope.views.column;
+          category['views.content'] = $scope.views.content;
+          category['views.homepage'] = $scope.views.homepage;
+          category.keywords = $scope.keywords;
+          category.description = $scope.description;
+
+          break;
+        case 'page':
+          if ($scope.prePath) {
+            category.path = $scope.prePath + '/' + $scope.directory.toLowerCase();
+          } else {
+            category.path = '/' + $scope.directory.toLowerCase();
+          }
+          category['views.layout'] = $scope.views.layout;
+          category['views.page'] = $scope.views.page;
+          category['views.homepage'] = $scope.views.homepage;
+          category['mixed.isEdit'] = $scope.isEdit;
+          category.keywords = $scope.keywords;
+          category.description = $scope.description;
+
+          break;
+        case 'link':
+          if ($scope.prePath) {
+            category['mixed.prePath'] = $scope.prePath + '/';
+          } else {
+            category['mixed.prePath'] = '/';
+          }
+          category['mixed.url'] = $scope.url;
+      }
+
+      if ($stateParams._id) {
+        category._id = $stateParams._id;
+
+        $http.put('/api/categories/' + $stateParams._id, category)
+          .then(function () {
+            $scope.$emit('notification', {
+              type: 'success',
+              message: '保存分类成功'
+            });
+
+            $scope.$emit('mainCategoriesUpdate');
+
+            $state.go('main.categories', null, { reload: 'main.categories' });
+          }, function () {
+            $scope.$emit('notification', {
+              type: 'danger',
+              message: '保存分类失败'
+            });
+          });
+      } else {
+        $http.post('/api/categories', category)
+          .then(function () {
+            $scope.$emit('notification', {
+              type: 'success',
+              message: '新增分类成功'
+            });
+
+            $scope.$emit('mainCategoriesUpdate');
+
+            $state.go('main.categories', null, { reload: 'main.categories' });
+          }, function () {
+            $scope.$emit('notification', {
+              type: 'danger',
+              message: '保存分类失败'
+            });
+          });
+      }
+    };
+  }
+]);
+/**
+ * Categories Controller
+ */
+angular.module('controllers').controller('categories', ['$scope', '$http', 'account',
+  function ($scope, $http, account) {
+    'use strict';
+
+    /**
+     * 初始化变量
+     */
+    $scope.transmitting = false;
+    $scope.actionTitle = '';
+    $scope.deleteCategoryId = '';
+    $scope.types = [{
+      type: 'channel',
+      name: '频道'
+    }, {
+      type: 'column',
+      name: '栏目'
+    }, {
+      type: 'page',
+      name: '单页'
+    }, {
+      type: 'link',
+      name: '链接'
+    }];
+    $scope.categories = [];
+    $scope.categoriesList = [];
+    $scope.editAuth = false;
+
+    /**
+     * 读取用户编辑权限以及返回读取当前单页
+     */
+    account.auths()
+      .then(function (auths) {
+        $scope.editAuth = auths.categories.edit;
+      }, function () {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: '读取权限失败'
+        });
+      });
+
+    /**
+     * 分类排序
+     */
+    $scope.categoriesSort = function () {
+      var list = angular.copy($scope.categories);
+      $scope.categoriesList = [];
+
+      function tree (callback) {
+        var source = _.partition(list, function(category) {
+          if (category.path) {
+            return category.path.split('/').length === 2;
+          } else {
+            return category.mixed.prePath.split('/').length === 2;
+          }
+        });
+
+        var categories = _.sortBy(source[0], 'sort');
+        var otherCategories = source[1];
+
+        function loop (nodes) {
+          return _.map(nodes, function (category) {
+            var source = _.partition(otherCategories, function(otherCategory) {
+              if (otherCategory.path) {
+                return new RegExp('^' + category.path + '/[A-z0-9\-\_]+$').test(otherCategory.path);
+              } else {
+                return new RegExp('^' + category.path + '/$').test(otherCategory.mixed.prePath);
+              }
+            });
+
+            otherCategories = source[1];
+
+            if (!_.isEmpty(source[0])) {
+              category.nodes = loop(_.sortBy(source[0], 'sort'));
+            }
+
+            return category;
+          });
+        }
+
+        var tree = loop(categories);
+
+        callback(tree);
+      }
+
+      // 按树进行排序
+      tree(function (categories) {
+        // 递归栏目
+        (function loop (list, layer) {
+          _.map(list, function (category, index) {
+            // 最新栏目
+            var category = angular.copy(category);
+
+            // 删除子节点
+            delete category._nodes;
+
+            // 栏目缩进
+            category.indent = { 'text-indent': layer * 1.5 + 'em' };
+
+            // 栏目前缀
+            if (index == list.length - 1 && layer != 0) {
+              category.prefix = '└ ';
+            } else if (layer != 0) {
+              category.prefix = '├ ';
+            }
+
+            // PUSH当前栏目
+            $scope.categoriesList.push(category);
+
+            // 如果有子节点则递归
+            if (category.nodes) loop(category.nodes, layer + 1);
+          });
+        })(categories, 0); // 初始值
+      });
+    };
+
+    /**
+     * 翻译
+     * @param  {String} value 分类类型
+     * @return {String}       分类名
+     */
+
+    $scope.translate = function (value) {
+      for (var i = 0; i < $scope.types.length; i++) {
+        if (value === $scope.types[i].type) {
+          return $scope.types[i].name;
+        }
+      }
+    };
+
+    /**
+     * 获取分类
+     */
+    $http.get('/api/categories')
+      .then(function (res) {
+        $scope.categories = res.data;
+        $scope.categoriesSort();
+      }, function () {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: '读取分类失败'
+        });
+      });
+
+    /**
+     * 删除分类
+     */
+    $scope.deleteModel = function () {
+      $scope.transmitting = true;
+
+      $http.delete('/api/categories/' + $scope.deleteCategoryId)
+        .success(function () {
+          _.forEach($scope.categories, function (category, i) {
+            if ($scope.deleteCategoryId === category._id) {
+              $scope.categories.splice(i, 1);
+
+              var regex = new RegExp('^' + category.path + '/', 'i');
+              _.forEachRight($scope.categories, function (category, i) {
+                if (regex.test(category.path)) {
+                  $scope.categories.splice(i, 1);
+                }
+              });
+
+              return false;
+            }
+          });
+
+          $scope.categoriesSort();
+
+          $scope.$emit('mainCategoriesUpdate');
+
+          $('#deleteModal').modal('hide');
+
+          $scope.transmitting = false;
+
+          $scope.$emit('notification', {
+            type: 'success',
+            message: '删除分类成功'
+          });
+        })
+        .error(function () {
+          $scope.$emit('notification', {
+            type: 'danger',
+            message: '删除分类失败'
+          });
+        });
+    };
+  }
+]);
+/**
+ * Content Change Controller
+ */
+angular.module('controllers').controller('contentChange', ['$scope', '$state', '$stateParams', '$http', '$timeout', 'pinyin', 'Upload', '$filter',
+  function ($scope, $state, $stateParams, $http, $timeout, pinyin, Upload, $filter) {
+    'use strict';
+
+    /**
+     * 初始化变量
+     */
+    $scope.transmitting = false;
+    $scope.action = 'create';
+    $scope.categoryId = $stateParams.category;
+    $scope._id = $stateParams.content;
+    $scope.status = 'draft';
+    $scope.title = '';
+    $scope.oldTitle = '';
+    $scope.alias = '';
+    $scope.oldAlias = '';
+    $scope.abstract = '';
+    $scope.content = '';
+    $scope.tags = '';
+    $scope.extensions = {};
+    $scope.releaseDate = 'now';
+    $scope.date = $filter('date')(new Date(), 'yyyy年MM月dd日');
+    $scope.hour = $filter('date')(new Date(), 'hh');
+    $scope.minute = $filter('date')(new Date(), 'mm');
+    $scope.thumbnail = {};
+    $scope.media = [];
+    $scope.disabledExtMediaAdd = {};
+
+    /**
+     * 绑定 Alias 翻译
+     */
+    $scope.$watch('title', function (newTitle) {
+      if (newTitle !== $scope.oldTitle) {
+        $scope.alias = pinyin(newTitle);
+      } else {
+        $scope.alias = $scope.oldAlias;
+      }
+    });
+
+    /**
+     * 配置 Datepicker 控件
+     */
+    $('.input-group.date').datepicker({
+      format: 'yyyy年mm月dd日',
+      todayBtn: "linked",
+      language: "zh-CN",
+      autoclose: true,
+      todayHighlight: true
+    });
+
+    /**
+     * 读取当前内容
+     * @param  {String} $stateParams.content 内容ID
+     */
+    if ($stateParams.content) {
+      $scope.action = 'update';
+      $scope.transmitting = true;
+
+      $http.get('/api/contents/' + $stateParams.content, { params: { markdown: true } })
+        .then(function (res) {
+          if (res.data) {
+            var content = res.data;
+
+            $scope.status = content.status;
+            $scope.title = content.title;
+            $scope.oldTitle = _.clone(content.title);
+            $scope.alias = content.alias;
+            $scope.oldAlias = _.clone(content.alias);
+
+            if (res.data.thumbnail) {
+              $scope.thumbnail._id = res.data.thumbnail._id;
+              $scope.thumbnail.uploadStatus = 'success';
+              $scope.thumbnail.croppedImage = res.data.thumbnail.src;
+            }
+
+            if (!_.isEmpty(res.data.media)) {
+              _.map(res.data.media, function (medium) {
+                var fileNameLast = _.get(medium.fileName.match(/^.+\.(\w+)$/), 1);
+
+                var _medium = {
+                  file: null,
+                  fileName: medium.fileName,
+                  fileNameLast: fileNameLast,
+                  isImage: false,
+                  description: medium.description,
+                  src: medium.src,
+                  _id: medium._id,
+                  uploadStatus: 'success',
+                  active: false,
+                  edited: false
+                };
+
+                switch (fileNameLast) {
+                  case 'jpg':
+                  case 'jpeg':
+                  case 'png':
+                  case 'gif':
+                    _medium.isImage = true;
+                }
+
+                $scope.media.push(_medium);
+              });
+            }
+
+            if (res.data.status === 'pushed') {
+              $scope.date = $filter('date')(content.date, 'yyyy年MM月dd日');
+              $scope.hour = $filter('date')(content.date, 'HH');
+              $scope.minute = $filter('date')(content.date, 'mm');
+              $scope.releaseDate = 'current';
+            }
+
+            if (content.abstract) $scope.abstract = content.abstract;
+            if (content.content) $scope.content = content.content;
+            if (content.tags) $scope.tags = content.tags.join(',');
+            if (content.extensions) {
+              $scope.extensions = content.extensions;
+
+              _.map($scope.category.model.extensions, function (extension) {
+                if (extension.type === 'media') {
+                  if ($scope.extensions[extension.key] && extension.mixed.limit - $scope.extensions[extension.key].length < 1) {
+                    $scope.disabledExtMediaAdd[extension.key] = true;
+                  } else {
+                    $scope.disabledExtMediaAdd[extension.key] = false;
+                  }
+                }
+              });
+            }
+
+            $scope.transmitting = false;
+          } else {
+            $state.go('main.contents', { category: $scope.$parent.category._id }, { reload: 'main.contents' });
+          }
+        }, function () {
+          $scope.$emit('notification', {
+            type: 'danger',
+            message: '获取内容失败'
+          });
+        });
+    }
+
+    /**
+     * 添加扩展信息媒体
+     */
+    $scope.addExtensionMedia = function (key, limit) {
+      $scope.extensions[key] = $scope.extensions[key] || [];
+
+      $scope.mediaSelect({ limit: limit - $scope.extensions[key].length }, function (media) {
+        $scope.extensions[key] = _.concat($scope.extensions[key], media);
+
+        if (limit - $scope.extensions[key].length < 1) {
+          $scope.disabledExtMediaAdd[key] = true;
+        } else {
+          $scope.disabledExtMediaAdd[key] = false;
+        }
+      });
+    };
+
+    /**
+     * 删除扩展信息媒体
+     */
+    $scope.removeExtensionsMedia = function (key, limit, medium) {
+      _.pull($scope.extensions[key], medium);
+
+      if (limit - $scope.extensions[key].lengt < 1) {
+        $scope.disabledExtMediaAdd[key] = true;
+      } else {
+        $scope.disabledExtMediaAdd[key] = false;
+      }
+    };
+
+    /**
+     * 保存当前内容
+     */
+    $scope.saveContent = function () {
+      var content = {
+        status: $scope.status,
+        category: $scope.$parent.category._id,
+        title: $scope.title,
+        alias: $scope.alias
+      };
+
+      if ($scope.thumbnail._id) content.thumbnail = $scope.thumbnail._id;
+      if (!_.isEmpty($scope.media)) content.media = _.map($scope.media, '_id');
+
+      if ($scope.abstract !== '' || $scope.abstract !== undefined) {
+        content.abstract = $scope.abstract;
+      }
+
+      if ($scope.content !== '' || $scope.content !== undefined) {
+        content.content = $scope.content;
+      }
+
+      if ($scope.releaseDate === 'current') {
+        content.date = moment($scope.date, 'YYYY年MM月DD日').hour($scope.hour).minute($scope.minute).format();
+      } else if ($scope.releaseDate === 'now') {
+        content.date = moment().format();
+      }
+
+      if ($scope.tags !== '' && $scope.tags !== undefined) {
+        var tags = angular.copy($scope.tags);
+        tags = tags.replace(/，| /g, ',');
+        content.tags = tags.split(',');
+      }
+
+      if (!$.isEmptyObject($scope.extensions)) {
+        content.extensions = $scope.extensions;
+      }
+
+      if ($stateParams.content) {
+        $http.put('/api/contents/' + $stateParams.content, content)
+          .then(function () {
+            $scope.$emit('notification', {
+              type: 'success',
+              message: '修改内容成功'
+            });
+
+            $state.go('main.contents', { category: $scope.$parent.category._id }, { reload: 'main.contents' });
+          });
+      } else {
+        $http.post('/api/contents', content)
+          .then(function (res) {
+            if ($scope.status === 'draft') {
+              $scope.$emit('notification', {
+                type: 'success',
+                message: '保存草稿成功'
+              });
+            } else if ($scope.status === 'pushed') {
+              $scope.$emit('notification', {
+                type: 'success',
+                message: '发布内容成功'
+              });
+            }
+
+            $state.go('main.contents', { category: $scope.$parent.category._id }, { reload: 'main.contents' });
+          }, function () {
+            $scope.$emit('notification', {
+              type: 'danger',
+              message: '发布内容失败'
+            });
+          });
+      }
+    };
+  }
+]);
+/**
+ * Content Model Change Controller
+ */
+angular.module('controllers').controller('contentModelChange', ['$scope', '$state', '$stateParams', '$http',
+  function ($scope, $state, $stateParams, $http) {
+    'use strict';
+
+    /**
+     * 初始化变量
+     */
+    $scope.transmitting = true;
+    $scope.action = 'create';
+    $scope._id = $stateParams._id;
+    $scope.keyFormAction = '';
+    $scope.keyIndex = '';
+    $scope.name = '';
+    $scope.description = '';
+    $scope.system = {
+      thumbnail: true,
+      abstract: true,
+      content: true,
+      tags: true
+    };
+    $scope.thumbnailSize = {
+      width: 400,
+      height: 300
+    };
+    $scope.extensions = [];
+    $scope.keyType = [
+      {
+        name: '文本框',
+        type: 'text'
+      },
+      {
+        name: '数字框',
+        type: 'number'
+      },
+      {
+        name: '文本域',
+        type: 'textarea'
+      },
+      {
+        name: '下拉框',
+        type: 'select'
+      },
+      {
+        name: '媒体',
+        type: 'media'
+      }
+    ];
+    $scope.key = {
+      key: '',
+      name: '',
+      type: 'text',
+      description: '',
+      mixed: {
+        select: [],
+        limit: 4
+      }
+    };
+    $scope.keyTypeSelect = {
+      name: '',
+      value: ''
+    };
+    $scope.keyTypeSelectInvalid = {
+      name: true,
+      value: true
+    };
+    $scope.keyNonUnique = false;
+
+    $scope.$watch('key.key', function () {
+      if ($scope.keyFormAction === 'add') {
+        for (var i = 0; i < $scope.extensions.length; i++) {
+          if ($scope.key.key === $scope.extensions[i].key) {
+            return $scope.keyNonUnique = true;
+          }
+        }
+      }
+
+      $scope.keyNonUnique = false;
+    });
+
+    $('#keyForm')
+      .on('input', '#keyTypeSelectName', function () {
+        $scope.$apply(function () {
+          $scope.keyTypeSelectInvalid.name = false;
+        });
+      })
+      .on('blur', '#keyTypeSelectName', function () {
+        $scope.$apply(function () {
+          if (!$scope.keyTypeSelect.name) {
+            $scope.keyTypeSelectInvalid.name = true;
+          }
+        });
+      })
+      .on('input', '#keyTypeSelectValue', function () {
+        $scope.$apply(function () {
+          $scope.keyTypeSelectInvalid.value = false;
+        });
+      })
+      .on('blur', '#keyTypeSelectValue', function () {
+        $scope.$apply(function () {
+          if (!$scope.keyTypeSelect.value) {
+            $scope.keyTypeSelectInvalid.value = true;
+          }
+        });
+      });
+
+    if ($stateParams._id) {
+      $scope.action = 'update';
+
+      $http.get('/api/models/' + $stateParams._id)
+        .then(function (res) {
+          var data = res.data;
+
+          if (data) {
+            $scope.name = data.name;
+            $scope.description = data.description;
+            $scope.system = data.system;
+            if (data.system.thumbnail && data.mixed && data.mixed.thumbnailSize) $scope.thumbnailSize = data.mixed.thumbnailSize;
+            $scope.extensions = data.extensions;
+
+            $scope.transmitting = false;
+          } else {
+            $state.go('main.contentModels');
+          }
+        }, function () {
+          $scope.$emit('notification', {
+            type: 'danger',
+            message: '获取内容模型失败'
+          });
+        });
+    } else {
+      $scope.transmitting = false;
+    }
+
+    /**
+     * 添加 / 修改键
+     * @param  {Object} key    选中键
+     * @param  {Number} $index 键下标
+     */
+    $scope.keyModel = function (key, $index) {
+      if (key) {
+        $scope.keyFormAction = 'edit';
+        $scope.keyIndex = $index;
+
+        $scope.key = angular.copy(key);
+      } else {
+        $scope.keyFormAction = 'add';
+        $scope.keyForm.$setPristine();
+        $scope.keyForm.$setUntouched();
+
+        $scope.key = {
+          key: '',
+          name: '',
+          type: 'text',
+          description: '',
+          mixed: {
+            select: [],
+            limit: 4
+          }
+        };
+      }
+
+      $('#keyModal').modal('show');
+    };
+
+    /**
+     * 添加键下拉框选项
+     */
+    $scope.addKeyTypeSelect = function () {
+      $scope.key.mixed.select = $scope.key.mixed.select || [];
+      $scope.key.mixed.select.push(angular.copy($scope.keyTypeSelect));
+      $scope.keyTypeSelect = {
+        name: '',
+        value: ''
+      };
+      $scope.keyTypeSelectInvalid = {
+        name: true,
+        value: true
+      };
+      $scope.keyForm.keyTypeSelectName.$setUntouched();
+      $scope.keyForm.keyTypeSelectValue.$setUntouched();
+    };
+
+    /**
+     * 移除键下拉框选项
+     * @param  {Number} $index 键下拉框选项下标
+     */
+    $scope.deleteKeyTypeSelect = function (index) {
+      $scope.key.mixed.select.splice(index, 1);
+    };
+
+    /**
+     * 删除键
+     */
+    $scope.deleteKey = function (index) {
+      $scope.extensions.splice(index, 1);
+    };
+
+    /**
+     * 保存键
+     */
+    $scope.saveKey = function () {
+      // 清理不必要的键
+      switch ($scope.key.type) {
+        case 'text':
+        case 'number':
+        case 'textarea':
+          delete $scope.key.mixed.select;
+          delete $scope.key.mixed.limit;
+          break;
+        case 'select':
+          delete $scope.key.mixed.limit;
+          break;
+        case 'media':
+          delete $scope.key.mixed.select;
+      }
+
+      if ($scope.keyFormAction === 'add') {
+        $scope.extensions.push($scope.key);
+      } else if ($scope.keyFormAction === 'edit') {
+        $scope.extensions[$scope.keyIndex] = $scope.key;
+      }
+
+      $('#keyModal').modal('hide');
+    };
+
+    /**
+     * 保存模型
+     */
+    $scope.saveModel = function () {
+      $scope.transmitting = true;
+      
+      var model = {
+        type: 'content',
+        name: $scope.name,
+        description: $scope.description,
+        system: $scope.system,
+        extensions: $scope.extensions
+      };
+
+      if ($scope.system.thumbnail) {
+        model.mixed = model.mixed || {};
+        model.mixed.thumbnailSize = $scope.thumbnailSize;
+      }
+
+      if ($stateParams._id) {
+        model._id = $stateParams._id;
+
+        $http.put('/api/models/' + $stateParams._id, model)
+          .success(function () {
+            for (var i = 0; i < $scope.$parent.models.length; i++) {
+              if (model._id === $scope.$parent.models[i]._id) {
+                $scope.$parent.models[i] = model;
+
+                $scope.$emit('notification', {
+                  type: 'success',
+                  message: '保存内容模型成功'
+                });
+
+                $scope.$emit('mainCategoriesUpdate');
+
+                return $state.go('main.contentModels');
+              }
+            }
+          })
+          .error(function () {
+            $scope.$emit('notification', {
+              type: 'danger',
+              message: '保存内容模型失败'
+            });
+          });
+      } else {
+        $http.post('/api/models', model)
+          .success(function (result) {
+            model._id = result._id;
+            
+            $scope.$parent.models.push(model);
+
+            $scope.$emit('notification', {
+              type: 'success',
+              message: '保存内容模型成功'
+            });
+
+            $scope.$emit('mainCategoriesUpdate');
+
+            $state.go('main.contentModels');
+          })
+          .error(function () {
+            $scope.$emit('notification', {
+              type: 'danger',
+              message: '保存内容模型失败'
+            });
+          });
+      }
+    };
+  }
+]);
+/**
+ * Content Models Controller
+ */
+angular.module('controllers').controller('contentModels', ['$scope', '$http', 'account',
+  function ($scope, $http, account) {
+    'use strict';
+
+    /**
+     * 初始化变量
+     */
+    $scope.transmitting = false;
+    $scope.models = [];
+    $scope.deleteModelId = '';
+    $scope.systemKey = [
+      {
+        name: 'thumbnail',
+        value: '缩略图'
+      },
+      {
+        name: 'abstract',
+        value: '摘要'
+      },
+      {
+        name: 'content',
+        value: '内容'
+      },
+      {
+        name: 'tags',
+        value: '标签'
+      }
+    ];
+    $scope.editAuth = false;
+
+    /**
+     * 读取用户编辑权限以及返回读取当前单页
+     */
+    account.auths()
+      .then(function (auths) {
+        $scope.editAuth = auths.contentModels.edit;
+      }, function () {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: '读取权限失败'
+        });
+      });
+
+    /**
+     * 读取内容模型列表
+     */
+    $http.get('/api/models', {
+      params: {
+        type: 'content'
+      }
+    }).then(function (res) {
+      $scope.models = res.data;
+    }, function () {
+      $scope.$emit('notification', {
+        type: 'danger',
+        message: '读取内容模型失败'
+      });
+    });
+
+    /**
+     * 删除内容模型
+     */
+    $scope.deleteModel = function () {
+      $scope.transmitting = true;
+
+      $http.delete('/api/models/' + $scope.deleteModelId)
+        .then(function () {
+          for (var i = 0; i < $scope.models.length; i++) {
+            if ($scope.deleteModelId === $scope.models[i]._id) {
+              $scope.models.splice(i, 1);
+
+              $('#deleteModal').modal('hide');
+
+              $scope.transmitting = false;
+
+              return $scope.$emit('notification', {
+                type: 'success',
+                message: '删除内容模型成功'
+              });
+            }
+          }
+        }, function () {
+          $scope.$emit('notification', {
+            type: 'danger',
+            message: '删除内容模型失败'
+          });
+        });
+    };
+  }
+]);
+/**
+ * Contents Controller
+ */
+angular.module('controllers').controller('contents', ['$scope', '$state', '$stateParams', '$http', 'account',
+  function ($scope, $state, $stateParams, $http, account) {
+    'use strict';
+
+    /**
+     * 初始化变量
+     */
+    $scope.transmitting = false;
+    $scope.category = {};
+    $scope.contents = [];
+    $scope.currentPage = 1;
+    $scope.totalPages = 0;
+    $scope.deleteContentId = '';
+    $scope.statusType = [
+      {
+        name: '草稿',
+        value: 'draft'
+      },
+      {
+        name: '已发布',
+        value: 'pushed'
+      }
+    ];
+    $scope.editAuth = false;
+
+    /**
+     * 读取用户编辑权限
+     */
+    account.auths()
+      .then(function (auths) {
+        $scope.editAuth = auths.contents.edit;
+      }, function () {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: '读取权限失败'
+        });
+      });
+
+    /**
+     * 读取当前栏目
+     */
+    $http.get('/api/categories/' + $stateParams.category)
+      .then(function (res) {
+        $scope.category = res.data;
+      });
+
+    /**
+     * 读取内容列表
+     */
+    $scope.loadContents = function () {
+      $http.get('/api/contents', { params: { _id: $stateParams.category, deleted: false, currentPage: $scope.currentPage, pageSize: 20 } })
+        .then(function (res) {
+          var data = res.data;
+
+          $scope.contents = data.contents;
+          $scope.totalPages = data.pages;
+        }, function () {
+          $scope.$emit('notification', {
+            type: 'danger',
+            message: '读取内容列表失败'
+          });
+        });
+    }; $scope.loadContents();
+
+    /**
+     * 监控当前页面改变
+     */
+    $scope.$watch('currentPage', function () {
+      $scope.loadContents();
+    });
+
+    /**
+     * 删除内容
+     */
+    $scope.deleteContent = function () {
+      $scope.transmitting = true;
+
+      $http.delete('/api/contents/' + $scope.deleteContentId)
+        .then(function () {
+          $scope.loadContents();
+
+          $('#deleteModal').modal('hide');
+
+          $scope.transmitting = false;
+
+          $scope.$emit('notification', {
+            type: 'success',
+            message: '删除内容成功'
+          });
+        }, function () {
+          $scope.$emit('notification', {
+            type: 'danger',
+            message: '删除内容失败'
+          });
+        });
+    };
+  }
+]);
+/**
+ * Feature Model Change
+ */
+angular.module('controllers').controller('featureModelChange', ['$scope', '$state', '$stateParams', '$http',
+  function ($scope, $state, $stateParams, $http) {
+    'use strict';
+
+    /**
+     * 初始化变量
+     */
+    $scope.transmitting = true;
+    $scope.action = 'create';
+    $scope._id = $stateParams._id;
+    $scope.inputing = false;
+    $scope.checkCallnameing = false;
+    $scope.name = '';
+    $scope.limit = 5;
+    $scope.sort = 0;
+    $scope.callname = '';
+    $scope.oldCallname = '';
+    $scope.description = '';
+    $scope.system = {
+      thumbnail: true,
+      title: true,
+      url: true
+    };
+    $scope.thumbnailSize = {
+      width: 400,
+      height: 300
+    };
+    $scope.extensions = [];
+    $scope.keyType = [
+      {
+        name: '文本框',
+        type: 'text'
+      },
+      {
+        name: '数字框',
+        type: 'number'
+      },
+      {
+        name: '文本域',
+        type: 'textarea'
+      },
+      {
+        name: '下拉框',
+        type: 'select'
+      },
+      {
+        name: '媒体',
+        type: 'media'
+      }
+    ];
+    $scope.key = {
+      key: '',
+      name: '',
+      type: 'text',
+      select: [],
+      description: '',
+      mixed: {
+        select: [],
+        limit: 4
+      }
+    };
+    $scope.keyTypeSelect = {
+      name: '',
+      value: ''
+    };
+    $scope.keyTypeSelectInvalid = {
+      name: true,
+      value: true
+    };
+    $scope.keyNonUnique = false;
+
+    $scope.$watch('key.key', function () {
+      if ($scope.keyFormAction === 'add') {
+        for (var i = 0; i < $scope.extensions.length; i++) {
+          if ($scope.key.key === $scope.extensions[i].key) {
+            return $scope.keyNonUnique = true;
+          }
+        }
+      }
+
+      $scope.keyNonUnique = false;
+    });
+
+    $('#keyForm')
+      .on('input', '#keyTypeSelectName', function () {
+        $scope.$apply(function () {
+          $scope.keyTypeSelectInvalid.name = false;
+        });
+      })
+      .on('blur', '#keyTypeSelectName', function () {
+        $scope.$apply(function () {
+          if (!$scope.keyTypeSelect.name) {
+            $scope.keyTypeSelectInvalid.name = true;
+          }
+        });
+      })
+      .on('input', '#keyTypeSelectValue', function () {
+        $scope.$apply(function () {
+          $scope.keyTypeSelectInvalid.value = false;
+        });
+      })
+      .on('blur', '#keyTypeSelectValue', function () {
+        $scope.$apply(function () {
+          if (!$scope.keyTypeSelect.value) {
+            $scope.keyTypeSelectInvalid.value = true;
+          }
+        });
+      });
+
+    if ($stateParams._id) {
+      $scope.transmitting = true;
+      $scope.action = 'update';
+
+      $http.get('/api/models/' + $stateParams._id)
+        .then(function (res) {
+          var data = res.data;
+
+          if (data) {
+            $scope.name = data.name;
+            $scope.description = data.description;
+            $scope.limit = data.mixed.limit;
+            $scope.callname = data.mixed.callname;
+            $scope.oldCallname = angular.copy($scope.callname);
+            $scope.system = data.system;
+            if (data.system.thumbnail && data.mixed && data.mixed.thumbnailSize) $scope.thumbnailSize = data.mixed.thumbnailSize;
+            $scope.extensions = data.extensions;
+
+            $scope.transmitting = false;
+          } else {
+            $state.go('main.fetureModels')
+          }
+        }, function () {
+          $scope.$emit('notification', {
+            type: 'danger',
+            message: '获取内容模型失败'
+          });
+        });
+    } else {
+      $scope.transmitting = false;
+    }
+
+    /**
+     * 添加 / 修改键
+     * @param  {Object} key    选中键
+     * @param  {Number} $index 键下标
+     */
+    $scope.keyModel = function (key, $index) {
+      if (key) {
+        $scope.keyFormAction = 'edit';
+        $scope.keyIndex = $index;
+
+        $scope.key = angular.copy(key);
+      } else {
+        $scope.keyFormAction = 'add';
+        $scope.keyForm.$setPristine();
+        $scope.keyForm.$setUntouched();
+
+        $scope.key = {
+          key: '',
+          name: '',
+          type: 'text',
+          description: '',
+          mixed: {
+            select: [],
+            limit: 4
+          }
+        };
+      }
+
+      $('#keyModal').modal('show');
+    };
+
+    /**
+     * 添加键下拉框选项
+     */
+    $scope.addKeyTypeSelect = function () {
+      $scope.key.mixed.select.push(angular.copy($scope.keyTypeSelect));
+      $scope.keyTypeSelect = {
+        name: '',
+        value: ''
+      };
+      $scope.keyTypeSelectInvalid = {
+        name: true,
+        value: true
+      };
+      $scope.keyForm.keyTypeSelectName.$setUntouched();
+      $scope.keyForm.keyTypeSelectValue.$setUntouched();
+    };
+
+    /**
+     * 移除键下拉框选项
+     * @param  {Number} $index 键下拉框选项下标
+     */
+    $scope.deleteKeyTypeSelect = function (index) {
+      $scope.key.mixed.select.splice(index, 1);
+    };
+
+    /**
+     * 删除键
+     */
+    $scope.deleteKey = function (index) {
+      $scope.extensions.splice(index, 1);
+    };
+
+    /**
+     * 保存键
+     */
+    $scope.saveKey = function () {
+      // 清理不必要的键
+      switch ($scope.key.type) {
+        case 'text':
+        case 'number':
+        case 'textarea':
+            delete $scope.key.mixed.select;
+            delete $scope.key.mixed.limit;
+            break;
+        case 'select':
+            delete $scope.key.mixed.limit;
+            break;
+        case 'media':
+            delete $scope.key.mixed.select;
+      }
+
+      if ($scope.keyFormAction === 'add') {
+        $scope.extensions.push($scope.key);
+      } else if ($scope.keyFormAction === 'edit') {
+        $scope.extensions[$scope.keyIndex] = $scope.key;
+      }
+
+      $('#keyModal').modal('hide');
+    };
+
+    /**
+     * 保存推荐位模型
+     */
+    $scope.saveModel = function () {
+      $scope.transmitting = true;
+
+      var model = {
+        type: 'feature',
+        name: $scope.name,
+        description: $scope.description,
+        mixed: {
+          callname: $scope.callname,
+          limit: $scope.limit,
+          sort: $scope.sort
+        },
+        system: $scope.system,
+        extensions: $scope.extensions
+      };
+
+      if ($scope.system.thumbnail) model.mixed.thumbnailSize = $scope.thumbnailSize;
+
+      if ($stateParams._id) {
+        model._id = $stateParams._id;
+
+        $http.put('/api/models/' + $stateParams._id, model)
+          .success(function () {
+            for (var i = 0; i < $scope.$parent.models.length; i++) {
+              if (model._id === $scope.$parent.models[i]._id) {
+                $scope.$parent.models[i] = model;
+
+                $scope.$emit('notification', {
+                  type: 'success',
+                  message: '保存推荐位成功'
+                });
+
+                $scope.$emit('mainCategoriesUpdate');
+
+                return $state.go('main.featureModels');
+              }
+            }
+          })
+          .error(function () {
+            $scope.$emit('notification', {
+              type: 'danger',
+              message: '保存推荐位失败'
+            });
+          });
+      } else {
+        $http.post('/api/models', model)
+          .success(function (result) {
+            model._id = result._id;
+
+            $scope.$parent.models.push(model);
+
+            $scope.$emit('notification', {
+              type: 'success',
+              message: '保存推荐位成功'
+            });
+
+            $scope.$emit('mainCategoriesUpdate');
+
+            $state.go('main.featureModels');
+          })
+          .error(function () {
+            $scope.$emit('notification', {
+              type: 'danger',
+              message: '保存推荐位失败'
+            });
+          });
+      }
+    };
+  }
+]);
+/**
+ * Feature Models Controller
+ */
+angular.module('controllers').controller('featureModels', ['$scope', '$http', 'account',
+  function ($scope, $http, account) {
+    'use strict';
+
+    /**
+     * 初始化变量
+     */
+    $scope.transmitting = false;
+    $scope.models = [];
+    $scope.deleteModelId = '';
+    $scope.systemKey = [
+      {
+        name: 'sort',
+        value: '排序'
+      },
+      {
+        name: 'thumbnail',
+        value: '缩略图'
+      },
+      {
+        name: 'title',
+        value: '标题'
+      },
+      {
+        name: 'url',
+        value: '链接'
+      }
+    ];
+    $scope.editAuth = false;
+
+    /**
+     * 读取用户编辑权限以及返回读取当前单页
+     */
+    account.auths()
+      .then(function (auths) {
+        $scope.editAuth = auths.featureModels.edit;
+      }, function () {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: '读取权限失败'
+        });
+      });
+
+    /**
+     * 读取内容模型列表
+     */
+    $http.get('/api/models', {
+      params: { type: 'feature' }
+    }).then(function (res) {
+      $scope.models = res.data;
+    }, function () {
+      $scope.$emit('notification', {
+        type: 'danger',
+        message: '读取内容模型失败'
+      });
+    });
+
+    /**
+     * 删除推荐位模型
+     */
+    $scope.deleteModel = function () {
+      $scope.transmitting = true;
+
+      $http.delete('/api/models/' + $scope.deleteModelId)
+        .then(function () {
+          for (var i = 0; i < $scope.models.length; i++) {
+            if ($scope.deleteModelId === $scope.models[i]._id) {
+              $scope.models.splice(i, 1);
+
+              $('#deleteModal').modal('hide');
+
+              $scope.transmitting = false;
+
+              return $scope.$emit('notification', {
+                type: 'success',
+                message: '删除推荐位成功'
+              });
+            }
+          }
+        }, function () {
+          $scope.$emit('notification', {
+            type: 'danger',
+            message: '删除推荐位失败'
+          });
+        });
+    };
+  }
+]);
+/**
+ * Features Controller
+ */
+angular.module('controllers').controller('featuresChange', ['$scope', '$state','$stateParams', '$http',
+  function ($scope, $state, $stateParams, $http) {
+    'use strict';
+
+    /**
+     * 初始化变量
+     */
+    $scope.transmitting = true;
+    $scope.action = 'create';
+    $scope._id = '';
+    $scope.sort = 0;
+    $scope.title = '';
+    $scope.url = '';
+    $scope.thumbnail = {};
+    $scope.extensions = {};
+    $scope.model = {};
+    $scope.media = [];
+    $scope.disabledExtMediaAdd = {};
+
+    /**
+     * 读取当前推荐模型和推荐
+     */
+    async.parallel({
+      model: function (callback) {
+        $http.get('/api/models/' + $stateParams.model)
+          .then(function (res) {
+            callback(null, res.data);
+          }, function () {
+            callback('读取推荐模型失败');
+          });
+      },
+      feature: function (callback) {
+        if (!$stateParams.feature) return callback();
+
+        $http.get('/api/features/' + $stateParams.feature)
+          .then(function (res) {
+            callback(null, res.data);
+          }, function () {
+            callback('读取推荐失败');
+          });
+      }
+    }, function (err, result) {
+      if (err) {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: err
+        });
+
+        return false;
+      }
+
+      var model = result.model;
+      var feature = result.feature;
+
+      $scope.model = model;
+
+      if ($stateParams.feature) {
+        $scope._id = feature._id;
+        $scope.action = 'update';
+        $scope.sort = feature.sort;
+        $scope.title = feature.title;
+        $scope.url = feature.url;
+        $scope.extensions = feature.extensions;
+
+        if (feature.thumbnail) {
+          $scope.thumbnail._id = feature.thumbnail._id;
+          $scope.thumbnail.uploadStatus = 'success';
+          $scope.thumbnail.croppedImage = feature.thumbnail.src;
+        }
+
+        if (!_.isEmpty(feature.media)) {
+          _.map(feature.media, function (medium) {
+            var fileNameLast = _.get(medium.fileName.match(/^.+\.(\w+)$/), 1);
+
+            var _medium = {
+              file: null,
+              fileName: medium.fileName,
+              fileNameLast: fileNameLast,
+              isImage: false,
+              description: medium.description,
+              src: medium.src,
+              _id: medium._id,
+              uploadStatus: 'success',
+              active: false,
+              edited: false
+            };
+
+            switch (fileNameLast) {
+              case 'jpg':
+              case 'jpeg':
+              case 'png':
+              case 'gif':
+                _medium.isImage = true;
+            }
+
+            $scope.media.push(_medium);
+          });
+        }
+      }
+
+      $scope.transmitting = false;
+    });
+
+    /**
+     * 添加扩展键媒体
+     */
+    $scope.addExtensionMedia = function (key, limit) {
+      $scope.extensions[key] = $scope.extensions[key] || [];
+
+      $scope.mediaSelect({ limit: limit - $scope.extensions[key].length }, function (media) {
+        $scope.extensions[key] = _.concat($scope.extensions[key], media);
+
+        if (limit - $scope.extensions[key].length < 1) {
+          $scope.disabledExtMediaAdd[key] = true;
+        } else {
+          $scope.disabledExtMediaAdd[key] = false;
+        }
+      });
+    };
+
+    /**
+     * 删除扩展键媒体
+     */
+    $scope.removeExtensionsMedia = function (key, limit, medium) {
+      _.pull($scope.extensions[key], medium);
+
+      if (limit - $scope.extensions[key].lengt < 1) {
+        $scope.disabledExtMediaAdd[key] = true;
+      } else {
+        $scope.disabledExtMediaAdd[key] = false;
+      }
+    };
+
+    /**
+     * 保存当前推荐
+     */
+    $scope.saveFeature = function () {
+      $scope.transmitting = true;
+
+      var feature = {
+        model: $scope.model._id,
+        sort: $scope.sort,
+        title: $scope.title,
+      };
+
+      if ($scope.url) feature.url = $scope.url;
+      if ($scope.thumbnail._id) feature.thumbnail = $scope.thumbnail._id;
+      if (!_.isEmpty($scope.media)) feature.media = _.map($scope.media, '_id');
+      if (!_.isEmpty($scope.extensions)) feature.extensions = $scope.extensions;
+
+      if ($stateParams.feature) {
+        $http.put('/api/features/' + $stateParams.feature, feature)
+          .then(function () {
+            $scope.$emit('notification', {
+              type: 'success',
+              message: '更新推荐成功'
+            });
+
+            $state.go('main.features', null, { reload: 'main.features' });
+          }, function () {
+            $scope.$emit('notification', {
+              type: 'danger',
+              message: '更新推荐失败'
+            });
+          });
+      } else {
+        $http.post('/api/features', feature)
+          .then(function () {
+            $scope.$emit('notification', {
+              type: 'success',
+              message: '发布推荐成功'
+            });
+
+            $state.go('main.features', null, { reload: 'main.features' });
+          }, function () {
+            $scope.$emit('notification', {
+              type: 'danger',
+              message: '发布推荐失败'
+            });
+          });
+      }
+    };
+  }
+]);
+/**
+ * Features Controller
+ */
+angular.module('controllers').controller('features', ['$scope', '$rootScope', '$http', 'account',
+  function ($scope, $rootScope, $http, account) {
+    'use strict';
+
+    /**
+     * 初始化变量
+     */
+    $scope.transmitting = false;
+    $scope.noFeatureModel = false;
+    $scope.deleteFeatureInfo = {
+      modelId: '',
+      featureId: '',
+    };
+    $scope.models = [];
+    $scope.currentAuth = false;
+    $scope.editAuth = false;
+
+    /**
+     * 读取用户编辑权限
+     */
+    account.auths()
+      .then(function (auths) {
+        $scope.editAuth = auths.features.edit;
+      }, function () {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: '读取权限失败'
+        });
+      });
+
+    /**
+     * 读取内容模型列表
+     */
+    async.parallel({
+      model: function (callback) {
+        $http.get('/api/models', {
+          params: {
+            type: 'feature'
+          }
+        }).then(function (res) {
+          callback(null, res.data);
+        }, function () {
+          callback('读取推荐模型失败');
+        });
+      },
+      features: function (callback) {
+        $http.get('/api/features')
+          .then(function (res) {
+            callback(null, res.data);
+          }, function () {
+            callback('读取推荐失败');
+          });
+      }
+    }, function (err, results) {
+      if (err) {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: err
+        });
+
+        return false;
+      }
+
+      if (_.isEmpty(results.model)) return $scope.noFeatureModel = true;
+
+      $scope.models = _.map(results.model, function (model) {
+        model.features = _.filter(results.features, function (feature) {
+          return feature.model === model._id;
+        });
+
+        return model;
+      });
+    });
+
+    /**
+     * 删除推荐
+     */
+    $scope.deleteFeature = function () {
+      $scope.transmitting = true;
+
+      var featureInfo = $scope.deleteFeatureInfo;
+      $http.delete('/api/features/' + featureInfo.featureId)
+        .then(function () {
+          var model = _.find($scope.models, { _id: featureInfo.modelId });
+
+          _.forEach(model.features, function (feature, index) {
+            if (feature._id === featureInfo.featureId) {
+              model.features.splice(index, 1);
+
+              return false;
+            }
+          });
+
+          $('#deleteModal').modal('hide');
+
+          $scope.transmitting = false;
+
+          $scope.$emit('notification', {
+            type: 'success',
+            message: '删除推荐成功'
+          });
+        }, function () {
+          $scope.$emit('notification', {
+            type: 'danger',
+            message: '删除推荐失败'
+          });
+        });
+    };
+  }
+]);
+/**
+ * Install Controller
+ */
+angular.module('controllers').controller('install', ['$scope', '$state', '$http', '$timeout',
+  function ($scope, $state, $http, $timeout) {
+    'use strict';
+
+    /**
+     * 初始化变量
+     */
+    $scope.transmitting = false;
+    $scope.page = 'license';
+    $scope.databaseHost = 'localhost';
+    $scope.databasePort = 27017;
+    $scope.database = 'nodercms';
+    $scope.databaseUser = '';
+    $scope.databasePassword = '';
+    $scope.databaseError = false;
+    $scope.themes = [];
+    $scope.theme = 'default';
+    $scope.themeError = false;
+    // 导入示例数据，下一版本
+    //$scope.case = true;
+    $scope.title = '';
+    $scope.email = '';
+    $scope.nickname = '';
+    $scope.password = '';
+    $scope.siteInfoError = false;
+    $scope.hasInstall = false;
+    $scope.installingTimeout = null;
+    $scope.installingPoll = null;
+
+    /**
+     * 读取主题
+     */
+    $scope.loadThemes = function () {
+      $http.get('/api/install/themes')
+        .then(function (res) {
+          var data = res.data;
+
+          $scope.themes = data;
+          $scope.themeError = false;
+        }, function () {
+          $scope.themeError = true;
+        });
+    }; $scope.loadThemes();
+
+    /**
+     * 检查数据库连接
+     */
+    $scope.testDatabase = function () {
+      $scope.transmitting = true;
+
+      var data = {
+        host: $scope.databaseHost,
+        port: $scope.databasePort,
+        db: $scope.database,
+        user: $scope.databaseUser,
+        pass: $scope.databasePassword
+      };
+
+      $http.put('/api/install/test-database', data)
+        .then(function () {
+          $scope.transmitting = false;
+          $scope.databaseError = false;
+
+          $scope.page = 'siteInfo';
+        }, function () {
+          $scope.transmitting = false;
+          $scope.databaseError = true;
+        });
+    };
+
+    /**
+     * 提交 install
+     */
+    $scope.submitInstall = function () {
+      $scope.transmitting = true;
+      $scope.installing();
+
+      var data = {
+        databaseHost: $scope.databaseHost,
+        databasePort: $scope.databasePort,
+        database: $scope.database,
+        databaseUser: $scope.databaseUser,
+        databasePassword: $scope.databasePassword,
+        // 导入示例数据，下一版本
+        //case: $scope.case,
+        title: $scope.title,
+        theme: $scope.theme,
+        email: $scope.email.toLowerCase(),
+        nickname: $scope.nickname,
+        password: $scope.password
+      };
+
+      $http.post('/api/install', data)
+        .then(function () {
+          $scope.hasInstall = true;
+        }, function () {
+          if ($scope.installingTimeout) $timeout.cancel($scope.installingTimeout);
+          if ($scope.installingPoll) $timeout.cancel($scope.installingPoll);
+          $scope.transmitting = false;
+          $scope.siteInfoError = true;
+          $scope.page = 'siteInfo';
+        });
+    };
+
+    $scope.installing = function () {
+      $scope.page = 'installing';
+
+      $scope.installingTimeout = $timeout(function poll () {
+        if (!$scope.hasInstall) {
+          $scope.installingPoll = $timeout(poll, 1000);
+        } else {
+          $scope.page = 'installed';
+        }
+      }, 1000);
+    };
+  }
+]);
+/**
+ * Main Controller
+ */
+angular.module('controllers').controller('main', ['$scope', '$http',
+	function ($scope, $http) {
+		'use strict';
+
+		/**
+		 * 初始化变量
+		 */
+		$scope.website = {
+			hostname: window.location.hostname,
+			origin: window.location.origin
+		};
+		$scope.systemInfo = {};
+		$scope.officialSystemInfo = {};
+		$scope.nodeInfo = {};
+		$scope.databaseInfo = {};
+		$scope.contentsTotal = '';
+		$scope.mediaTotal = '';
+		$scope.adminsTotal = '';
+		$scope.readingList = {};
+		$scope.versionIsLatest = true;
+
+		$http.get('/api/dashboard')
+			.then(function (res) {
+				var data = res.data;
+
+				$scope.systemInfo = data.systemInfo;
+				$scope.nodeInfo = data.nodeInfo;
+				$scope.databaseInfo = data.databaseInfo;
+				$scope.contentsTotal = data.contentsTotal;
+				$scope.mediaTotal = data.mediaTotal;
+				$scope.adminsTotal = data.adminsTotal;
+				$scope.readingList = data.readingList;
+			}, function () {
+				$scope.$emit('notification', {
+					type: 'danger',
+					message: '读取控制面板数据失败'
+				});
+			});
+
+		/**
+		 * NoderCMS 官方信息
+		 */
+		$http.get('http://console.nodercms.com/openApi/info')
+			.then(function (res) {
+				var data = res.data;
+
+				$scope.officialSystemInfo = data;
+			}, function () {
+				$scope.$emit('notification', {
+					type: 'danger',
+					message: '官方信息读取失败'
+				});
+			});
+
+		/**
+		 * 比较是否最新版本
+		 */
+		$scope.compareVersion = function (version, officialVersion) {
+			return officialVersion && version !== officialVersion ? true : false;
+		};
+
+		/**
+		 * 统计
+		 */
+		$http.put('/api/statistics', {
+			hostname: $scope.website.hostname
+		});
+	}
+]);
+/**
+ * Media Controller
+ */
+angular.module('controllers').controller('media', ['$scope', '$state', '$stateParams', '$http', 'account',
+  function ($scope, $state, $stateParams, $http, account) {
+    'use strict';
+
+    /**
+     * 初始化变量
+     */
+    $scope.transmitting = false;
+    $scope.media = [];
+    $scope.currentPage = 1;
+    $scope.totalPages = 0;
+    $scope.deleteMediumId = '';
+    $scope.editAuth = false;
+
+    /**
+     * 读取用户编辑权限以及返回读取当前单页
+     */
+    account.auths()
+      .then(function (auths) {
+        $scope.editAuth = auths.media.edit;
+      }, function () {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: '读取权限失败'
+        });
+      });
+
+    /**
+     * 读取媒体列表
+     */
+    $scope.loadMedia = function () {
+      $http.get('/api/media', { params: { currentPage: $scope.currentPage, pageSize: 20 } })
+        .then(function (res) {
+          var data = res.data;
+
+          _.map(data.media, function (medium) {
+            var fileNameLast = _.get(medium.fileName.match(/^.+\.(\w+)$/), 1);
+
+            medium.fileNameLast = fileNameLast;
+            medium.isImage = false;
+
+            switch (fileNameLast) {
+              case 'jpg':
+              case 'jpeg':
+              case 'png':
+              case 'gif':
+                medium.isImage = true;
+            }
+          });
+
+          $scope.media = data.media;
+          $scope.totalPages = data.pages;
+        });
+    }; $scope.loadMedia();
+
+    /**
+     * 监控当前页面改变
+     */
+    $scope.$watch('currentPage', function (newPage, oldPage) {
+      if (newPage !== oldPage) $scope.loadMedia();
+    });
+
+    /**
+     * 删除媒体
+     */
+    $scope.deleteMedium = function () {
+      $scope.transmitting = true;
+
+      $http.delete('/api/media/' + $scope.deleteMediumId)
+        .then(function () {
+          $scope.loadMedia();
+
+          $('#deleteModal').modal('hide');
+
+          $scope.transmitting = false;
+
+          $scope.$emit('notification', {
+            type: 'success',
+            message: '删除媒体成功'
+          });
+        }, function () {
+          $scope.$emit('notification', {
+            type: 'danger',
+            message: '删除媒体失败'
+          });
+        });
+    };
+  }
+]);
+/**
+ * Page Change Controller
+ */
+angular.module('controllers').controller('pageChange', ['$scope', '$state', '$stateParams', '$http', 'account', '$sce',
+  function ($scope, $state, $stateParams, $http, account, $sce) {
+    'use strict';
+
+    /**
+     * 初始化变量
+     */
+    $scope.transmitting = true;
+    $scope._id = $stateParams.page;
+    $scope.name = '';
+    $scope.pageContent = '';
+    $scope.pageMedia = [];
+    $scope.editAuth = false;
+    $scope.readAuth = false;
+
+    /**
+     * 读取用户编辑权限以及返回读取当前单页
+     */
+    var getAuthAndGetPage = account.auths()
+      .then(function (auths) {
+        $scope.editAuth = auths.pages.edit;
+        $scope.readAuth = auths.pages.read;
+
+        if (auths.pages.read && !auths.pages.edit) {
+          return $http.get('/api/pages/' + $stateParams.page);
+        } else if (auths.pages.edit) {
+          return $http.get('/api/pages/' + $stateParams.page, { params: { markdown: true } });
+        }
+      }, function () {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: '读取权限失败'
+        });
+      });
+
+    /**
+     * 读取当前单页
+     */
+    if ($stateParams.page) {
+      getAuthAndGetPage
+        .then(function (res) {
+          var data = res.data;
+
+          if (data) {
+            if (!_.isEmpty(data.pageMedia)) {
+              _.forEach(data.pageMedia, function (medium) {
+                var fileNameLast = _.get(medium.fileName.match(/^.+\.(\w+)$/), 1);
+
+                var _medium = {
+                  file: null,
+                  fileName: medium.fileName,
+                  fileNameLast: fileNameLast,
+                  isImage: false,
+                  description: medium.description,
+                  src: medium.src,
+                  _id: medium._id,
+                  uploadStatus: 'success',
+                  active: false,
+                  edited: false
+                };
+
+                switch (fileNameLast) {
+                  case 'jpg':
+                  case 'jpeg':
+                  case 'png':
+                  case 'gif':
+                    _medium.isImage = true;
+                }
+
+                $scope.pageMedia.push(_medium);
+              });
+            }
+
+            $scope.name = data.name;
+
+            if ($scope.editAuth) {
+              $scope.pageContent = data.pageContent;
+            } else if ($scope.readAuth) {
+              $scope.pageContent = $sce.trustAsHtml(data.pageContent);
+            }
+
+            $scope.transmitting = false;
+          } else {
+            $scope.transmitting = true;
+          }
+        }, function () {
+          $scope.$emit('notification', {
+            type: 'danger',
+            message: '获取内容失败'
+          });
+        });
+    }
+
+    /**
+     * 保存当前内容
+     */
+    $scope.savePage = function () {
+      $scope.transmitting = true;
+
+      var data = {
+        pageContent: $scope.pageContent
+      };
+
+      if (!_.isEmpty($scope.pageMedia)) {
+        data.pageMedia = _.map($scope.pageMedia, '_id');
+      }
+
+      $http.put('/api/pages/' + $stateParams.page, data)
+        .then(function () {
+          $scope.transmitting = false;
+
+          $scope.$emit('notification', {
+            type: 'success',
+            message: '更新单页成功'
+          });
+
+          $state.go('main.pages', { page: $stateParams.page }, { reload: 'main.pages' });
+        }, function () {
+          $scope.$emit('notification', {
+            type: 'danger',
+            message: '更新单页失败'
+          });
+        });
+    };
+  }
+]);
+/**
+ * Roles Change Controller
+ */
+angular.module('controllers').controller('rolesChange', ['$scope', '$state', '$stateParams', '$http',
+  function ($scope, $state, $stateParams, $http) {
+    'use strict';
+
+    /**
+     * 初始化变量
+     */
+    $scope.transmitting = false;
+    $scope.action = 'create';
+    $scope._id = $stateParams._id;
+    $scope.name = '';
+    $scope.description = '';
+    $scope.authorities = [];
+
+    /**
+     * 获取权限列表和当前角色
+     */
+    async.parallel({
+      authorities: function (callback) {
+        $http.get('/api/authorities')
+          .then(function (res) {
+            var data = _.reject(res.data, { code: 100000 });
+
+            callback(null, data);
+          }, function () {
+            callback('获取权限失败');
+          });
+      },
+      role: function (callback) {
+        if ($stateParams._id) {
+          $scope.action = 'update';
+
+          $http.get('/api/roles/' + $stateParams._id)
+            .then(function (res) {
+              var data = res.data;
+
+              callback(null, data);
+            }, function () {
+              callback('获取角色失败');
+            });
+        } else {
+          callback(null);
+        }
+      }
+    }, function (err, results) {
+      if (err) {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: err
+        });
+        return false;
+      }
+
+      $scope.authorities = _.map(results.authorities, function (authority) {
+        authority.select = 0;
+        return authority;
+      });
+
+      if (results.role) {
+        $scope.name = results.role.name;
+        $scope.description = results.role.description;
+
+        _.forEach($scope.authorities, function (authority) {
+          authority.select = 0;
+
+          var read = _.find(authority.authorities, { name: 'read' }).code;
+          var edit = _.find(authority.authorities, { name: 'edit' }).code;
+
+          var userRead = _.find(results.role.authorities, function (authority) {
+            return authority === read;
+          });
+
+          var userEdit = _.find(results.role.authorities, function (authority) {
+            return authority === edit;
+          });
+
+          if (userRead && userEdit) {
+            authority.select = 2;
+          } else if (userRead) {
+            authority.select = 1;
+          }
+        });
+      }
+    });
+
+    /**
+     * 保存角色
+     */
+    $scope.saveRole = function () {
+      $scope.transmitting = true;
+      
+      var role = {
+        name: $scope.name,
+        description: $scope.description,
+        authorities: []
+      };
+
+      _.forEach($scope.authorities, function (authority) {
+        switch (authority.select) {
+          case 0: break;
+          case 1:
+            _.forEach(authority.authorities, function (authority) {
+              if (authority.name === 'read') role.authorities.push(authority.code);
+            });
+            break;
+          case 2:
+            _.forEach(authority.authorities, function (authority) {
+              if (authority.name === 'read') role.authorities.push(authority.code);
+              if (authority.name === 'edit') role.authorities.push(authority.code);
+            });
+        }
+      });
+
+      if ($stateParams._id) {
+        role._id = $stateParams._id;
+        
+        $http.put('/api/roles/' + $stateParams._id, role)
+          .then(function () {
+            $scope.$emit('notification', {
+              type: 'success',
+              message: '保存角色成功'
+            });
+
+            $scope.$emit('mainUserUpdate');
+
+            $state.go('main.roles', null, { reload: 'main.roles'});
+          }, function () {
+            $scope.$emit('notification', {
+              type: 'danger',
+              message: '保存角色失败'
+            });
+          });
+      } else {
+        $http.post('/api/roles', role)
+          .then(function () {
+            $scope.$emit('notification', {
+              type: 'success',
+              message: '新增角色成功'
+            });
+
+            $scope.$emit('mainUserUpdate');
+
+            $state.go('main.roles', null, { reload: 'main.roles'});
+          }, function () {
+            $scope.$emit('notification', {
+              type: 'danger',
+              message: '新增角色失败'
+            });
+          });
+      }
+    };
+  }
+]);
+/**
+ * Roles Controller
+ */
+angular.module('controllers').controller('roles', ['$scope', '$http', 'account',
+  function ($scope, $http, account) {
+    'use strict';
+
+    /**
+     * 初始化变量
+     */
+    $scope.transmitting = false;
+    $scope.roles = [];
+    $scope.deleteRoleId = '';
+    $scope.editAuth = false;
+
+    /**
+     * 读取用户编辑权限以及返回读取当前单页
+     */
+    account.auths()
+      .then(function (auths) {
+        $scope.editAuth = auths.roles.edit;
+      }, function () {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: '读取权限失败'
+        });
+      });
+
+    /**
+     * 获取角色列表
+     */
+    $http.get('/api/roles')
+      .then(function (res) {
+        var data = _.reject(res.data, function (authority) {
+          var admin = _.find(authority.authorities, function (authority) {
+            return authority === 100000;
+          });
+
+          return admin;
+        });
+
+        $scope.roles = data;
+      }, function () {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: '获取角色列表失败'
+        });
+      });
+
+    /**
+     * 删除角色
+     */
+    $scope.deleteRole = function () {
+      $scope.transmitting = true;
+
+      $http.delete('/api/roles/' + $scope.deleteRoleId)
+        .success(function () {
+          _.pullAllBy($scope.roles, [{ _id: $scope.deleteRoleId } ], '_id');
+
+          $('#deleteModal').modal('hide');
+
+          $scope.transmitting = false;
+
+          $scope.$emit('notification', {
+            type: 'success',
+            message: '删除角色成功'
+          });
+        })
+        .error(function () {
+          $('#deleteModal').modal('hide');
+
+          $scope.$emit('notification', {
+            type: 'danger',
+            message: '删除角色失败'
+          });
+        });
+    };
+  }
+]);
+/**
+ * Sign In Controller
+ */
+angular.module('controllers').controller('signIn', ['$scope', '$timeout', '$state', '$http',
+  function ($scope, $timeout, $state, $http) {
+    'use strict';
+
+    $scope.transmitting = false;
+    $scope.email = '';
+    $scope.password = '';
+    $scope.captcha = '';
+    $scope.captchaData = '';
+    $scope.autoSignIn = false;
+    $scope.wrongEmailOrPassword = false;
+    $scope.wrongCaptcha = false;
+
+    function resetEmailAndPassword () {
+      $scope.wrongEmailOrPassword = false;
+    }
+
+    function resetCaptcha () {
+      $scope.wrongCaptcha = false;
+    }
+
+    $scope.$watch('email', resetEmailAndPassword);
+    $scope.$watch('password', resetEmailAndPassword);
+    $scope.$watch('captcha', resetCaptcha);
+
+    $scope.getCaptcha = function () {
+      $http.get('/api/account/captcha')
+        .then(function (res) {
+          $scope.captchaData = res.data;
+        });
+    }; $scope.getCaptcha();
+
+    $scope.signIn = function () {
+      $scope.transmitting = true;
+
+      $http.put('/api/account/sign-in', {
+        email: $scope.email,
+        password: $scope.password,
+        captcha: $scope.captcha.toLowerCase(),
+        autoSignIn: $scope.autoSignIn
+      }).then(function () {
+        $state.go('main');
+      }, function (res) {
+        $scope.getCaptcha();
+
+        var data = res.data;
+
+        switch (_.get(data, 'error.code')) {
+          case 'WRONG_EMAIL_OR_PASSWORD':
+            $scope.wrongEmailOrPassword = true;
+            break;
+          case 'WRONG_CAPTCHA':
+            $scope.wrongCaptcha = true;
+        }
+
+        $scope.animateShake = true;
+        $timeout(function () {
+          $scope.animateShake = false;
+          $scope.transmitting = false;
+        }, 600);
+      });
+    };
+  }
+]);
+/**
+ * siteInfoController
+ */
+angular.module('controllers').controller('siteInfo', ['$scope', '$http', 'account',
+  function ($scope, $http, account) {
+    'use strict';
+
+    /**
+     * 初始化变量
+     */
+    $scope.transmitting = true;
+    $scope.themes = [];
+    $scope.theme = '';
+    $scope.title = '';
+    $scope.keywords = '';
+    $scope.description = '';
+    $scope.codeHeader = '';
+    $scope.codeFooter = '';
+    $scope.editAuth = false;
+    $scope.readAuth = false;
+
+    /**
+     * 读取用户编辑权限以及返回读取当前单页
+     */
+    account.auths()
+      .then(function (auths) {
+        $scope.editAuth = auths.siteInfo.edit;
+        $scope.readAuth = auths.siteInfo.read;
+      }, function () {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: '读取权限失败'
+        });
+      });
+
+    /**
+     * 获取网站配置
+     */
+    $http.get('/api/site-info')
+      .success(function (result) {
+        $scope.themes = result.themes;
+        $scope.theme = result.siteInfo.theme || 'default';
+        $scope.title = result.siteInfo.title;
+        $scope.keywords = result.siteInfo.keywords;
+        $scope.description = result.siteInfo.description;
+        $scope.codeHeader = result.siteInfo.codeHeader;
+        $scope.codeFooter = result.siteInfo.codeFooter;
+
+        $scope.transmitting = false;
+      })
+      .error(function () {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: '获取网站配置失败'
+        });
+      });
+
+    /**
+     * 更新网站配置
+     */
+    $scope.submitSiteInfo = function () {
+      $scope.transmitting = true;
+
+      $http.put('/api/site-info', {
+        theme: $scope.theme,
+        title: $scope.title,
+        keywords: $scope.keywords,
+        description: $scope.description,
+        codeHeader: $scope.codeHeader,
+        codeFooter: $scope.codeFooter
+      })
+      .success(function () {
+        $scope.transmitting = false;
+
+        $scope.$emit('notification', {
+          type: 'success',
+          message: '网站配置已保存'
+        });
+      })
+      .error(function () {
+        $scope.transmitting = false;
+
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: '网站配置保存失败'
+        });
+      });
+    };
+  }
+]);
+/**
+ * Trash Controller
+ */
+angular.module('controllers').controller('trash', ['$scope', '$state', '$stateParams', '$http', 'account',
+  function ($scope, $state, $stateParams, $http, account) {
+    'use strict';
+
+    /**
+     * 初始化变量
+     */
+    $scope.transmitting = false;
+    $scope.category = {};
+    $scope.contents = [];
+    $scope.currentPage = 1;
+    $scope.totalPages = 0;
+    $scope.deleteContentId = '';
+    $scope.recoveryContentId = '';
+    $scope.statusType = [
+      {
+        name: '草稿',
+        value: 'draft'
+      },
+      {
+        name: '已发布',
+        value: 'pushed'
+      }
+    ];
+    $scope.editAuth = false;
+
+    /**
+     * 读取用户编辑权限
+     */
+    account.auths()
+      .then(function (auths) {
+        $scope.editAuth = auths.contents.edit;
+      }, function () {
+        $scope.$emit('notification', {
+          type: 'danger',
+          message: '读取权限失败'
+        });
+      });
+
+    /**
+     * 读取内容列表
+     */
+    $scope.loadContents = function () {
+      $http.get('/api/contents', { params: { deleted: true, currentPage: $scope.currentPage, pageSize: 20 } })
+        .then(function (res) {
+          var data = res.data;
+          $scope.contents = data.contents;
+          $scope.totalPages = data.pages;
+        });
+    }; $scope.loadContents();
+
+    /**
+     * 监控当前页面改变
+     */
+    $scope.$watch('currentPage', function () {
+      $scope.loadContents();
+    });
+
+    /**
+     * 恢复内容
+     */
+    $scope.recoveryContent = function () {
+      $scope.transmitting = true;
+
+      var data = {
+        deleted: false,
+        part: true
+      };
+
+      $http.put('/api/contents/' + $scope.recoveryContentId, data)
+        .then(function () {
+          $scope.loadContents();
+
+          $('#recoveryModal').modal('hide');
+
+          $scope.transmitting = false;
+
+          $scope.$emit('notification', {
+            type: 'success',
+            message: '恢复内容成功'
+          });
+        }, function () {
+          $scope.$emit('notification', {
+            type: 'danger',
+            message: '恢复内容失败'
+          });
+        });
+    };
+
+    /**
+     * 删除内容
+     */
+    $scope.deleteContent = function () {
+      $scope.transmitting = true;
+
+      $http.delete('/api/contents/' + $scope.deleteContentId)
+        .then(function () {
+          $scope.loadContents();
+
+          $('#deleteModal').modal('hide');
+
+          $scope.transmitting = false;
+
+          $scope.$emit('notification', {
+            type: 'success',
+            message: '删除内容成功'
+          });
+        }, function () {
+          $scope.$emit('notification', {
+            type: 'danger',
+            message: '删除内容失败'
+          });
+        });
+    };
+
+    /**
+     * 删除当前页内容
+     */
+    $scope.deleteListContent = function () {
+      $scope.transmitting = true;
+
+      $http.delete('/api/contents', { params: { ids: _.map($scope.contents, '_id') } })
+        .then(function () {
+          $scope.loadContents();
+
+          $('#deleteListModal').modal('hide');
+
+          $scope.transmitting = false;
+
+          $scope.$emit('notification', {
+            type: 'success',
+            message: '删除内容成功'
+          });
+        }, function () {
+          $scope.$emit('notification', {
+            type: 'danger',
+            message: '删除内容失败'
+          });
+        });
+    };
+  }
+]);
+/**
+ * 获取用户信息
+ */
+angular.module('services').factory('account', ['$rootScope', '$http', '$q', '$cacheFactory',
+  function ($rootScope, $http, $q, $cacheFactory) {
+    'use strict';
+
+		/**
+		 * 定义缓存
+		 */
+		var cache = $cacheFactory('account');
+
+		/**
+		 * 主体
+		 */
+		return {
+			get: function () {
+				var deferred = $q.defer();
+
+				if (cache.get('user')) {
+					deferred.resolve(cache.get('user'));
+				} else {
+					$http.get('/api/account')
+						.then(function (res) {
+							var data = res.data;
+
+							cache.put('user', data);
+
+							deferred.resolve(data);
+						}, function (res) {
+							deferred.reject(res.data);
+						});
+				}
+
+				return deferred.promise;
+			},
+			auths: function () {
+				var self = this;
+
+				return self.get()
+					.then(function (user) {
+						var auths = {
+							features: { read: false, edit: false },
+							contents: { read: false, edit: false },
+							pages: { read: false, edit: false },
+							media: { read: false, edit: false },
+							account: { read: false, edit: false },
+							siteInfo: { read: false, edit: false },
+							categories: { read: false, edit: false },
+							contentModels: { read: false, edit: false },
+							featureModels: { read: false, edit: false },
+							roles: { read: false, edit: false },
+							adminUsers: { read: false, edit: false }
+						};
+						
+						_.forEach(_.get(user, 'role.authorities'), function (authority) {
+							if (authority === 100000) {
+								_.forEach(auths, function (authority, key) {
+									auths[key] = { read: true, edit: true };
+								});
+
+								return false;
+							}
+
+							switch (authority) {
+								case 100100: auths.features.read  = true; break;
+								case 100101: auths.features.edit  = true; break;
+								case 100200: auths.contents.read  = true; break;
+								case 100201: auths.contents.edit  = true; break;
+								case 100300: auths.pages.read  = true; break;
+								case 100301: auths.pages.edit  = true; break;
+								case 100400: auths.media.read  = true; break;
+								case 100401: auths.media.edit  = true; break;
+								case 109000: auths.account.read  = true; break;
+								case 109001: auths.account.edit  = true; break;
+								case 110100: auths.siteInfo.read  = true; break;
+								case 110101: auths.siteInfo.edit  = true; break;
+								case 110200: auths.categories.read  = true; break;
+								case 110201: auths.categories.edit  = true; break;
+								case 110300: auths.contentModels.read  = true; break;
+								case 110301: auths.contentModels.edit  = true; break;
+								case 110400: auths.featureModels.read  = true; break;
+								case 110401: auths.featureModels.edit  = true; break;
+								case 110500: auths.roles.read  = true; break;
+								case 110501: auths.roles.edit  = true; break;
+								case 110600: auths.adminUsers.read  = true; break;
+								case 110601: auths.adminUsers.edit  = true;
+							}
+						});
+
+						return auths;
+					}, function (error) {
+						return error;
+					});
+			},
+			reset: function () {
+				cache.remove('user');
+			}
+		};
+  }
+]);
+/**
+ * 拦截无权限请求
+ */
+angular.module('services').factory('authorityInterceptor', ['$q', '$injector',
+  function ($q, $injector) {
+    'use strict';
+
+    return {
+      responseError: function (rejection) {
+        if (rejection.status === 401 && rejection.data && rejection.data.error) {
+          $injector.get('account').reset();
+
+          switch (rejection.data.error.code) {
+            // 没有登录
+            case 'NOT_LOGGED_IN':
+              $injector.get('$state').go('signIn');
+              
+              break;
+            // 没有权限
+            case 'NO_AUTHORITY':
+              var $state = $injector.get('$state');
+
+              if ($state.current.name !== 'main') {
+                $state.go('main', {}, { reload: 'main' });
+              }
+          }
+        }
+
+        // 找不到用户或用户不存在
+        if (rejection.status === 404 && rejection.data && rejection.data.error && rejection.data.error.code === 'USER_NOT_FOUND') {
+          $injector.get('$state').go('signIn');
+        }
+
+        return $q.reject(rejection);
+      }
+    };
+  }
+]);
+/**
+ * base64 转换为 Blob File
+ */
+angular.module('services').factory('base64ToBlobFile', [
+  function () {
+    'use strict';
+    
+    return function (base64Data, fileName, contentType) {
+      fileName = fileName || 'BlobFile.png';
+      contentType = contentType || '';
+
+      var sliceSize = 1024;
+      var byteCharacters = atob(base64Data.replace('data:image/png;base64,', ''));
+      var bytesLength = byteCharacters.length;
+      var slicesCount = Math.ceil(bytesLength / sliceSize);
+      var byteArrays = new Array(slicesCount);
+
+      for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+        var begin = sliceIndex * sliceSize;
+        var end = Math.min(begin + sliceSize, bytesLength);
+
+        var bytes = new Array(end - begin);
+        for (var offset = begin, i = 0 ; offset < end; ++i, ++offset) {
+          bytes[i] = byteCharacters[offset].charCodeAt(0);
+        }
+        byteArrays[sliceIndex] = new Uint8Array(bytes);
+      }
+
+      var blobFile = new Blob(byteArrays, { type: contentType });
+      blobFile.name = fileName;
+      blobFile.lastModifiedDate = new Date();
+
+      return blobFile;
+    };
+  }
+]);
+/**
+ * 检查用户权限
+ */
+angular.module('services').factory('checkAuthResolve', ['$rootScope', '$q', '$state', 'account',
+  function ($rootScope, $q, $state, account) {
+    'use strict';
+
+		return function (category, action) {
+			var deferred = $q.defer();
+
+			account.auths()
+				.then(function (auths) {
+					if (auths[category][action]) {
+						deferred.resolve();
+					} else {
+						account.reset();
+						$state.go('main', null, { reload: 'main' });
+					}
+				}, function () {
+					account.reset();
+					$rootScope.$emit('notification', {
+						type: 'danger',
+						message: '读取权限失败'
+					});
+				});
+
+			return deferred.promise;
+		};
+  }
+]);
+/**
+ * 判断是否已安装
+ */
+angular.module('services').factory('checkInstallResolve', ['$q', '$state', '$http',
+  function ($q, $state, $http) {
+    'use strict';
+
+    return {
+      leaveToSignInOrNone: function () {
+        var deferred = $q.defer();
+
+        $http.get('/api/install')
+          .then(function (res) {
+            var data = res.data;
+
+            if (!data.hasInstall) {
+              deferred.resolve();
+            } else {
+              $state.go('signIn');
+            }
+          }, function () {
+            $state.go('signIn');
+          });
+
+        return deferred.promise;
+      },
+      enterToInstallOrNone: function () {
+        var deferred = $q.defer();
+
+        $http.get('/api/install')
+          .then(function (res) {
+            var data = res.data;
+
+            if (!data.hasInstall) {
+              $state.go('install');
+            } else {
+              deferred.resolve();
+            }
+          }, function () {
+            deferred.resolve();
+          });
+
+
+        return deferred.promise;
+      }
+    }
+  }
+]);
+/**
+ * 检查用户是否登录
+ */
+angular.module('services').factory('checkSignIn', ['$rootScope', '$state', 'ipCookie',
+  function ($rootScope, $state, ipCookie) {
+    'use strict';
+    
+    return function () {
+      $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+        if (!ipCookie('nodercmsSid') && toState.name !== 'signIn' && toState.name !== 'install') {
+          event.preventDefault();
+          $state.go('signIn');
+        }
+      });
+    };
+  }
+]);
+/**
+ * 汉字转拼音
+ */
+angular.module('services').factory('pinyin', ['$http', '$q',
+  function ($http, $q) {
+    'use strict';
+
+    var source = {
+      'a': '\u554a\u963f\u9515',
+      'ai': '\u57c3\u6328\u54ce\u5509\u54c0\u7691\u764c\u853c\u77ee\u827e\u788d\u7231\u9698\u8bf6\u6371\u55f3\u55cc\u5ad2\u7477\u66a7\u7839\u953f\u972d',
+      'an': '\u978d\u6c28\u5b89\u4ffa\u6309\u6697\u5cb8\u80fa\u6848\u8c19\u57ef\u63de\u72b4\u5eb5\u6849\u94f5\u9e4c\u9878\u9eef',
+      'ang': '\u80ae\u6602\u76ce',
+      'ao': '\u51f9\u6556\u71ac\u7ff1\u8884\u50b2\u5965\u61ca\u6fb3\u5773\u62d7\u55f7\u5662\u5c99\u5ed2\u9068\u5aaa\u9a9c\u8071\u87af\u93ca\u9ccc\u93d6',
+      'ba': '\u82ad\u634c\u6252\u53ed\u5427\u7b06\u516b\u75a4\u5df4\u62d4\u8dcb\u9776\u628a\u8019\u575d\u9738\u7f62\u7238\u8307\u83dd\u8406\u636d\u5c9c\u705e\u6777\u94af\u7c91\u9c85\u9b43',
+      'bai': '\u767d\u67cf\u767e\u6446\u4f70\u8d25\u62dc\u7a17\u859c\u63b0\u97b4',
+      'ban': '\u6591\u73ed\u642c\u6273\u822c\u9881\u677f\u7248\u626e\u62cc\u4f34\u74e3\u534a\u529e\u7eca\u962a\u5742\u8c73\u94a3\u7622\u764d\u8228',
+      'bang': '\u90a6\u5e2e\u6886\u699c\u8180\u7ed1\u68d2\u78c5\u868c\u9551\u508d\u8c24\u84a1\u8783',
+      'bao': '\u82de\u80de\u5305\u8912\u96f9\u4fdd\u5821\u9971\u5b9d\u62b1\u62a5\u66b4\u8c79\u9c8d\u7206\u52f9\u8446\u5b80\u5b62\u7172\u9e28\u8913\u8db5\u9f85',
+      'bo': '\u5265\u8584\u73bb\u83e0\u64ad\u62e8\u94b5\u6ce2\u535a\u52c3\u640f\u94c2\u7b94\u4f2f\u5e1b\u8236\u8116\u818a\u6e24\u6cca\u9a73\u4eb3\u8543\u5575\u997d\u6a97\u64d8\u7934\u94b9\u9e41\u7c38\u8ddb',
+      'bei': '\u676f\u7891\u60b2\u5351\u5317\u8f88\u80cc\u8d1d\u94a1\u500d\u72c8\u5907\u60eb\u7119\u88ab\u5b5b\u9642\u90b6\u57e4\u84d3\u5457\u602b\u6096\u789a\u9e4e\u8919\u943e',
+      'ben': '\u5954\u82ef\u672c\u7b28\u755a\u574c\u951b',
+      'beng': '\u5d29\u7ef7\u752d\u6cf5\u8e66\u8ff8\u552a\u5623\u750f',
+      'bi': '\u903c\u9f3b\u6bd4\u9119\u7b14\u5f7c\u78a7\u84d6\u853d\u6bd5\u6bd9\u6bd6\u5e01\u5e87\u75f9\u95ed\u655d\u5f0a\u5fc5\u8f9f\u58c1\u81c2\u907f\u965b\u5315\u4ef3\u4ffe\u8298\u835c\u8378\u5421\u54d4\u72f4\u5eb3\u610e\u6ed7\u6fde\u5f3c\u59a3\u5a62\u5b16\u74a7\u8d32\u7540\u94cb\u79d5\u88e8\u7b5a\u7b85\u7be6\u822d\u895e\u8df8\u9ac0',
+      'bian': '\u97ad\u8fb9\u7f16\u8d2c\u6241\u4fbf\u53d8\u535e\u8fa8\u8fa9\u8fab\u904d\u533e\u5f01\u82c4\u5fed\u6c74\u7f0f\u7178\u782d\u78a5\u7a39\u7a86\u8759\u7b3e\u9cca',
+      'biao': '\u6807\u5f6a\u8198\u8868\u5a4a\u9aa0\u98d1\u98d9\u98da\u706c\u9556\u9573\u762d\u88f1\u9cd4',
+      'bie': '\u9cd6\u618b\u522b\u762a\u8e69\u9cd8',
+      'bin': '\u5f6c\u658c\u6fd2\u6ee8\u5bbe\u6448\u50a7\u6d5c\u7f24\u73a2\u6ba1\u8191\u9554\u9acc\u9b13',
+      'bing': '\u5175\u51b0\u67c4\u4e19\u79c9\u997c\u70b3\u75c5\u5e76\u7980\u90b4\u6452\u7ee0\u678b\u69df\u71f9',
+      'bu': '\u6355\u535c\u54fa\u8865\u57e0\u4e0d\u5e03\u6b65\u7c3f\u90e8\u6016\u62ca\u535f\u900b\u74ff\u6661\u949a\u91ad',
+      'ca': '\u64e6\u5693\u7924',
+      'cai': '\u731c\u88c1\u6750\u624d\u8d22\u776c\u8e29\u91c7\u5f69\u83dc\u8521',
+      'can': '\u9910\u53c2\u8695\u6b8b\u60ed\u60e8\u707f\u9a96\u74a8\u7cb2\u9eea',
+      'cang': '\u82cd\u8231\u4ed3\u6ca7\u85cf\u4f27',
+      'cao': '\u64cd\u7cd9\u69fd\u66f9\u8349\u8279\u5608\u6f15\u87ac\u825a',
+      'ce': '\u5395\u7b56\u4fa7\u518c\u6d4b\u5202\u5e3b\u607b',
+      'ceng': '\u5c42\u8e6d\u564c',
+      'cha': '\u63d2\u53c9\u832c\u8336\u67e5\u78b4\u643d\u5bdf\u5c94\u5dee\u8be7\u7339\u9987\u6c4a\u59f9\u6748\u6942\u69ce\u6aab\u9497\u9538\u9572\u8869',
+      'chai': '\u62c6\u67f4\u8c7a\u4faa\u8308\u7625\u867f\u9f87',
+      'chan': '\u6400\u63ba\u8749\u998b\u8c17\u7f20\u94f2\u4ea7\u9610\u98a4\u5181\u8c04\u8c36\u8487\u5edb\u5fcf\u6f7a\u6fb6\u5b71\u7fbc\u5a75\u5b17\u9aa3\u89c7\u7985\u9561\u88e3\u87fe\u8e94',
+      'chang': '\u660c\u7316\u573a\u5c1d\u5e38\u957f\u507f\u80a0\u5382\u655e\u7545\u5531\u5021\u4f25\u9b2f\u82cc\u83d6\u5f9c\u6005\u60dd\u960a\u5a3c\u5ae6\u6636\u6c05\u9cb3',
+      'chao': '\u8d85\u6284\u949e\u671d\u5632\u6f6e\u5de2\u5435\u7092\u600a\u7ec9\u6641\u8016',
+      'che': '\u8f66\u626f\u64a4\u63a3\u5f7b\u6f88\u577c\u5c6e\u7817',
+      'chen': '\u90f4\u81e3\u8fb0\u5c18\u6668\u5ff1\u6c89\u9648\u8d81\u886c\u79f0\u8c0c\u62bb\u55d4\u5bb8\u741b\u6987\u809c\u80c2\u789c\u9f80',
+      'cheng': '\u6491\u57ce\u6a59\u6210\u5448\u4e58\u7a0b\u60e9\u6f84\u8bda\u627f\u901e\u9a8b\u79e4\u57d5\u5d4a\u5fb5\u6d48\u67a8\u67fd\u6a18\u665f\u584d\u77a0\u94d6\u88ce\u86cf\u9172',
+      'chi': '\u5403\u75f4\u6301\u5319\u6c60\u8fdf\u5f1b\u9a70\u803b\u9f7f\u4f88\u5c3a\u8d64\u7fc5\u65a5\u70bd\u50ba\u5880\u82aa\u830c\u640b\u53f1\u54e7\u557b\u55e4\u5f73\u996c\u6cb2\u5ab8\u6555\u80dd\u7719\u7735\u9e31\u761b\u892b\u86a9\u87ad\u7b1e\u7bea\u8c49\u8e05\u8e1f\u9b51',
+      'chong': '\u5145\u51b2\u866b\u5d07\u5ba0\u833a\u5fe1\u61a7\u94f3\u825f',
+      'chou': '\u62bd\u916c\u7574\u8e0c\u7a20\u6101\u7b79\u4ec7\u7ef8\u7785\u4e11\u4fe6\u5733\u5e31\u60c6\u6eb4\u59af\u7633\u96e0\u9c8b',
+      'chu': '\u81ed\u521d\u51fa\u6a71\u53a8\u8e87\u9504\u96cf\u6ec1\u9664\u695a\u7840\u50a8\u77d7\u6410\u89e6\u5904\u4e8d\u520d\u61b7\u7ecc\u6775\u696e\u6a17\u870d\u8e70\u9edc',
+      'chuan': '\u63e3\u5ddd\u7a7f\u693d\u4f20\u8239\u5598\u4e32\u63be\u821b\u60f4\u9044\u5ddb\u6c1a\u948f\u9569\u8221',
+      'chuang': '\u75ae\u7a97\u5e62\u5e8a\u95ef\u521b\u6006',
+      'chui': '\u5439\u708a\u6376\u9524\u5782\u9672\u68f0\u69cc',
+      'chun': '\u6625\u693f\u9187\u5507\u6df3\u7eaf\u8822\u4fc3\u83bc\u6c8c\u80ab\u6710\u9e51\u877d',
+      'chuo': '\u6233\u7ef0\u851f\u8fb6\u8f8d\u955e\u8e14\u9f8a',
+      'ci': '\u75b5\u8328\u78c1\u96cc\u8f9e\u6148\u74f7\u8bcd\u6b64\u523a\u8d50\u6b21\u8360\u5472\u5d6f\u9e5a\u8785\u7ccd\u8d91',
+      'cong': '\u806a\u8471\u56f1\u5306\u4ece\u4e1b\u506c\u82c1\u6dd9\u9aa2\u742e\u7481\u679e',
+      'cu': '\u51d1\u7c97\u918b\u7c07\u731d\u6b82\u8e59',
+      'cuan': '\u8e7f\u7be1\u7a9c\u6c46\u64ba\u6615\u7228',
+      'cui': '\u6467\u5d14\u50ac\u8106\u7601\u7cb9\u6dec\u7fe0\u8403\u60b4\u7480\u69b1\u96b9',
+      'cun': '\u6751\u5b58\u5bf8\u78cb\u5fd6\u76b4',
+      'cuo': '\u64ae\u6413\u63aa\u632b\u9519\u539d\u811e\u9509\u77ec\u75e4\u9e7e\u8e49\u8e9c',
+      'da': '\u642d\u8fbe\u7b54\u7629\u6253\u5927\u8037\u54d2\u55d2\u601b\u59b2\u75b8\u8921\u7b2a\u977c\u9791',
+      'dai': '\u5446\u6b79\u50a3\u6234\u5e26\u6b86\u4ee3\u8d37\u888b\u5f85\u902e\u6020\u57ed\u7519\u5454\u5cb1\u8fe8\u902f\u9a80\u7ed0\u73b3\u9edb',
+      'dan': '\u803d\u62c5\u4e39\u5355\u90f8\u63b8\u80c6\u65e6\u6c2e\u4f46\u60ee\u6de1\u8bde\u5f39\u86cb\u4ebb\u510b\u5369\u840f\u5556\u6fb9\u6a90\u6b9a\u8d55\u7708\u7605\u8043\u7baa',
+      'dang': '\u5f53\u6321\u515a\u8361\u6863\u8c20\u51fc\u83ea\u5b95\u7800\u94db\u88c6',
+      'dao': '\u5200\u6363\u8e48\u5012\u5c9b\u7977\u5bfc\u5230\u7a3b\u60bc\u9053\u76d7\u53e8\u5541\u5fc9\u6d2e\u6c18\u7118\u5fd1\u7e9b',
+      'de': '\u5fb7\u5f97\u7684\u951d',
+      'deng': '\u8e6c\u706f\u767b\u7b49\u77aa\u51f3\u9093\u5654\u5d9d\u6225\u78f4\u956b\u7c26',
+      'di': '\u5824\u4f4e\u6ef4\u8fea\u654c\u7b1b\u72c4\u6da4\u7fdf\u5ae1\u62b5\u5e95\u5730\u8482\u7b2c\u5e1d\u5f1f\u9012\u7f14\u6c10\u7c74\u8bcb\u8c1b\u90b8\u577b\u839c\u837b\u5600\u5a23\u67e2\u68e3\u89cc\u7825\u78b2\u7747\u955d\u7f9d\u9ab6',
+      'dian': '\u98a0\u6382\u6ec7\u7898\u70b9\u5178\u975b\u57ab\u7535\u4f43\u7538\u5e97\u60e6\u5960\u6dc0\u6bbf\u4e36\u963d\u576b\u57dd\u5dc5\u73b7\u765c\u766b\u7c1f\u8e2e',
+      'diao': '\u7889\u53fc\u96d5\u51cb\u5201\u6389\u540a\u9493\u8c03\u8f7a\u94de\u8729\u7c9c\u8c82',
+      'die': '\u8dcc\u7239\u789f\u8776\u8fed\u8c0d\u53e0\u4f5a\u57a4\u581e\u63f2\u558b\u6e2b\u8f76\u7252\u74de\u8936\u800b\u8e40\u9cbd\u9cce',
+      'ding': '\u4e01\u76ef\u53ee\u9489\u9876\u9f0e\u952d\u5b9a\u8ba2\u4e22\u4ec3\u5576\u738e\u815a\u7887\u753a\u94e4\u7594\u8035\u914a',
+      'dong': '\u4e1c\u51ac\u8463\u61c2\u52a8\u680b\u4f97\u606b\u51bb\u6d1e\u578c\u549a\u5cbd\u5cd2\u5902\u6c21\u80e8\u80f4\u7850\u9e2b',
+      'dou': '\u515c\u6296\u6597\u9661\u8c46\u9017\u75d8\u8538\u94ad\u7aa6\u7aac\u86aa\u7bfc\u9161',
+      'du': '\u90fd\u7763\u6bd2\u728a\u72ec\u8bfb\u5835\u7779\u8d4c\u675c\u9540\u809a\u5ea6\u6e21\u5992\u828f\u561f\u6e0e\u691f\u6a50\u724d\u8839\u7b03\u9ad1\u9ee9',
+      'duan': '\u7aef\u77ed\u953b\u6bb5\u65ad\u7f0e\u5f56\u6934\u7145\u7c16',
+      'dui': '\u5806\u5151\u961f\u5bf9\u603c\u619d\u7893',
+      'dun': '\u58a9\u5428\u8e72\u6566\u987f\u56e4\u949d\u76fe\u9041\u7096\u7818\u7905\u76f9\u9566\u8db8',
+      'duo': '\u6387\u54c6\u591a\u593a\u579b\u8eb2\u6735\u8dfa\u8235\u5241\u60f0\u5815\u5484\u54da\u7f0d\u67c1\u94ce\u88f0\u8e31',
+      'e': '\u86fe\u5ce8\u9e45\u4fc4\u989d\u8bb9\u5a25\u6076\u5384\u627c\u904f\u9102\u997f\u5669\u8c14\u57a9\u57ad\u82ca\u83aa\u843c\u5443\u6115\u5c59\u5a40\u8f6d\u66f7\u816d\u786a\u9507\u9537\u9e57\u989a\u9cc4',
+      'en': '\u6069\u84bd\u6441\u5514\u55ef',
+      'er': '\u800c\u513f\u8033\u5c14\u9975\u6d31\u4e8c\u8d30\u8fe9\u73e5\u94d2\u9e38\u9c95',
+      'fa': '\u53d1\u7f5a\u7b4f\u4f10\u4e4f\u9600\u6cd5\u73d0\u57a1\u781d',
+      'fan': '\u85e9\u5e06\u756a\u7ffb\u6a0a\u77fe\u9492\u7e41\u51e1\u70e6\u53cd\u8fd4\u8303\u8d29\u72af\u996d\u6cdb\u8629\u5e61\u72ad\u68b5\u6535\u71d4\u7548\u8e6f',
+      'fang': '\u574a\u82b3\u65b9\u80aa\u623f\u9632\u59a8\u4eff\u8bbf\u7eba\u653e\u531a\u90a1\u5f77\u94ab\u822b\u9c82',
+      'fei': '\u83f2\u975e\u5561\u98de\u80a5\u532a\u8bfd\u5420\u80ba\u5e9f\u6cb8\u8d39\u82be\u72d2\u60b1\u6ddd\u5983\u7ecb\u7eef\u69a7\u8153\u6590\u6249\u7953\u7829\u9544\u75f1\u871a\u7bda\u7fe1\u970f\u9cb1',
+      'fen': '\u82ac\u915a\u5429\u6c1b\u5206\u7eb7\u575f\u711a\u6c7e\u7c89\u594b\u4efd\u5fff\u6124\u7caa\u507e\u7035\u68fc\u610d\u9cbc\u9f22',
+      'feng': '\u4e30\u5c01\u67ab\u8702\u5cf0\u950b\u98ce\u75af\u70fd\u9022\u51af\u7f1d\u8bbd\u5949\u51e4\u4ff8\u9146\u8451\u6ca3\u781c',
+      'fu': '\u4f5b\u5426\u592b\u6577\u80a4\u5b75\u6276\u62c2\u8f90\u5e45\u6c1f\u7b26\u4f0f\u4fd8\u670d\u6d6e\u6daa\u798f\u88b1\u5f17\u752b\u629a\u8f85\u4fef\u91dc\u65a7\u812f\u8151\u5e9c\u8150\u8d74\u526f\u8986\u8d4b\u590d\u5085\u4ed8\u961c\u7236\u8179\u8d1f\u5bcc\u8ba3\u9644\u5987\u7f1a\u5490\u5310\u51eb\u90db\u8299\u82fb\u832f\u83a9\u83d4\u544b\u5e5e\u6ecf\u8274\u5b5a\u9a78\u7ec2\u6874\u8d59\u9efb\u9efc\u7f58\u7a03\u99a5\u864d\u86a8\u8709\u8760\u876e\u9eb8\u8dba\u8dd7\u9cc6',
+      'ga': '\u5676\u560e\u86e4\u5c2c\u5477\u5c15\u5c1c\u65ee\u9486',
+      'gai': '\u8be5\u6539\u6982\u9499\u76d6\u6e89\u4e10\u9654\u5793\u6224\u8d45\u80f2',
+      'gan': '\u5e72\u7518\u6746\u67d1\u7aff\u809d\u8d76\u611f\u79c6\u6562\u8d63\u5769\u82f7\u5c34\u64c0\u6cd4\u6de6\u6f89\u7ec0\u6a44\u65f0\u77f8\u75b3\u9150',
+      'gang': '\u5188\u521a\u94a2\u7f38\u809b\u7eb2\u5c97\u6e2f\u6206\u7f61\u9883\u7b7b',
+      'gong': '\u6760\u5de5\u653b\u529f\u606d\u9f9a\u4f9b\u8eac\u516c\u5bab\u5f13\u5de9\u6c5e\u62f1\u8d21\u5171\u857b\u5efe\u54a3\u73d9\u80b1\u86a3\u86e9\u89e5',
+      'gao': '\u7bd9\u768b\u9ad8\u818f\u7f94\u7cd5\u641e\u9550\u7a3f\u544a\u777e\u8bf0\u90dc\u84bf\u85c1\u7f1f\u69d4\u69c1\u6772\u9506',
+      'ge': '\u54e5\u6b4c\u6401\u6208\u9e3d\u80f3\u7599\u5272\u9769\u845b\u683c\u9601\u9694\u94ec\u4e2a\u5404\u9b32\u4ee1\u54ff\u5865\u55dd\u7ea5\u643f\u8188\u784c\u94ea\u9549\u88bc\u988c\u867c\u8238\u9abc\u9ac2',
+      'gei': '\u7ed9',
+      'gen': '\u6839\u8ddf\u4e98\u831b\u54cf\u826e',
+      'geng': '\u8015\u66f4\u5e9a\u7fb9\u57c2\u803f\u6897\u54fd\u8d53\u9ca0',
+      'gou': '\u94a9\u52fe\u6c9f\u82df\u72d7\u57a2\u6784\u8d2d\u591f\u4f5d\u8bdf\u5ca3\u9058\u5abe\u7f11\u89cf\u5f40\u9e32\u7b31\u7bdd\u97b2',
+      'gu': '\u8f9c\u83c7\u5495\u7b8d\u4f30\u6cbd\u5b64\u59d1\u9f13\u53e4\u86ca\u9aa8\u8c37\u80a1\u6545\u987e\u56fa\u96c7\u560f\u8bc2\u83f0\u54cc\u5d2e\u6c69\u688f\u8f71\u726f\u727f\u80cd\u81cc\u6bc2\u77bd\u7f5f\u94b4\u9522\u74e0\u9e2a\u9e44\u75fc\u86c4\u9164\u89da\u9cb4\u9ab0\u9e58',
+      'gua': '\u522e\u74dc\u5250\u5be1\u6302\u8902\u5366\u8bd6\u5471\u681d\u9e39',
+      'guai': '\u4e56\u62d0\u602a\u54d9',
+      'guan': '\u68fa\u5173\u5b98\u51a0\u89c2\u7ba1\u9986\u7f50\u60ef\u704c\u8d2f\u500c\u839e\u63bc\u6dab\u76e5\u9e73\u9ccf',
+      'guang': '\u5149\u5e7f\u901b\u72b7\u6844\u80f1\u7592',
+      'gui': '\u7470\u89c4\u572d\u7845\u5f52\u9f9f\u95fa\u8f68\u9b3c\u8be1\u7678\u6842\u67dc\u8dea\u8d35\u523d\u5326\u523f\u5e8b\u5b84\u59ab\u6867\u7085\u6677\u7688\u7c0b\u9c91\u9cdc',
+      'gun': '\u8f8a\u6eda\u68cd\u4e28\u886e\u7ef2\u78d9\u9ca7',
+      'guo': '\u9505\u90ed\u56fd\u679c\u88f9\u8fc7\u9998\u8803\u57da\u63b4\u5459\u56d7\u5e3c\u5d1e\u7313\u6901\u8662\u951e\u8052\u872e\u873e\u8748',
+      'ha': '\u54c8',
+      'hai': '\u9ab8\u5b69\u6d77\u6c26\u4ea5\u5bb3\u9a87\u54b4\u55e8\u988f\u91a2',
+      'han': '\u9163\u61a8\u90af\u97e9\u542b\u6db5\u5bd2\u51fd\u558a\u7f55\u7ff0\u64bc\u634d\u65f1\u61be\u608d\u710a\u6c57\u6c49\u9097\u83e1\u6496\u961a\u701a\u6657\u7113\u9894\u86b6\u9f3e',
+      'hen': '\u592f\u75d5\u5f88\u72e0\u6068',
+      'hang': '\u676d\u822a\u6c86\u7ed7\u73e9\u6841',
+      'hao': '\u58d5\u568e\u8c6a\u6beb\u90dd\u597d\u8017\u53f7\u6d69\u8585\u55e5\u5686\u6fe0\u704f\u660a\u7693\u98a2\u869d',
+      'he': '\u5475\u559d\u8377\u83cf\u6838\u79be\u548c\u4f55\u5408\u76d2\u8c89\u9602\u6cb3\u6db8\u8d6b\u8910\u9e64\u8d3a\u8bc3\u52be\u58d1\u85ff\u55d1\u55ec\u9616\u76cd\u86b5\u7fee',
+      'hei': '\u563f\u9ed1',
+      'heng': '\u54fc\u4ea8\u6a2a\u8861\u6052\u8a07\u8605',
+      'hong': '\u8f70\u54c4\u70d8\u8679\u9e3f\u6d2a\u5b8f\u5f18\u7ea2\u9ec9\u8ba7\u836d\u85a8\u95f3\u6cd3',
+      'hou': '\u5589\u4faf\u7334\u543c\u539a\u5019\u540e\u5820\u5f8c\u9005\u760a\u7bcc\u7cc7\u9c8e\u9aba',
+      'hu': '\u547c\u4e4e\u5ffd\u745a\u58f6\u846b\u80e1\u8774\u72d0\u7cca\u6e56\u5f27\u864e\u552c\u62a4\u4e92\u6caa\u6237\u51b1\u553f\u56eb\u5cb5\u7322\u6019\u60da\u6d52\u6ef9\u7425\u69f2\u8f77\u89f3\u70c0\u7173\u623d\u6248\u795c\u9e55\u9e71\u7b0f\u9190\u659b',
+      'hua': '\u82b1\u54d7\u534e\u733e\u6ed1\u753b\u5212\u5316\u8bdd\u5290\u6d4d\u9a85\u6866\u94e7\u7a1e',
+      'huai': '\u69d0\u5f8a\u6000\u6dee\u574f\u8fd8\u8e1d',
+      'huan': '\u6b22\u73af\u6853\u7f13\u6362\u60a3\u5524\u75ea\u8c62\u7115\u6da3\u5ba6\u5e7b\u90c7\u5942\u57b8\u64d0\u571c\u6d39\u6d63\u6f36\u5bf0\u902d\u7f33\u953e\u9ca9\u9b1f',
+      'huang': '\u8352\u614c\u9ec4\u78fa\u8757\u7c27\u7687\u51f0\u60f6\u714c\u6643\u5e4c\u604d\u8c0e\u968d\u5fa8\u6e5f\u6f62\u9051\u749c\u8093\u7640\u87e5\u7bc1\u9cc7',
+      'hui': '\u7070\u6325\u8f89\u5fbd\u6062\u86d4\u56de\u6bc1\u6094\u6167\u5349\u60e0\u6666\u8d3f\u79fd\u4f1a\u70e9\u6c47\u8bb3\u8bf2\u7ed8\u8bd9\u8334\u835f\u8559\u54d5\u5599\u96b3\u6d04\u5f57\u7f0b\u73f2\u6656\u605a\u867a\u87ea\u9ebe',
+      'hun': '\u8364\u660f\u5a5a\u9b42\u6d51\u6df7\u8be8\u9984\u960d\u6eb7\u7f17',
+      'huo': '\u8c41\u6d3b\u4f19\u706b\u83b7\u6216\u60d1\u970d\u8d27\u7978\u6509\u56af\u5925\u94ac\u952a\u956c\u8020\u8816',
+      'ji': '\u51fb\u573e\u57fa\u673a\u7578\u7a3d\u79ef\u7b95\u808c\u9965\u8ff9\u6fc0\u8ba5\u9e21\u59ec\u7ee9\u7f09\u5409\u6781\u68d8\u8f91\u7c4d\u96c6\u53ca\u6025\u75be\u6c72\u5373\u5ac9\u7ea7\u6324\u51e0\u810a\u5df1\u84df\u6280\u5180\u5b63\u4f0e\u796d\u5242\u60b8\u6d4e\u5bc4\u5bc2\u8ba1\u8bb0\u65e2\u5fcc\u9645\u5993\u7ee7\u7eaa\u5c45\u4e0c\u4e69\u525e\u4f76\u4f74\u8114\u58bc\u82a8\u82b0\u8401\u84ba\u857a\u638e\u53fd\u54ad\u54dc\u5527\u5c8c\u5d74\u6d0e\u5f50\u5c50\u9aa5\u757f\u7391\u696b\u6b9b\u621f\u6222\u8d4d\u89ca\u7284\u9f51\u77f6\u7f81\u5d47\u7a37\u7620\u7635\u866e\u7b08\u7b04\u66a8\u8dfb\u8dfd\u9701\u9c9a\u9cab\u9afb\u9e82',
+      'jia': '\u5609\u67b7\u5939\u4f73\u5bb6\u52a0\u835a\u988a\u8d3e\u7532\u94be\u5047\u7a3c\u4ef7\u67b6\u9a7e\u5ac1\u4f3d\u90cf\u62ee\u5cac\u6d43\u8fe6\u73c8\u621b\u80db\u605d\u94d7\u9553\u75c2\u86f1\u7b33\u8888\u8dcf',
+      'jian': '\u6b7c\u76d1\u575a\u5c16\u7b3a\u95f4\u714e\u517c\u80a9\u8270\u5978\u7f04\u8327\u68c0\u67ec\u78b1\u7877\u62e3\u6361\u7b80\u4fed\u526a\u51cf\u8350\u69db\u9274\u8df5\u8d31\u89c1\u952e\u7bad\u4ef6\u5065\u8230\u5251\u996f\u6e10\u6e85\u6da7\u5efa\u50ed\u8c0f\u8c2b\u83c5\u84b9\u641b\u56dd\u6e54\u8e47\u8b07\u7f23\u67a7\u67d9\u6957\u620b\u622c\u726e\u728d\u6bfd\u8171\u7751\u950f\u9e63\u88e5\u7b15\u7bb4\u7fe6\u8dbc\u8e3a\u9ca3\u97af',
+      'jiang': '\u50f5\u59dc\u5c06\u6d46\u6c5f\u7586\u848b\u6868\u5956\u8bb2\u5320\u9171\u964d\u8333\u6d1a\u7edb\u7f30\u729f\u7913\u8029\u7ce8\u8c47',
+      'jiao': '\u8549\u6912\u7901\u7126\u80f6\u4ea4\u90ca\u6d47\u9a84\u5a07\u56bc\u6405\u94f0\u77eb\u4fa5\u811a\u72e1\u89d2\u997a\u7f34\u7ede\u527f\u6559\u9175\u8f7f\u8f83\u53eb\u4f7c\u50ec\u832d\u6322\u564d\u5ce4\u5fbc\u59e3\u7e9f\u656b\u768e\u9e6a\u86df\u91ae\u8de4\u9c9b',
+      'jie': '\u7a96\u63ed\u63a5\u7686\u79f8\u8857\u9636\u622a\u52ab\u8282\u6854\u6770\u6377\u776b\u7aed\u6d01\u7ed3\u89e3\u59d0\u6212\u85c9\u82a5\u754c\u501f\u4ecb\u75a5\u8beb\u5c4a\u5048\u8ba6\u8bd8\u5588\u55df\u736c\u5a55\u5b51\u6840\u7352\u78a3\u9534\u7596\u88b7\u9889\u86a7\u7faf\u9c92\u9ab1\u9aeb',
+      'jin': '\u5dfe\u7b4b\u65a4\u91d1\u4eca\u6d25\u895f\u7d27\u9526\u4ec5\u8c28\u8fdb\u9773\u664b\u7981\u8fd1\u70ec\u6d78\u5c3d\u537a\u8369\u5807\u5664\u9991\u5ed1\u5997\u7f19\u747e\u69ff\u8d46\u89d0\u9485\u9513\u887f\u77dc',
+      'jing': '\u52b2\u8346\u5162\u830e\u775b\u6676\u9cb8\u4eac\u60ca\u7cbe\u7cb3\u7ecf\u4e95\u8b66\u666f\u9888\u9759\u5883\u656c\u955c\u5f84\u75c9\u9756\u7adf\u7ade\u51c0\u522d\u5106\u9631\u83c1\u734d\u61ac\u6cfe\u8ff3\u5f2a\u5a67\u80bc\u80eb\u8148\u65cc',
+      'jiong': '\u70af\u7a98\u5182\u8fe5\u6243',
+      'jiu': '\u63ea\u7a76\u7ea0\u7396\u97ed\u4e45\u7078\u4e5d\u9152\u53a9\u6551\u65e7\u81fc\u8205\u548e\u5c31\u759a\u50e6\u557e\u9604\u67e9\u6855\u9e6b\u8d73\u9b0f',
+      'ju': '\u97a0\u62d8\u72d9\u75bd\u9a79\u83ca\u5c40\u5480\u77e9\u4e3e\u6cae\u805a\u62d2\u636e\u5de8\u5177\u8ddd\u8e1e\u952f\u4ff1\u53e5\u60e7\u70ac\u5267\u5028\u8bb5\u82e3\u82f4\u8392\u63ac\u907d\u5c66\u741a\u67b8\u6910\u6998\u6989\u6a58\u728b\u98d3\u949c\u9514\u7aad\u88fe\u8d84\u91b5\u8e3d\u9f83\u96ce\u97ab',
+      'juan': '\u6350\u9e43\u5a1f\u5026\u7737\u5377\u7ee2\u9104\u72f7\u6d93\u684a\u8832\u9529\u954c\u96bd',
+      'jue': '\u6485\u652b\u6289\u6398\u5014\u7235\u89c9\u51b3\u8bc0\u7edd\u53a5\u5282\u8c32\u77cd\u8568\u5658\u5d1b\u7357\u5b53\u73cf\u6877\u6a5b\u721d\u9562\u8e76\u89d6',
+      'jun': '\u5747\u83cc\u94a7\u519b\u541b\u5cfb\u4fca\u7ae3\u6d5a\u90e1\u9a8f\u6343\u72fb\u76b2\u7b60\u9e87',
+      'ka': '\u5580\u5496\u5361\u4f67\u5494\u80e9',
+      'ke': '\u54af\u5777\u82db\u67ef\u68f5\u78d5\u9897\u79d1\u58f3\u54b3\u53ef\u6e34\u514b\u523b\u5ba2\u8bfe\u5ca2\u606a\u6e98\u9a92\u7f02\u73c2\u8f72\u6c2a\u778c\u94b6\u75b4\u7aa0\u874c\u9ac1',
+      'kai': '\u5f00\u63e9\u6977\u51ef\u6168\u5240\u57b2\u8488\u5ffe\u607a\u94e0\u950e',
+      'kan': '\u520a\u582a\u52d8\u574e\u780d\u770b\u4f83\u51f5\u83b0\u83b6\u6221\u9f9b\u77b0',
+      'kang': '\u5eb7\u6177\u7ce0\u625b\u6297\u4ea2\u7095\u5751\u4f09\u95f6\u94aa',
+      'kao': '\u8003\u62f7\u70e4\u9760\u5c3b\u6832\u7292\u94d0',
+      'ken': '\u80af\u5543\u57a6\u6073\u57a0\u88c9\u9880',
+      'keng': '\u542d\u5fd0\u94ff',
+      'kong': '\u7a7a\u6050\u5b54\u63a7\u5025\u5d06\u7b9c',
+      'kou': '\u62a0\u53e3\u6263\u5bc7\u82a4\u853b\u53e9\u770d\u7b58',
+      'ku': '\u67af\u54ed\u7a9f\u82e6\u9177\u5e93\u88e4\u5233\u5800\u55be\u7ed4\u9ab7',
+      'kua': '\u5938\u57ae\u630e\u8de8\u80ef\u4f89',
+      'kuai': '\u5757\u7b77\u4fa9\u5feb\u84af\u90d0\u8489\u72ef\u810d',
+      'kuan': '\u5bbd\u6b3e\u9acb',
+      'kuang': '\u5321\u7b50\u72c2\u6846\u77ff\u7736\u65f7\u51b5\u8bd3\u8bf3\u909d\u5739\u593c\u54d0\u7ea9\u8d36',
+      'kui': '\u4e8f\u76d4\u5cbf\u7aa5\u8475\u594e\u9b41\u5080\u9988\u6127\u6e83\u9997\u532e\u5914\u9697\u63c6\u55b9\u559f\u609d\u6126\u9615\u9035\u668c\u777d\u8069\u8770\u7bd1\u81fe\u8dec',
+      'kun': '\u5764\u6606\u6346\u56f0\u6083\u9603\u7428\u951f\u918c\u9cb2\u9ae1',
+      'kuo': '\u62ec\u6269\u5ed3\u9614\u86de',
+      'la': '\u5783\u62c9\u5587\u8721\u814a\u8fa3\u5566\u524c\u647a\u908b\u65ef\u782c\u760c',
+      'lai': '\u83b1\u6765\u8d56\u5d03\u5f95\u6d9e\u6fd1\u8d49\u7750\u94fc\u765e\u7c41',
+      'lan': '\u84dd\u5a6a\u680f\u62e6\u7bee\u9611\u5170\u6f9c\u8c30\u63fd\u89c8\u61d2\u7f06\u70c2\u6ee5\u5549\u5c9a\u61d4\u6f24\u6984\u6593\u7f71\u9567\u8934',
+      'lang': '\u7405\u6994\u72fc\u5eca\u90ce\u6717\u6d6a\u83a8\u8497\u5577\u9606\u9512\u7a02\u8782',
+      'lao': '\u635e\u52b3\u7262\u8001\u4f6c\u59e5\u916a\u70d9\u6d9d\u5520\u5d02\u6833\u94d1\u94f9\u75e8\u91aa',
+      'le': '\u52d2\u4e50\u808b\u4ec2\u53fb\u561e\u6cd0\u9cd3',
+      'lei': '\u96f7\u956d\u857e\u78ca\u7d2f\u5121\u5792\u64c2\u7c7b\u6cea\u7fb8\u8bd4\u837d\u54a7\u6f2f\u5ad8\u7f27\u6a91\u8012\u9179',
+      'ling': '\u68f1\u51b7\u62ce\u73b2\u83f1\u96f6\u9f84\u94c3\u4f36\u7f9a\u51cc\u7075\u9675\u5cad\u9886\u53e6\u4ee4\u9143\u5844\u82d3\u5464\u56f9\u6ce0\u7eeb\u67c3\u68c2\u74f4\u8046\u86c9\u7fce\u9cae',
+      'leng': '\u695e\u6123',
+      'li': '\u5398\u68a8\u7281\u9ece\u7bf1\u72f8\u79bb\u6f13\u7406\u674e\u91cc\u9ca4\u793c\u8389\u8354\u540f\u6817\u4e3d\u5389\u52b1\u783e\u5386\u5229\u5088\u4f8b\u4fd0\u75e2\u7acb\u7c92\u6ca5\u96b6\u529b\u7483\u54e9\u4fea\u4fda\u90e6\u575c\u82c8\u8385\u84e0\u85dc\u6369\u5456\u5533\u55b1\u7301\u6ea7\u6fa7\u9026\u5a0c\u5ae0\u9a8a\u7f21\u73de\u67a5\u680e\u8f79\u623e\u783a\u8a48\u7f79\u9502\u9e42\u75a0\u75ac\u86ce\u870a\u8821\u7b20\u7be5\u7c9d\u91b4\u8dde\u96f3\u9ca1\u9ce2\u9ee7',
+      'lian': '\u4fe9\u8054\u83b2\u8fde\u9570\u5ec9\u601c\u6d9f\u5e18\u655b\u8138\u94fe\u604b\u70bc\u7ec3\u631b\u8539\u5941\u6f4b\u6fc2\u5a08\u740f\u695d\u6b93\u81c1\u81a6\u88e2\u880a\u9ca2',
+      'liang': '\u7cae\u51c9\u6881\u7cb1\u826f\u4e24\u8f86\u91cf\u667e\u4eae\u8c05\u589a\u690b\u8e09\u9753\u9b49',
+      'liao': '\u64a9\u804a\u50da\u7597\u71ce\u5be5\u8fbd\u6f66\u4e86\u6482\u9563\u5ed6\u6599\u84fc\u5c25\u5639\u7360\u5bee\u7f2d\u948c\u9e69\u8022',
+      'lie': '\u5217\u88c2\u70c8\u52a3\u730e\u51bd\u57d2\u6d0c\u8d94\u8e90\u9b23',
+      'lin': '\u7433\u6797\u78f7\u9716\u4e34\u90bb\u9cde\u6dcb\u51db\u8d41\u541d\u853a\u5d99\u5eea\u9074\u6aa9\u8f9a\u77b5\u7cbc\u8e8f\u9e9f',
+      'liu': '\u6e9c\u7409\u69b4\u786b\u998f\u7559\u5218\u7624\u6d41\u67f3\u516d\u62a1\u507b\u848c\u6cd6\u6d4f\u905b\u9a9d\u7efa\u65d2\u7198\u950d\u954f\u9e68\u938f',
+      'long': '\u9f99\u804b\u5499\u7b3c\u7abf\u9686\u5784\u62e2\u9647\u5f04\u5785\u830f\u6cf7\u73d1\u680a\u80e7\u783b\u7643',
+      'lou': '\u697c\u5a04\u6402\u7bd3\u6f0f\u964b\u55bd\u5d5d\u9542\u7618\u8027\u877c\u9ac5',
+      'lu': '\u82a6\u5362\u9885\u5e90\u7089\u63b3\u5364\u864f\u9c81\u9e93\u788c\u9732\u8def\u8d42\u9e7f\u6f5e\u7984\u5f55\u9646\u622e\u5786\u6445\u64b8\u565c\u6cf8\u6e0c\u6f09\u7490\u680c\u6a79\u8f73\u8f82\u8f98\u6c07\u80ea\u9565\u9e2c\u9e6d\u7c0f\u823b\u9c88',
+      'lv': '\u9a74\u5415\u94dd\u4fa3\u65c5\u5c65\u5c61\u7f15\u8651\u6c2f\u5f8b\u7387\u6ee4\u7eff\u634b\u95fe\u6988\u8182\u7a06\u891b',
+      'luan': '\u5ce6\u5b6a\u6ee6\u5375\u4e71\u683e\u9e3e\u92ae',
+      'lue': '\u63a0\u7565\u950a',
+      'lun': '\u8f6e\u4f26\u4ed1\u6ca6\u7eb6\u8bba\u56f5',
+      'luo': '\u841d\u87ba\u7f57\u903b\u9523\u7ba9\u9aa1\u88f8\u843d\u6d1b\u9a86\u7edc\u502e\u8366\u645e\u7321\u6cfa\u6924\u8136\u9559\u7630\u96d2',
+      'ma': '\u5988\u9ebb\u739b\u7801\u8682\u9a6c\u9a82\u561b\u5417\u551b\u72b8\u5b37\u6769\u9ebd',
+      'mai': '\u57cb\u4e70\u9ea6\u5356\u8fc8\u8109\u52a2\u836c\u54aa\u973e',
+      'man': '\u7792\u9992\u86ee\u6ee1\u8513\u66fc\u6162\u6f2b\u8c29\u5881\u5e54\u7f26\u71b3\u9558\u989f\u87a8\u9cd7\u9794',
+      'mang': '\u8292\u832b\u76f2\u5fd9\u83bd\u9099\u6f2d\u6726\u786d\u87d2',
+      'meng': '\u6c13\u840c\u8499\u6aac\u76df\u9530\u731b\u68a6\u5b5f\u52d0\u750d\u77a2\u61f5\u791e\u867b\u8722\u8813\u824b\u8268\u9efe',
+      'miao': '\u732b\u82d7\u63cf\u7784\u85d0\u79d2\u6e3a\u5e99\u5999\u55b5\u9088\u7f08\u7f2a\u676a\u6dfc\u7707\u9e4b\u8731',
+      'mao': '\u8305\u951a\u6bdb\u77db\u94c6\u536f\u8302\u5192\u5e3d\u8c8c\u8d38\u4f94\u88a4\u52d6\u8306\u5cc1\u7441\u6634\u7266\u8004\u65c4\u61cb\u7780\u86d1\u8765\u87ca\u9ae6',
+      'me': '\u4e48',
+      'mei': '\u73ab\u679a\u6885\u9176\u9709\u7164\u6ca1\u7709\u5a92\u9541\u6bcf\u7f8e\u6627\u5bd0\u59b9\u5a9a\u5776\u8393\u5d4b\u7338\u6d7c\u6e44\u6963\u9545\u9e5b\u8882\u9b45',
+      'men': '\u95e8\u95f7\u4eec\u626a\u739f\u7116\u61d1\u9494',
+      'mi': '\u772f\u919a\u9761\u7cdc\u8ff7\u8c1c\u5f25\u7c73\u79d8\u89c5\u6ccc\u871c\u5bc6\u5e42\u8288\u5196\u8c27\u863c\u5627\u7315\u736f\u6c68\u5b93\u5f2d\u8112\u6549\u7cf8\u7e3b\u9e8b',
+      'mian': '\u68c9\u7720\u7ef5\u5195\u514d\u52c9\u5a29\u7f05\u9762\u6c94\u6e4e\u817c\u7704',
+      'mie': '\u8511\u706d\u54a9\u881b\u7bfe',
+      'min': '\u6c11\u62bf\u76bf\u654f\u60af\u95fd\u82e0\u5cb7\u95f5\u6cef\u73c9',
+      'ming': '\u660e\u879f\u9e23\u94ed\u540d\u547d\u51a5\u8317\u6e9f\u669d\u7791\u9169',
+      'miu': '\u8c2c',
+      'mo': '\u6478\u6479\u8611\u6a21\u819c\u78e8\u6469\u9b54\u62b9\u672b\u83ab\u58a8\u9ed8\u6cab\u6f20\u5bde\u964c\u8c1f\u8309\u84e6\u998d\u5aeb\u9546\u79e3\u763c\u8031\u87c6\u8c8a\u8c98',
+      'mou': '\u8c0b\u725f\u67d0\u53b6\u54de\u5a7a\u7738\u936a',
+      'mu': '\u62c7\u7261\u4ea9\u59c6\u6bcd\u5893\u66ae\u5e55\u52df\u6155\u6728\u76ee\u7766\u7267\u7a46\u4eeb\u82dc\u5452\u6c90\u6bea\u94bc',
+      'na': '\u62ff\u54ea\u5450\u94a0\u90a3\u5a1c\u7eb3\u637a\u80ad\u954e\u8872\u7bac',
+      'nai': '\u6c16\u4e43\u5976\u8010\u5948\u9f10\u827f\u8418\u67f0',
+      'nan': '\u5357\u7537\u96be\u56ca\u5583\u56e1\u6960\u8169\u877b\u8d67',
+      'nao': '\u6320\u8111\u607c\u95f9\u5b6c\u57b4\u7331\u7459\u7847\u94d9\u86f2',
+      'ne': '\u6dd6\u5462\u8bb7',
+      'nei': '\u9981\u5185',
+      'nen': '\u5ae9\u80fd\u6798\u6041',
+      'ni': '\u59ae\u9713\u502a\u6ce5\u5c3c\u62df\u4f60\u533f\u817b\u9006\u6eba\u4f32\u576d\u730a\u6029\u6ee0\u6635\u65ce\u7962\u615d\u7768\u94cc\u9cb5',
+      'nian': '\u852b\u62c8\u5e74\u78be\u64b5\u637b\u5ff5\u5eff\u8f87\u9ecf\u9c87\u9cb6',
+      'niang': '\u5a18\u917f',
+      'niao': '\u9e1f\u5c3f\u8311\u5b32\u8132\u8885',
+      'nie': '\u634f\u8042\u5b7d\u556e\u954a\u954d\u6d85\u4e5c\u9667\u8616\u55eb\u8080\u989e\u81ec\u8e51',
+      'nin': '\u60a8\u67e0',
+      'ning': '\u72de\u51dd\u5b81\u62e7\u6cde\u4f5e\u84e5\u549b\u752f\u804d',
+      'niu': '\u725b\u626d\u94ae\u7ebd\u72c3\u5ff8\u599e\u86b4',
+      'nong': '\u8113\u6d53\u519c\u4fac',
+      'nu': '\u5974\u52aa\u6012\u5476\u5e11\u5f29\u80ec\u5b65\u9a7d',
+      'nv': '\u5973\u6067\u9495\u8844',
+      'nuan': '\u6696',
+      'nuenue': '\u8650',
+      'nue': '\u759f\u8c11',
+      'nuo': '\u632a\u61e6\u7cef\u8bfa\u50a9\u6426\u558f\u9518',
+      'ou': '\u54e6\u6b27\u9e25\u6bb4\u85d5\u5455\u5076\u6ca4\u6004\u74ef\u8026',
+      'pa': '\u556a\u8db4\u722c\u5e15\u6015\u7436\u8469\u7b62',
+      'pai': '\u62cd\u6392\u724c\u5f98\u6e43\u6d3e\u4ff3\u848e',
+      'pan': '\u6500\u6f58\u76d8\u78d0\u76fc\u7554\u5224\u53db\u723f\u6cee\u88a2\u897b\u87e0\u8e52',
+      'pang': '\u4e53\u5e9e\u65c1\u802a\u80d6\u6ec2\u9004',
+      'pao': '\u629b\u5486\u5228\u70ae\u888d\u8dd1\u6ce1\u530f\u72cd\u5e96\u812c\u75b1',
+      'pei': '\u5478\u80da\u57f9\u88f4\u8d54\u966a\u914d\u4f69\u6c9b\u638a\u8f94\u5e14\u6de0\u65c6\u952b\u9185\u9708',
+      'pen': '\u55b7\u76c6\u6e53',
+      'peng': '\u7830\u62a8\u70f9\u6f8e\u5f6d\u84ec\u68da\u787c\u7bf7\u81a8\u670b\u9e4f\u6367\u78b0\u576f\u580b\u562d\u6026\u87db',
+      'pi': '\u7812\u9739\u6279\u62ab\u5288\u7435\u6bd7\u5564\u813e\u75b2\u76ae\u5339\u75de\u50fb\u5c41\u8b6c\u4e15\u9674\u90b3\u90eb\u572e\u9f19\u64d7\u567c\u5e80\u5ab2\u7eb0\u6787\u7513\u7765\u7f74\u94cd\u75e6\u7656\u758b\u868d\u8c94',
+      'pian': '\u7bc7\u504f\u7247\u9a97\u8c1d\u9a88\u728f\u80fc\u890a\u7fe9\u8e41',
+      'piao': '\u98d8\u6f02\u74e2\u7968\u527d\u560c\u5ad6\u7f25\u6b8d\u779f\u87b5',
+      'pie': '\u6487\u77a5\u4e3f\u82e4\u6c15',
+      'pin': '\u62fc\u9891\u8d2b\u54c1\u8058\u62da\u59d8\u5ad4\u6980\u725d\u98a6',
+      'ping': '\u4e52\u576a\u82f9\u840d\u5e73\u51ed\u74f6\u8bc4\u5c4f\u4fdc\u5a09\u67b0\u9c86',
+      'po': '\u5761\u6cfc\u9887\u5a46\u7834\u9b44\u8feb\u7c95\u53f5\u9131\u6ea5\u73c0\u948b\u94b7\u76a4\u7b38',
+      'pou': '\u5256\u88d2\u8e23',
+      'pu': '\u6251\u94fa\u4ec6\u8386\u8461\u83e9\u84b2\u57d4\u6734\u5703\u666e\u6d66\u8c31\u66dd\u7011\u530d\u5657\u6fee\u749e\u6c06\u9564\u9568\u8e7c',
+      'qi': '\u671f\u6b3a\u6816\u621a\u59bb\u4e03\u51c4\u6f06\u67d2\u6c8f\u5176\u68cb\u5947\u6b67\u7566\u5d0e\u8110\u9f50\u65d7\u7948\u7941\u9a91\u8d77\u5c82\u4e5e\u4f01\u542f\u5951\u780c\u5668\u6c14\u8fc4\u5f03\u6c7d\u6ce3\u8bab\u4e9f\u4e93\u573b\u8291\u840b\u847a\u5601\u5c7a\u5c90\u6c54\u6dc7\u9a90\u7eee\u742a\u7426\u675e\u6864\u69ed\u6b39\u797a\u61a9\u789b\u86f4\u871e\u7da6\u7dae\u8dbf\u8e4a\u9ccd\u9e92',
+      'qia': '\u6390\u6070\u6d3d\u845c',
+      'qian': '\u7275\u6266\u948e\u94c5\u5343\u8fc1\u7b7e\u4edf\u8c26\u4e7e\u9ed4\u94b1\u94b3\u524d\u6f5c\u9063\u6d45\u8c34\u5811\u5d4c\u6b20\u6b49\u4f65\u9621\u828a\u82a1\u8368\u63ae\u5c8d\u60ad\u614a\u9a9e\u6434\u8930\u7f31\u6920\u80b7\u6106\u94a4\u8654\u7b9d',
+      'qiang': '\u67aa\u545b\u8154\u7f8c\u5899\u8537\u5f3a\u62a2\u5af1\u6a2f\u6217\u709d\u9516\u9535\u956a\u8941\u8723\u7f9f\u8deb\u8dc4',
+      'qiao': '\u6a47\u9539\u6572\u6084\u6865\u77a7\u4e54\u4fa8\u5de7\u9798\u64ac\u7fd8\u5ced\u4fcf\u7a8d\u5281\u8bee\u8c2f\u835e\u6100\u6194\u7f32\u6a35\u6bf3\u7857\u8df7\u9792',
+      'qie': '\u5207\u8304\u4e14\u602f\u7a83\u90c4\u553c\u60ec\u59be\u6308\u9532\u7ba7',
+      'qin': '\u94a6\u4fb5\u4eb2\u79e6\u7434\u52e4\u82b9\u64d2\u79bd\u5bdd\u6c81\u82a9\u84c1\u8572\u63ff\u5423\u55ea\u5659\u6eb1\u6a8e\u8793\u887e',
+      'qing': '\u9752\u8f7b\u6c22\u503e\u537f\u6e05\u64ce\u6674\u6c30\u60c5\u9877\u8bf7\u5e86\u5029\u82d8\u570a\u6aa0\u78ec\u873b\u7f44\u7b90\u8b26\u9cad\u9ee5',
+      'qiong': '\u743c\u7a77\u909b\u8315\u7a79\u7b47\u928e',
+      'qiu': '\u79cb\u4e18\u90b1\u7403\u6c42\u56da\u914b\u6cc5\u4fc5\u6c3d\u5def\u827d\u72b0\u6e6b\u9011\u9052\u6978\u8d47\u9e20\u866c\u86af\u8764\u88d8\u7cd7\u9cc5\u9f3d',
+      'qu': '\u8d8b\u533a\u86c6\u66f2\u8eaf\u5c48\u9a71\u6e20\u53d6\u5a36\u9f8b\u8da3\u53bb\u8bce\u52ac\u8556\u8627\u5c96\u8862\u9612\u74a9\u89d1\u6c0d\u795b\u78f2\u766f\u86d0\u883c\u9eb4\u77bf\u9ee2',
+      'quan': '\u5708\u98a7\u6743\u919b\u6cc9\u5168\u75ca\u62f3\u72ac\u5238\u529d\u8be0\u8343\u737e\u609b\u7efb\u8f81\u754e\u94e8\u8737\u7b4c\u9b08',
+      'que': '\u7f3a\u7094\u7638\u5374\u9e4a\u69b7\u786e\u96c0\u9619\u60ab',
+      'qun': '\u88d9\u7fa4\u9021',
+      'ran': '\u7136\u71c3\u5189\u67d3\u82d2\u9aef',
+      'rang': '\u74e4\u58e4\u6518\u56b7\u8ba9\u79b3\u7a70',
+      'rao': '\u9976\u6270\u7ed5\u835b\u5a06\u6861',
+      'ruo': '\u60f9\u82e5\u5f31',
+      're': '\u70ed\u504c',
+      'ren': '\u58ec\u4ec1\u4eba\u5fcd\u97e7\u4efb\u8ba4\u5203\u598a\u7eab\u4ede\u834f\u845a\u996a\u8f6b\u7a14\u887d',
+      'reng': '\u6254\u4ecd',
+      'ri': '\u65e5',
+      'rong': '\u620e\u8338\u84c9\u8363\u878d\u7194\u6eb6\u5bb9\u7ed2\u5197\u5d58\u72e8\u7f1b\u6995\u877e',
+      'rou': '\u63c9\u67d4\u8089\u7cc5\u8e42\u97a3',
+      'ru': '\u8339\u8815\u5112\u5b7a\u5982\u8fb1\u4e73\u6c5d\u5165\u8925\u84d0\u85b7\u5685\u6d33\u6ebd\u6fe1\u94f7\u8966\u98a5',
+      'ruan': '\u8f6f\u962e\u670a',
+      'rui': '\u854a\u745e\u9510\u82ae\u8564\u777f\u868b',
+      'run': '\u95f0\u6da6',
+      'sa': '\u6492\u6d12\u8428\u5345\u4ee8\u6332\u98d2',
+      'sai': '\u816e\u9cc3\u585e\u8d5b\u567b',
+      'san': '\u4e09\u53c1\u4f1e\u6563\u5f61\u9993\u6c35\u6bf5\u7cc1\u9730',
+      'sang': '\u6851\u55d3\u4e27\u6421\u78c9\u98a1',
+      'sao': '\u6414\u9a9a\u626b\u5ac2\u57fd\u81ca\u7619\u9ccb',
+      'se': '\u745f\u8272\u6da9\u556c\u94e9\u94ef\u7a51',
+      'sen': '\u68ee',
+      'seng': '\u50e7',
+      'sha': '\u838e\u7802\u6740\u5239\u6c99\u7eb1\u50bb\u5565\u715e\u810e\u6b43\u75e7\u88df\u970e\u9ca8',
+      'shai': '\u7b5b\u6652\u917e',
+      'shan': '\u73ca\u82eb\u6749\u5c71\u5220\u717d\u886b\u95ea\u9655\u64c5\u8d61\u81b3\u5584\u6c55\u6247\u7f2e\u5261\u8baa\u912f\u57cf\u829f\u6f78\u59d7\u9a9f\u81bb\u9490\u759d\u87ee\u8222\u8dda\u9cdd',
+      'shang': '\u5892\u4f24\u5546\u8d4f\u664c\u4e0a\u5c1a\u88f3\u57a7\u7ef1\u6b87\u71b5\u89de',
+      'shao': '\u68a2\u634e\u7a0d\u70e7\u828d\u52fa\u97f6\u5c11\u54e8\u90b5\u7ecd\u52ad\u82d5\u6f72\u86f8\u7b24\u7b72\u8244',
+      'she': '\u5962\u8d4a\u86c7\u820c\u820d\u8d66\u6444\u5c04\u6151\u6d89\u793e\u8bbe\u538d\u4f58\u731e\u7572\u9e9d',
+      'shen': '\u7837\u7533\u547b\u4f38\u8eab\u6df1\u5a20\u7ec5\u795e\u6c88\u5ba1\u5a76\u751a\u80be\u614e\u6e17\u8bdc\u8c02\u5432\u54c2\u6e16\u6939\u77e7\u8703',
+      'sheng': '\u58f0\u751f\u7525\u7272\u5347\u7ef3\u7701\u76db\u5269\u80dc\u5723\u4e1e\u6e11\u5ab5\u771a\u7b19',
+      'shi': '\u5e08\u5931\u72ee\u65bd\u6e7f\u8bd7\u5c38\u8671\u5341\u77f3\u62fe\u65f6\u4ec0\u98df\u8680\u5b9e\u8bc6\u53f2\u77e2\u4f7f\u5c4e\u9a76\u59cb\u5f0f\u793a\u58eb\u4e16\u67ff\u4e8b\u62ed\u8a93\u901d\u52bf\u662f\u55dc\u566c\u9002\u4ed5\u4f8d\u91ca\u9970\u6c0f\u5e02\u6043\u5ba4\u89c6\u8bd5\u8c25\u57d8\u83b3\u84cd\u5f11\u5511\u9963\u8f7c\u8006\u8d33\u70bb\u793b\u94c8\u94ca\u87ab\u8210\u7b6e\u8c55\u9ca5\u9cba',
+      'shou': '\u6536\u624b\u9996\u5b88\u5bff\u6388\u552e\u53d7\u7626\u517d\u624c\u72e9\u7ef6\u824f',
+      'shu': '\u852c\u67a2\u68b3\u6b8a\u6292\u8f93\u53d4\u8212\u6dd1\u758f\u4e66\u8d4e\u5b70\u719f\u85af\u6691\u66d9\u7f72\u8700\u9ecd\u9f20\u5c5e\u672f\u8ff0\u6811\u675f\u620d\u7ad6\u5885\u5eb6\u6570\u6f31\u6055\u500f\u587e\u83fd\u5fc4\u6cad\u6d91\u6f8d\u59dd\u7ebe\u6bf9\u8167\u6bb3\u956f\u79eb\u9e6c',
+      'shua': '\u5237\u800d\u5530\u6dae',
+      'shuai': '\u6454\u8870\u7529\u5e05\u87c0',
+      'shuan': '\u6813\u62f4\u95e9',
+      'shuang': '\u971c\u53cc\u723d\u5b40',
+      'shui': '\u8c01\u6c34\u7761\u7a0e',
+      'shun': '\u542e\u77ac\u987a\u821c\u6042',
+      'shuo': '\u8bf4\u7855\u6714\u70c1\u84b4\u6420\u55cd\u6fef\u5981\u69ca\u94c4',
+      'si': '\u65af\u6495\u5636\u601d\u79c1\u53f8\u4e1d\u6b7b\u8086\u5bfa\u55e3\u56db\u4f3a\u4f3c\u9972\u5df3\u53ae\u4fdf\u5155\u83e5\u549d\u6c5c\u6cd7\u6f8c\u59d2\u9a77\u7f0c\u7940\u7960\u9536\u9e36\u801c\u86f3\u7b25',
+      'song': '\u677e\u8038\u6002\u9882\u9001\u5b8b\u8bbc\u8bf5\u51c7\u83d8\u5d27\u5d69\u5fea\u609a\u6dde\u7ae6',
+      'sou': '\u641c\u8258\u64de\u55fd\u53df\u55d6\u55fe\u998a\u6eb2\u98d5\u778d\u953c\u878b',
+      'su': '\u82cf\u9165\u4fd7\u7d20\u901f\u7c9f\u50f3\u5851\u6eaf\u5bbf\u8bc9\u8083\u5919\u8c21\u850c\u55c9\u612b\u7c0c\u89eb\u7a23',
+      'suan': '\u9178\u849c\u7b97',
+      'sui': '\u867d\u968b\u968f\u7ee5\u9ad3\u788e\u5c81\u7a57\u9042\u96a7\u795f\u84d1\u51ab\u8c07\u6fc9\u9083\u71e7\u772d\u7762',
+      'sun': '\u5b59\u635f\u7b0b\u836a\u72f2\u98e7\u69ab\u8de3\u96bc',
+      'suo': '\u68ad\u5506\u7f29\u7410\u7d22\u9501\u6240\u5522\u55e6\u5a11\u686b\u7743\u7fa7',
+      'ta': '\u584c\u4ed6\u5b83\u5979\u5854\u736d\u631e\u8e4b\u8e0f\u95fc\u6ebb\u9062\u69bb\u6c93',
+      'tai': '\u80ce\u82d4\u62ac\u53f0\u6cf0\u915e\u592a\u6001\u6c70\u90b0\u85b9\u80bd\u70b1\u949b\u8dc6\u9c90',
+      'tan': '\u574d\u644a\u8d2a\u762b\u6ee9\u575b\u6a80\u75f0\u6f6d\u8c2d\u8c08\u5766\u6bef\u8892\u78b3\u63a2\u53f9\u70ad\u90ef\u8548\u6619\u94bd\u952c\u8983',
+      'tang': '\u6c64\u5858\u642a\u5802\u68e0\u819b\u5510\u7cd6\u50a5\u9967\u6e8f\u746d\u94f4\u9557\u8025\u8797\u87b3\u7fb0\u91a3',
+      'thang': '\u5018\u8eba\u6dcc',
+      'theng': '\u8d9f\u70eb',
+      'tao': '\u638f\u6d9b\u6ed4\u7ee6\u8404\u6843\u9003\u6dd8\u9676\u8ba8\u5957\u6311\u9f17\u5555\u97ec\u9955',
+      'te': '\u7279',
+      'teng': '\u85e4\u817e\u75bc\u8a8a\u6ed5',
+      'ti': '\u68af\u5254\u8e22\u9511\u63d0\u9898\u8e44\u557c\u4f53\u66ff\u568f\u60d5\u6d95\u5243\u5c49\u8351\u608c\u9016\u7ee8\u7f07\u9e48\u88fc\u918d',
+      'tian': '\u5929\u6dfb\u586b\u7530\u751c\u606c\u8214\u8146\u63ad\u5fdd\u9617\u6b84\u754b\u94bf\u86ba',
+      'tiao': '\u6761\u8fe2\u773a\u8df3\u4f7b\u7967\u94eb\u7a95\u9f86\u9ca6',
+      'tie': '\u8d34\u94c1\u5e16\u841c\u992e',
+      'ting': '\u5385\u542c\u70c3\u6c40\u5ef7\u505c\u4ead\u5ead\u633a\u8247\u839b\u8476\u5a77\u6883\u8713\u9706',
+      'tong': '\u901a\u6850\u916e\u77b3\u540c\u94dc\u5f64\u7ae5\u6876\u6345\u7b52\u7edf\u75db\u4f5f\u50ee\u4edd\u833c\u55f5\u6078\u6f7c\u783c',
+      'tou': '\u5077\u6295\u5934\u900f\u4ea0',
+      'tu': '\u51f8\u79c3\u7a81\u56fe\u5f92\u9014\u6d82\u5c60\u571f\u5410\u5154\u580d\u837c\u83df\u948d\u9174',
+      'tuan': '\u6e4d\u56e2\u7583',
+      'tui': '\u63a8\u9893\u817f\u8715\u892a\u9000\u5fd2\u717a',
+      'tun': '\u541e\u5c6f\u81c0\u9968\u66be\u8c5a\u7a80',
+      'tuo': '\u62d6\u6258\u8131\u9e35\u9640\u9a6e\u9a7c\u692d\u59a5\u62d3\u553e\u4e47\u4f57\u5768\u5eb9\u6cb1\u67dd\u7823\u7ba8\u8204\u8dce\u9f0d',
+      'wa': '\u6316\u54c7\u86d9\u6d3c\u5a03\u74e6\u889c\u4f64\u5a32\u817d',
+      'wai': '\u6b6a\u5916',
+      'wan': '\u8c4c\u5f2f\u6e7e\u73a9\u987d\u4e38\u70f7\u5b8c\u7897\u633d\u665a\u7696\u60cb\u5b9b\u5a49\u4e07\u8155\u525c\u8284\u82cb\u83c0\u7ea8\u7efe\u742c\u8118\u7579\u873f\u7ba2',
+      'wang': '\u6c6a\u738b\u4ea1\u6789\u7f51\u5f80\u65fa\u671b\u5fd8\u5984\u7f54\u5c22\u60d8\u8f8b\u9b4d',
+      'wei': '\u5a01\u5dcd\u5fae\u5371\u97e6\u8fdd\u6845\u56f4\u552f\u60df\u4e3a\u6f4d\u7ef4\u82c7\u840e\u59d4\u4f1f\u4f2a\u5c3e\u7eac\u672a\u851a\u5473\u754f\u80c3\u5582\u9b4f\u4f4d\u6e2d\u8c13\u5c09\u6170\u536b\u502d\u504e\u8bff\u9688\u8473\u8587\u5e0f\u5e37\u5d34\u5d6c\u7325\u732c\u95f1\u6ca9\u6d27\u6da0\u9036\u5a13\u73ae\u97ea\u8ece\u709c\u7168\u71a8\u75ff\u8249\u9c94',
+      'wen': '\u761f\u6e29\u868a\u6587\u95fb\u7eb9\u543b\u7a33\u7d0a\u95ee\u520e\u6120\u960c\u6c76\u74ba\u97eb\u6b81\u96ef',
+      'weng': '\u55e1\u7fc1\u74ee\u84ca\u8579',
+      'wo': '\u631d\u8717\u6da1\u7a9d\u6211\u65a1\u5367\u63e1\u6c83\u83b4\u5e44\u6e25\u674c\u809f\u9f8c',
+      'wu': '\u5deb\u545c\u94a8\u4e4c\u6c61\u8bec\u5c4b\u65e0\u829c\u68a7\u543e\u5434\u6bcb\u6b66\u4e94\u6342\u5348\u821e\u4f0d\u4fae\u575e\u620a\u96fe\u6664\u7269\u52ff\u52a1\u609f\u8bef\u5140\u4ef5\u9622\u90ac\u572c\u82b4\u5e91\u6003\u5fe4\u6d6f\u5be4\u8fd5\u59a9\u9a9b\u727e\u7110\u9e49\u9e5c\u8708\u92c8\u9f2f',
+      'xi': '\u6614\u7199\u6790\u897f\u7852\u77fd\u6670\u563b\u5438\u9521\u727a\u7a00\u606f\u5e0c\u6089\u819d\u5915\u60dc\u7184\u70ef\u6eaa\u6c50\u7280\u6a84\u88ad\u5e2d\u4e60\u5ab3\u559c\u94e3\u6d17\u7cfb\u9699\u620f\u7ec6\u50d6\u516e\u96b0\u90d7\u831c\u8478\u84f0\u595a\u550f\u5f99\u9969\u960b\u6d60\u6dc5\u5c63\u5b09\u73ba\u6a28\u66e6\u89cb\u6b37\u71b9\u798a\u79a7\u94b8\u7699\u7a78\u8725\u87cb\u823e\u7fb2\u7c9e\u7fd5\u91af\u9f37',
+      'xia': '\u778e\u867e\u5323\u971e\u8f96\u6687\u5ce1\u4fa0\u72ed\u4e0b\u53a6\u590f\u5413\u6380\u846d\u55c4\u72ce\u9050\u7455\u7856\u7615\u7f45\u9ee0',
+      'xian': '\u9528\u5148\u4ed9\u9c9c\u7ea4\u54b8\u8d24\u8854\u8237\u95f2\u6d8e\u5f26\u5acc\u663e\u9669\u73b0\u732e\u53bf\u817a\u9985\u7fa1\u5baa\u9677\u9650\u7ebf\u51bc\u85d3\u5c98\u7303\u66b9\u5a34\u6c19\u7946\u9e47\u75eb\u86ac\u7b45\u7c7c\u9170\u8df9',
+      'xiang': '\u76f8\u53a2\u9576\u9999\u7bb1\u8944\u6e58\u4e61\u7fd4\u7965\u8be6\u60f3\u54cd\u4eab\u9879\u5df7\u6a61\u50cf\u5411\u8c61\u8297\u8459\u9977\u5ea0\u9aa7\u7f03\u87d3\u9c9e\u98e8',
+      'xiao': '\u8427\u785d\u9704\u524a\u54ee\u56a3\u9500\u6d88\u5bb5\u6dc6\u6653\u5c0f\u5b5d\u6821\u8096\u5578\u7b11\u6548\u54d3\u54bb\u5d24\u6f47\u900d\u9a81\u7ee1\u67ad\u67b5\u7b71\u7bab\u9b48',
+      'xie': '\u6954\u4e9b\u6b47\u874e\u978b\u534f\u631f\u643a\u90aa\u659c\u80c1\u8c10\u5199\u68b0\u5378\u87f9\u61c8\u6cc4\u6cfb\u8c22\u5c51\u5055\u4eb5\u52f0\u71ee\u85a4\u64b7\u5ee8\u7023\u9082\u7ec1\u7f2c\u69ad\u698d\u6b59\u8e9e',
+      'xin': '\u85aa\u82af\u950c\u6b23\u8f9b\u65b0\u5ffb\u5fc3\u4fe1\u8845\u56df\u99a8\u8398\u6b46\u94fd\u946b',
+      'xing': '\u661f\u8165\u7329\u60fa\u5174\u5211\u578b\u5f62\u90a2\u884c\u9192\u5e78\u674f\u6027\u59d3\u9649\u8347\u8365\u64e4\u60bb\u784e',
+      'xiong': '\u5144\u51f6\u80f8\u5308\u6c79\u96c4\u718a\u828e',
+      'xiu': '\u4f11\u4fee\u7f9e\u673d\u55c5\u9508\u79c0\u8896\u7ee3\u83a0\u5cab\u9990\u5ea5\u9e3a\u8c85\u9af9',
+      'xu': '\u589f\u620c\u9700\u865a\u5618\u987b\u5f90\u8bb8\u84c4\u9157\u53d9\u65ed\u5e8f\u755c\u6064\u7d6e\u5a7f\u7eea\u7eed\u8bb4\u8be9\u5729\u84ff\u6035\u6d2b\u6e86\u987c\u6829\u7166\u7809\u76f1\u80e5\u7cc8\u9191',
+      'xuan': '\u8f69\u55a7\u5ba3\u60ac\u65cb\u7384\u9009\u7663\u7729\u7eda\u5107\u8c16\u8431\u63ce\u9994\u6ceb\u6d35\u6e32\u6f29\u7487\u6966\u6684\u70ab\u714a\u78b9\u94c9\u955f\u75c3',
+      'xue': '\u9774\u859b\u5b66\u7a74\u96ea\u8840\u5671\u6cf6\u9cd5',
+      'xun': '\u52cb\u718f\u5faa\u65ec\u8be2\u5bfb\u9a6f\u5de1\u6b89\u6c5b\u8bad\u8baf\u900a\u8fc5\u5dfd\u57d9\u8340\u85b0\u5ccb\u5f87\u6d54\u66db\u7aa8\u91ba\u9c9f',
+      'ya': '\u538b\u62bc\u9e26\u9e2d\u5440\u4e2b\u82bd\u7259\u869c\u5d16\u8859\u6daf\u96c5\u54d1\u4e9a\u8bb6\u4f22\u63e0\u5416\u5c88\u8fd3\u5a05\u740a\u6860\u6c29\u7811\u775a\u75d6',
+      'yan': '\u7109\u54bd\u9609\u70df\u6df9\u76d0\u4e25\u7814\u8712\u5ca9\u5ef6\u8a00\u989c\u960e\u708e\u6cbf\u5944\u63a9\u773c\u884d\u6f14\u8273\u5830\u71d5\u538c\u781a\u96c1\u5501\u5f66\u7130\u5bb4\u8c1a\u9a8c\u53a3\u9765\u8d5d\u4fe8\u5043\u5156\u8ba0\u8c33\u90fe\u9122\u82ab\u83f8\u5d26\u6079\u95eb\u960f\u6d07\u6e6e\u6edf\u598d\u5ae3\u7430\u664f\u80ed\u814c\u7131\u7f68\u7b75\u917d\u9b47\u990d\u9f39',
+      'yang': '\u6b83\u592e\u9e2f\u79e7\u6768\u626c\u4f6f\u75a1\u7f8a\u6d0b\u9633\u6c27\u4ef0\u75d2\u517b\u6837\u6f3e\u5f89\u600f\u6cf1\u7080\u70ca\u6059\u86d8\u9785',
+      'yao': '\u9080\u8170\u5996\u7476\u6447\u5c27\u9065\u7a91\u8c23\u59da\u54ac\u8200\u836f\u8981\u8000\u592d\u723b\u5406\u5d3e\u5fad\u7039\u5e7a\u73e7\u6773\u66dc\u80b4\u9e5e\u7a88\u7e47\u9cd0',
+      'ye': '\u6930\u564e\u8036\u7237\u91ce\u51b6\u4e5f\u9875\u6396\u4e1a\u53f6\u66f3\u814b\u591c\u6db2\u8c12\u90ba\u63f6\u9980\u6654\u70e8\u94d8',
+      'yi': '\u4e00\u58f9\u533b\u63d6\u94f1\u4f9d\u4f0a\u8863\u9890\u5937\u9057\u79fb\u4eea\u80f0\u7591\u6c82\u5b9c\u59e8\u5f5d\u6905\u8681\u501a\u5df2\u4e59\u77e3\u4ee5\u827a\u6291\u6613\u9091\u5c79\u4ebf\u5f79\u81c6\u9038\u8084\u75ab\u4ea6\u88d4\u610f\u6bc5\u5fc6\u4e49\u76ca\u6ea2\u8be3\u8bae\u8c0a\u8bd1\u5f02\u7ffc\u7fcc\u7ece\u5208\u5293\u4f7e\u8bd2\u572a\u572f\u57f8\u61ff\u82e1\u858f\u5f08\u5955\u6339\u5f0b\u5453\u54a6\u54bf\u566b\u5cc4\u5db7\u7317\u9974\u603f\u6021\u6092\u6f2a\u8fe4\u9a7f\u7f22\u6baa\u8d3b\u65d6\u71a0\u9487\u9552\u9571\u75cd\u7617\u7654\u7fca\u8864\u8734\u8223\u7fbf\u7ff3\u914f\u9edf',
+      'yin': '\u8335\u836b\u56e0\u6bb7\u97f3\u9634\u59fb\u541f\u94f6\u6deb\u5bc5\u996e\u5c39\u5f15\u9690\u5370\u80e4\u911e\u5819\u831a\u5591\u72fa\u5924\u6c24\u94df\u763e\u8693\u972a\u9f88',
+      'ying': '\u82f1\u6a31\u5a74\u9e70\u5e94\u7f28\u83b9\u8424\u8425\u8367\u8747\u8fce\u8d62\u76c8\u5f71\u9896\u786c\u6620\u5b34\u90e2\u8314\u83ba\u8426\u6484\u5624\u81ba\u6ee2\u6f46\u701b\u745b\u748e\u6979\u9e66\u763f\u988d\u7f42',
+      'yo': '\u54df\u5537',
+      'yong': '\u62e5\u4f63\u81c3\u75c8\u5eb8\u96cd\u8e0a\u86f9\u548f\u6cf3\u6d8c\u6c38\u607f\u52c7\u7528\u4fd1\u58c5\u5889\u6175\u9095\u955b\u752c\u9cd9\u9954',
+      'you': '\u5e7d\u4f18\u60a0\u5fe7\u5c24\u7531\u90ae\u94c0\u72b9\u6cb9\u6e38\u9149\u6709\u53cb\u53f3\u4f51\u91c9\u8bf1\u53c8\u5e7c\u5363\u6538\u4f91\u83b8\u5466\u56ff\u5ba5\u67da\u7337\u7256\u94d5\u75a3\u8763\u9c7f\u9edd\u9f2c',
+      'yu': '\u8fc2\u6de4\u4e8e\u76c2\u6986\u865e\u611a\u8206\u4f59\u4fde\u903e\u9c7c\u6109\u6e1d\u6e14\u9685\u4e88\u5a31\u96e8\u4e0e\u5c7f\u79b9\u5b87\u8bed\u7fbd\u7389\u57df\u828b\u90c1\u5401\u9047\u55bb\u5cea\u5fa1\u6108\u6b32\u72f1\u80b2\u8a89\u6d74\u5bd3\u88d5\u9884\u8c6b\u9a6d\u79ba\u6bd3\u4f1b\u4fe3\u8c00\u8c15\u8438\u84e3\u63c4\u5581\u5704\u5709\u5d5b\u72f3\u996b\u5ebe\u9608\u59aa\u59a4\u7ea1\u745c\u6631\u89ce\u8174\u6b24\u65bc\u715c\u71e0\u807f\u94b0\u9e46\u7610\u7600\u7ab3\u8753\u7afd\u8201\u96e9\u9f89',
+      'yuan': '\u9e33\u6e0a\u51a4\u5143\u57a3\u8881\u539f\u63f4\u8f95\u56ed\u5458\u5706\u733f\u6e90\u7f18\u8fdc\u82d1\u613f\u6028\u9662\u586c\u6c85\u5a9b\u7457\u6a7c\u7230\u7722\u9e22\u8788\u9f0b',
+      'yue': '\u66f0\u7ea6\u8d8a\u8dc3\u94a5\u5cb3\u7ca4\u6708\u60a6\u9605\u9fa0\u6a3e\u5216\u94ba',
+      'yun': '\u8018\u4e91\u90e7\u5300\u9668\u5141\u8fd0\u8574\u915d\u6655\u97f5\u5b55\u90d3\u82b8\u72c1\u607d\u7ead\u6b92\u6600\u6c32',
+      'za': '\u531d\u7838\u6742\u62f6\u5482',
+      'zai': '\u683d\u54c9\u707e\u5bb0\u8f7d\u518d\u5728\u54b1\u5d3d\u753e',
+      'zan': '\u6512\u6682\u8d5e\u74d2\u661d\u7c2a\u7ccc\u8db1\u933e',
+      'zang': '\u8d43\u810f\u846c\u5958\u6215\u81e7',
+      'zao': '\u906d\u7cdf\u51ff\u85fb\u67a3\u65e9\u6fa1\u86a4\u8e81\u566a\u9020\u7682\u7076\u71e5\u5523\u7f2b',
+      'ze': '\u8d23\u62e9\u5219\u6cfd\u4ec4\u8d5c\u5567\u8fee\u6603\u7b2e\u7ba6\u8234',
+      'zei': '\u8d3c',
+      'zen': '\u600e\u8c2e',
+      'zeng': '\u589e\u618e\u66fe\u8d60\u7f2f\u7511\u7f7e\u9503',
+      'zha': '\u624e\u55b3\u6e23\u672d\u8f67\u94e1\u95f8\u7728\u6805\u69a8\u548b\u4e4d\u70b8\u8bc8\u63f8\u5412\u54a4\u54f3\u600d\u781f\u75c4\u86b1\u9f44',
+      'zhai': '\u6458\u658b\u5b85\u7a84\u503a\u5be8\u7826',
+      'zhan': '\u77bb\u6be1\u8a79\u7c98\u6cbe\u76cf\u65a9\u8f97\u5d2d\u5c55\u8638\u6808\u5360\u6218\u7ad9\u6e5b\u7efd\u8c35\u640c\u65c3',
+      'zhang': '\u6a1f\u7ae0\u5f70\u6f33\u5f20\u638c\u6da8\u6756\u4e08\u5e10\u8d26\u4ed7\u80c0\u7634\u969c\u4ec9\u9123\u5e5b\u5d82\u7350\u5adc\u748b\u87d1',
+      'zhao': '\u62db\u662d\u627e\u6cbc\u8d75\u7167\u7f69\u5146\u8087\u53ec\u722a\u8bcf\u68f9\u948a\u7b0a',
+      'zhe': '\u906e\u6298\u54f2\u86f0\u8f99\u8005\u9517\u8517\u8fd9\u6d59\u8c2a\u966c\u67d8\u8f84\u78d4\u9e67\u891a\u8707\u8d6d',
+      'zhen': '\u73cd\u659f\u771f\u7504\u7827\u81fb\u8d1e\u9488\u4fa6\u6795\u75b9\u8bca\u9707\u632f\u9547\u9635\u7f1c\u6862\u699b\u8f78\u8d48\u80d7\u6715\u796f\u755b\u9e29',
+      'zheng': '\u84b8\u6323\u7741\u5f81\u72f0\u4e89\u6014\u6574\u62ef\u6b63\u653f\u5e27\u75c7\u90d1\u8bc1\u8be4\u5ce5\u94b2\u94ee\u7b5d',
+      'zhi': '\u829d\u679d\u652f\u5431\u8718\u77e5\u80a2\u8102\u6c41\u4e4b\u7ec7\u804c\u76f4\u690d\u6b96\u6267\u503c\u4f84\u5740\u6307\u6b62\u8dbe\u53ea\u65e8\u7eb8\u5fd7\u631a\u63b7\u81f3\u81f4\u7f6e\u5e1c\u5cd9\u5236\u667a\u79e9\u7a1a\u8d28\u7099\u75d4\u6ede\u6cbb\u7a92\u536e\u965f\u90c5\u57f4\u82b7\u646d\u5e19\u5fee\u5f58\u54ab\u9a98\u6809\u67b3\u6800\u684e\u8f75\u8f7e\u6534\u8d3d\u81a3\u7949\u7957\u9ef9\u96c9\u9e37\u75e3\u86ed\u7d77\u916f\u8dd6\u8e2c\u8e2f\u8c78\u89ef',
+      'zhong': '\u4e2d\u76c5\u5fe0\u949f\u8877\u7ec8\u79cd\u80bf\u91cd\u4ef2\u4f17\u51a2\u953a\u87bd\u8202\u822f\u8e35',
+      'zhou': '\u821f\u5468\u5dde\u6d32\u8bcc\u7ca5\u8f74\u8098\u5e1a\u5492\u76b1\u5b99\u663c\u9aa4\u5544\u7740\u501c\u8bf9\u836e\u9b3b\u7ea3\u80c4\u78a1\u7c40\u8233\u914e\u9cb7',
+      'zhu': '\u73e0\u682a\u86db\u6731\u732a\u8bf8\u8bdb\u9010\u7af9\u70db\u716e\u62c4\u77a9\u5631\u4e3b\u8457\u67f1\u52a9\u86c0\u8d2e\u94f8\u7b51\u4f4f\u6ce8\u795d\u9a7b\u4f2b\u4f8f\u90be\u82ce\u8331\u6d19\u6e1a\u6f74\u9a7a\u677c\u69e0\u6a65\u70b7\u94e2\u75b0\u7603\u86b0\u7afa\u7bb8\u7fe5\u8e85\u9e88',
+      'zhua': '\u6293',
+      'zhuai': '\u62fd',
+      'zhuan': '\u4e13\u7816\u8f6c\u64b0\u8d5a\u7bc6\u629f\u556d\u989b',
+      'zhuang': '\u6869\u5e84\u88c5\u5986\u649e\u58ee\u72b6\u4e2c',
+      'zhui': '\u690e\u9525\u8ffd\u8d58\u5760\u7f00\u8411\u9a93\u7f12',
+      'zhun': '\u8c06\u51c6',
+      'zhuo': '\u6349\u62d9\u5353\u684c\u7422\u8301\u914c\u707c\u6d4a\u502c\u8bfc\u5ef4\u855e\u64e2\u555c\u6d5e\u6dbf\u6753\u712f\u799a\u65ab',
+      'zi': '\u5179\u54a8\u8d44\u59ff\u6ecb\u6dc4\u5b5c\u7d2b\u4ed4\u7c7d\u6ed3\u5b50\u81ea\u6e0d\u5b57\u8c18\u5d6b\u59ca\u5b73\u7f01\u6893\u8f8e\u8d40\u6063\u7726\u9531\u79ed\u8014\u7b2b\u7ca2\u89dc\u8a3e\u9cbb\u9aed',
+      'zong': '\u9b03\u68d5\u8e2a\u5b97\u7efc\u603b\u7eb5\u8159\u7cbd',
+      'zou': '\u90b9\u8d70\u594f\u63cd\u9139\u9cb0',
+      'zu': '\u79df\u8db3\u5352\u65cf\u7956\u8bc5\u963b\u7ec4\u4fce\u83f9\u5550\u5f82\u9a75\u8e74',
+      'zuan': '\u94bb\u7e82\u6525\u7f35',
+      'zui': '\u5634\u9189\u6700\u7f6a',
+      'zun': '\u5c0a\u9075\u6499\u6a3d\u9cdf',
+      'zuo': '\u6628\u5de6\u4f50\u67de\u505a\u4f5c\u5750\u5ea7\u961d\u963c\u80d9\u795a\u9162',
+      'cou': '\u85ae\u6971\u8f8f\u8160',
+      'nang': '\u652e\u54dd\u56d4\u9995\u66e9',
+      'o': '\u5594',
+      'dia': '\u55f2',
+      'chuai': '\u562c\u81aa\u8e39',
+      'cen': '\u5c91\u6d94',
+      'diu': '\u94e5',
+      'nou': '\u8028',
+      'fou': '\u7f36',
+      'bia': '\u9adf'
+    };
+
+    function sourceSearch(character) {
+      for (var name in source) {
+        if (source[name].indexOf(character) !== -1) {
+          return name;
+        }
+      }
+
+      return false;
+    }
+
+    return function (input) {
+      if (input === '' || input === undefined || input === null) return '';
+
+      var pinyin = '';
+      var phrase = input.toLowerCase();
+
+      for (var i = 0; i < phrase.length; i++) {
+        var character = phrase.substr(i, 1);
+        var translate = sourceSearch(character);
+        var regex = /[A-z0-9\-\_]/;
+
+        if (regex.test(character)) {
+          pinyin += character;
+        } else if (translate) {
+          // 为中文字前增加空格，防止英文中文粘连
+          // 例如 VR电影 > vrdian ying，调整为 vr  dian  ying
+          if (i > 0) {
+            pinyin += ' ';
+          }
+
+          pinyin += translate;
+
+          if (i < phrase.length - 1) pinyin += ' ';
+        } else {
+          // 既不是英文又不是中文情况下增加空格
+          pinyin += ' ';
+        }
+      }
+
+      pinyin = pinyin.replace(/ /g, '-');
+      while (pinyin.indexOf('--') > 0) pinyin = pinyin.replace('--', '-');
+
+      return pinyin;
+    };
+  }
+]);
+/**
+ * ndBlurred Directives
+ * 失去焦点验证
+ */
+angular.module('directives').directive('ndBlurred', function () {
+  return {
+    require: 'ngModel',
+    link: function (scope, element, attrs, ctrl) {
+      ctrl.$blurred = true;
+
+      element
+        .on('focus', function () {
+          scope.$apply(function () {
+            ctrl.$blurred = false;
+          });
+        })
+        .on('blur', function () {
+          scope.$apply(function () {
+            ctrl.$blurred = true;
+          });
+        });
+    }
+  }
+});
+/**
+ * ndEditor Directives
+ * Markdown 编辑器
+ */
+angular.module('directives').directive('ndEditor',  ['$templateCache', '$timeout', '$filter', '$http', 'Upload',
+  function ($templateCache, $timeout, $filter, $http, Upload) {
+    return {
+      restrict: 'E',
+      template: $templateCache.get('editor.view.html'),
+      scope: {
+        content: '=',
+        disabled: '=',
+        rows: '=',
+      },
+      link: function (scope, element, attr, ctrl) {
+        'use strict';
+
+        /**
+         * 初始化变量
+         */
+        var markdownHelper = null;
+        var mediaSelect = scope.$parent.mediaSelect;
+        scope.transmitting = true;
+        scope.description = '';
+        scope.videoSource = '';
+
+        /**
+         * 插入视频
+         */
+        scope.insertVideo = function () {
+          var selected = markdownHelper.getSelection();
+          var content = markdownHelper.getContent();
+          var isFirstN = /\n$/.test(content.substr(0, selected.start));
+          var isLastN = /^\n/.test(content.substr(selected.end, content.length));
+          var str = '';
+
+          if (!isFirstN && selected.start !== 0 ) {
+            str += '\n';
+          }
+
+          str += '\n' + scope.videoSource + '\n';
+
+          if (!isLastN) {
+            str += '\n';
+          }
+
+          markdownHelper.replaceSelection(str);
+
+          $('#videoInsert').modal('hide');
+          scope.videoSource = '';
+          scope.videoInsertForm.$setUntouched();
+          var newSelected = markdownHelper.getContent().length - (content.length - selected.end);
+          markdownHelper.setSelection(newSelected, newSelected);
+
+          scope.content = markdownHelper.getContent();
+        };
+
+        /**
+         * 初始化编辑器
+         */
+        $('#content').markdown({
+          resize: 'vertical',
+          iconlibrary: 'fa',
+          language: 'zh',
+          onShow: function (e) {
+            markdownHelper = e;
+          },
+          onChange: function (e) {
+            scope.$apply(function () {
+              scope.content = e.getContent();
+            });
+          },
+          buttons: [
+            [
+              {},
+              {
+                data: [
+                  {},
+                  {
+                    name: 'cmdMedia',
+                    title: '媒体库',
+                    icon: { fa: 'fa fa-archive' },
+                    callback: function (e) {
+                      mediaSelect({}, function (activeMedia) {
+                        var selected = e.getSelection();
+                        var content = e.getContent();
+                        var isFirstN = /\n$/.test(content.substr(0, selected.start));
+                        var isLastN = /^\n/.test(content.substr(selected.end, content.length));
+                        var str = '';
+
+                        if (activeMedia.length === 1) {
+                          var alt = selected.text ? selected.text : activeMedia[0].fileName;
+
+                          if (activeMedia[0].isImage) {
+                            if (!isFirstN && selected.start !== 0) {
+                              str += '\n';
+                            }
+
+                            str += '\n![' + alt + '](' + encodeURI(activeMedia[0].src) + ' "' + activeMedia[0].fileName + '")\n';
+
+                            if (!isLastN) {
+                              str += '\n';
+                            }
+                          } else {
+                            str += '[' + alt + '](' + encodeURI(activeMedia[0].src) + ' "' + activeMedia[0].fileName + '")'
+                          }
+                        } else if (activeMedia.length > 1) {
+                          for (var i = 0; i < activeMedia.length; i++) {
+                            if (i === 0 && !isFirstN) {
+                              str += '\n';
+                            }
+
+                            if (activeMedia[i].isImage) {
+                              str += '\n![' + activeMedia[i].fileName + '](' + encodeURI(activeMedia[i].src) + ' "' + activeMedia[i].fileName + '")\n';
+                            } else {
+                              str += '\n[' + activeMedia[i].fileName + '](' + encodeURI(activeMedia[i].src) + ' "' + activeMedia[i].fileName + '")\n';
+                            }
+                            if (i === activeMedia.length - 1 && !isLastN) {
+                              str += '\n';
+                            }
+                          }
+                        }
+
+                        e.replaceSelection(str);
+
+                        var newSelected = e.getContent().length - (content.length - selected.end);
+                        e.setSelection(newSelected, newSelected);
+
+                        scope.content = e.getContent();
+                      });
+                    }
+                  },
+                  {
+                    name: 'cmdVideo',
+                    title: '视频',
+                    hotkey: 'Ctrl+D',
+                    icon: { fa: 'fa fa-video-camera' },
+                    callback: function (e) {
+                      $('#videoInsert').modal('show');
+                    }
+                  }
+                ]
+              }
+            ]
+          ]
+        });
+
+        scope.$watch('disabled', function () {
+          $('#content').siblings('.btn-toolbar').find('button').prop('disabled', scope.disabled);
+        });
+      }
+    }
+  }
+]);
+/**
+ * ndMediaSelect Directives
+ * 媒体库模态窗
+ */
+angular.module('directives').directive('ndMediaSelect',  ['$templateCache', '$timeout', '$filter', '$http', 'Upload',
+  function ($templateCache, $timeout, $filter, $http, Upload) {
+    return {
+      restrict: 'E',
+      replace: true,
+      template: $templateCache.get('media-select.view.html'),
+      scope: {
+        media: '='
+      },
+      link: function (scope, element, attr, ctrl) {
+        'use strict';
+
+        /**
+         * 初始化变量
+         */
+        scope.transmitting = true;
+        scope.mediaStore = [];
+        scope.selectView = 'list';
+        scope.thumbnailInfoView = false;
+        scope.medium = {};
+        scope.mediumId = '';
+        scope.fileNameFirst = '';
+        scope.fileNameLast = '';
+        scope.description = '';
+        scope.disabledSelectViewRemove = true;
+        scope.disabledSelectViewinsert = true;
+        scope.selectLimit = 0;
+        scope.callback = null;
+        scope.disabledUploadThumbnail = false;
+
+        /**
+         * 检查是否达到选择个数限制及禁用选择
+         */
+        function checkDisabledUploadThumbnail () {
+          var activeMediaItems;
+
+          switch (scope.selectView) {
+            case 'list':
+              activeMediaItems = _.filter(scope.media, { 'active': true }).length;
+
+              break;
+            case 'store':
+              activeMediaItems = _.filter(scope.mediaStore, { 'active': true }).length;
+          }
+
+          if (scope.selectLimit && scope.selectLimit - activeMediaItems < 1) {
+            scope.disabledUploadThumbnail = true;
+          } else {
+            scope.disabledUploadThumbnail = false;
+          }
+        }
+
+        /**
+         * 向外层暴露媒体库接口
+         * @param options
+         * @param callback
+         */
+        scope.$parent.mediaSelect = function (options, callback) {
+          scope.selectLimit = options.limit || null;
+          scope.callback = callback || null;
+
+          checkDisabledUploadThumbnail();
+
+          element.modal('show');
+        };
+
+        /**
+         * 切换媒体库
+         * @param target
+         */
+        scope.selectViewSlide = function (target) {
+          scope.thumbnailInfoView = false;
+          scope.medium.edited = false;
+          _.map(scope.media, function (medium) { return medium.active = false });
+          _.map(scope.mediaStore, function (medium) { return medium.active = false });
+          scope.disabledSelectViewRemove = true;
+          scope.disabledSelectViewinsert = true;
+
+          checkDisabledUploadThumbnail();
+
+          scope.selectView = target;
+        };
+
+        /**
+         * 展开媒体详情
+         * @param medium
+         * @param $event
+         */
+        scope.thumbnailInfoSlide = function (medium, $event) {
+          $event.stopPropagation();
+
+          if (medium._id !== scope.mediumId) {
+            scope.transmitting = false;
+            scope.thumbnailInfoView = true;
+            scope.medium.edited = false;
+            medium.edited = true;
+            scope.medium = medium;
+            scope.mediumId = medium._id;
+            var fileName = medium.fileName.match(/^(.+)(\.\w+)$/);
+            scope.fileNameFirst = _.get(fileName, 1);
+            scope.fileNameLast = _.get(fileName, 2);
+            scope.description = medium.description;
+          } else {
+            scope.thumbnailInfoView = !scope.thumbnailInfoView;
+            medium.edited = !medium.edited;
+          }
+        };
+
+        /**
+         * 保存媒体库详情
+         */
+        scope.saveThumbnailInfo = function () {
+          scope.transmitting = true;
+
+          var data = {
+            fileName: scope.fileNameFirst + scope.fileNameLast
+          };
+
+          if (scope.description) data.description = scope.description;
+
+          $http.put('/api/media/' + scope.mediumId, data)
+            .then(function () {
+              scope.transmitting = false;
+
+              scope.medium.fileName = _.clone(scope.fileNameFirst + scope.fileNameLast);
+              scope.medium.description = _.clone(scope.description);
+
+              scope.$emit('notification', {
+                type: 'success',
+                message: '图片信息保存成功'
+              });
+            }, function () {
+              scope.$emit('notification', {
+                type: 'danger',
+                message: '图片信息保存失败'
+              });
+            });
+        };
+
+        /**
+         * 读取媒体库
+         */
+        function getMedia () {
+          scope.mediaStore = [];
+
+          $http.get('/api/media', {
+            params: {
+              currentPage: 1,
+              pageSize: 9
+            }
+          }).then(function (res) {
+            var data = res.data.media;
+
+            _.map(data, function (medium) {
+              var fileNameLast = _.get(medium.fileName.match(/^.+\.(\w+)$/), 1);
+
+              var _medium = {
+                file: null,
+                fileName: medium.fileName,
+                fileNameLast: fileNameLast,
+                isImage: false,
+                description: medium.description,
+                src: medium.src,
+                _id: medium._id,
+                uploadStatus: 'success',
+                active: false,
+                edited: false
+              };
+
+              switch (fileNameLast) {
+                case 'jpg':
+                case 'jpeg':
+                case 'png':
+                case 'gif':
+                  _medium.isImage = true;
+              }
+
+              scope.mediaStore.push(_medium);
+            });
+          });
+        } getMedia();
+
+        /**
+         * 上传媒体
+         */
+        scope.uploadMedia = function (files) {
+          if (!files) return false;
+
+          _.map(files, function (file) {
+            Upload.dataUrl(file).then(function (blob) {
+              var fileNameLast = _.get(file.name.match(/^.+\.(\w+)$/), 1);
+
+              var medium = {
+                file: blob,
+                fileName: file.name,
+                fileNameLast: fileNameLast,
+                isImage: false,
+                src: '',
+                _id: '',
+                uploadStatus: 'uploading',
+                active: false,
+                edited: false
+              };
+
+              switch (fileNameLast) {
+                case 'jpg':
+                case 'jpeg':
+                case 'png':
+                case 'gif':
+                  medium.isImage = true;
+              }
+
+              scope.media.push(medium);
+            });
+          });
+
+          async.eachLimit(files, 3, function (file, callback) {
+            Upload.upload({
+              url: '/api/media',
+              data: { file: file }
+            }).then(function (res) {
+              var data = res.data;
+
+              _.map(scope.media, function (medium) {
+                Upload.dataUrl(file).then(function (blob) {
+                  if (blob === medium.file) {
+                    medium._id = data._id;
+                    medium.src = data.src;
+                    medium.uploadStatus = 'success';
+                  }
+                });
+              });
+
+              getMedia();
+
+              callback(null);
+            }, function (res) {
+              callback(res);
+            });
+          }, function (err) {
+            if (err) {
+              scope.$emit('notification', {
+                type: 'danger',
+                message: '上传缩略图失败'
+              });
+            }
+          });
+        };
+
+        /**
+         * 上传媒体模态关闭后重置 selectView
+         */
+        element.on('hidden.bs.modal', function () {
+          scope.$apply(function () {
+            scope.selectView = 'list';
+          });
+        });
+
+        /**
+         * 切换选择媒体模态窗按钮状态
+         */
+        scope.slideMediaActive = function (medium) {
+          if (medium.active === false && scope.disabledUploadThumbnail) return false;
+
+          medium.active = !medium.active;
+
+          switch (scope.selectView) {
+            case 'list':
+              if (_.filter(scope.media, function (medium) { return medium.active })[0]) {
+                scope.disabledSelectViewRemove = false;
+                scope.disabledSelectViewinsert = false;
+              } else {
+                scope.disabledSelectViewRemove = true;
+                scope.disabledSelectViewinsert = true;
+              }
+
+              break;
+            case 'store':
+              if (_.filter(scope.mediaStore, function (medium) { return medium.active })[0]) {
+                scope.disabledSelectViewinsert = false;
+              } else {
+                scope.disabledSelectViewinsert = true;
+              }
+          }
+
+          checkDisabledUploadThumbnail();
+        };
+
+        /**
+         * 移除媒体
+         */
+        scope.removeMedia = function () {
+          _.remove(scope.media, function(medium) { return medium.active });
+
+          scope.disabledSelectViewRemove = true;
+          scope.disabledSelectViewinsert = true;
+
+          checkDisabledUploadThumbnail();
+        };
+
+        /**
+         * 插入媒体
+         */
+        scope.addMedia = function () {
+          _.map(scope.mediaStore, function (medium) {
+            if (medium.active) {
+              var inList = _.find(scope.media, function (_medium) {
+                if (_medium._id === medium._id) {
+                  _medium.active = true;
+                  return _medium;
+                }
+              });
+
+              if (!inList) {
+                scope.media.unshift(medium);
+              }
+            }
+          });
+
+          var activeMedia = _(scope.media)
+            .filter(function (medium) { return medium.active })
+            .map(function (medium) {
+              return _.pick(medium, ['_id', 'description', 'fileName', 'fileNameLast', 'isImage', 'src']);
+            })
+            .value();
+
+          element.modal('hide');
+
+          scope.callback(activeMedia);
+
+          _.map(scope.media, function (medium) { medium.active = false });
+
+          scope.disabledSelectViewRemove = true;
+          scope.disabledSelectViewinsert = true;
+
+          checkDisabledUploadThumbnail();
+        };
+      }
+    }
+  }
+]);
+/**
+ * ndNavigation Directives
+ */
+angular.module('directives').directive('ndNavigation', ['$templateCache', '$rootScope', '$state', '$timeout', '$http', '$filter', 'account',
+  function ($templateCache, $rootScope, $state, $timeout, $http, $filter, account) {
+    return {
+	    restrict: 'E',
+	    template: $templateCache.get('navigation.view.html'),
+      link: function (scope, element) {
+        /**
+         * 初始化变量
+         */
+        scope.notFoundPages = false;
+        scope.notFoundContents = false;
+        scope.auth = {};
+        scope.categories = [];
+	      scope.user = {};
+
+        /**
+         * 激活滑动门
+         */
+        function slideShow () {
+          $timeout(function () {
+            $('.sub-list').each(function () {
+              var self = $(this);
+
+              if (self.children('.item').hasClass('active')) {
+                self.siblings('.item').addClass('active select');
+              } else {
+                self
+                  .slideUp('fast', function () {
+                    self.siblings('.sub-list-heading').removeClass('select');
+                  })
+                  .siblings('.sub-list-heading').removeClass('active');
+              }
+            });
+          });
+        }
+
+        /**
+         * 读取用户
+         */
+        function loadUser () {
+          account.get()
+            .then(function (user) {
+              scope.user = user;
+            }, function () {
+              scope.$emit('notification', {
+                type: 'danger',
+                message: '读取用户失败'
+              });
+            });
+
+          account.auths()
+            .then(function (auths) {
+              scope.auths = auths;
+            }, function () {
+              scope.$emit('notification', {
+                type: 'danger',
+                message: '读取权限失败'
+              });
+            });
+        } loadUser();
+
+        /**
+         * 退出登录
+         */
+        scope.signOut = function () {
+          $http.put('/api/account/sign-out')
+            .then(function () {
+              // 清空账户缓存
+              account.reset();
+              $state.go('signIn');
+            }, function () {
+              scope.$emit('notification', {
+                type: 'danger',
+                message: '退出登录失败'
+              });
+            });
+        };
+
+        /**
+         * 读取栏目列表
+         */
+        function loadCategories () {
+          $http.get('/api/categories')
+            .then(function (res) {
+              var data = res.data;
+
+              scope.categories = $filter('filter')(data, function (value) {
+                if (value.type !== 'channel' && value.type !== 'link') {
+                  return true;
+                }
+              });
+
+              if (!_.find(data, { type: 'page', mixed: { isEdit: true } })) {
+                scope.notFoundPages = true;
+              } else {
+                scope.notFoundPages = false;
+              }
+
+              if (!_.find(data, { type: 'column' })) {
+                scope.notFoundContents = true;
+              } else {
+                scope.notFoundContents = false;
+              }
+
+              $timeout(function () {
+                slideShow();
+              });
+            });
+        } loadCategories();
+
+        /**
+         * 接收路由状态变更消息
+         */
+        $rootScope.$on('$stateChangeSuccess', function () {
+          $timeout(function () {
+            slideShow();
+          });
+        });
+
+        /**
+         * 接收分类更新消息
+         */
+        $rootScope.$on('mainCategoriesUpdate', function () {
+          loadCategories();
+        });
+
+        /**
+         * 接收用户更新消息
+         */
+        $rootScope.$on('mainUserUpdate', function () {
+          account.reset();
+
+          loadUser();
+        });
+
+        /**
+         * 滑动门
+         */
+        $('.navigation').on('click', '.sub-list-heading', function () {
+          var self = $(this);
+
+          if (self.hasClass('select')) {
+            self.siblings('.sub-list').slideUp('fast', function () {
+              $(this).siblings('.sub-list-heading').removeClass('select');
+            });
+          } else {
+            self.siblings('.sub-list').slideDown('fast', function () {
+              $(this).siblings('.sub-list-heading').addClass('select');
+            });
+          }
+
+          $('.sub-list:visible').not(self.siblings('.sub-list')).slideUp('fast', function () {
+            $(this).siblings('.sub-list-heading').removeClass('select');
+          });
+        });
+      }
+    }
+  }
+]);
+angular.module('directives').directive('ndNotification', ['$timeout', '$rootScope',
+  function ($timeout, $rootScope) {
+    return {
+      replace: true,
+      link: function(scope) {
+        /**
+         * 初始化变量
+         */
+        var isLoop;
+        var counter;
+
+        /**
+         * 循环计数器
+         */
+        function loop () {
+          isLoop = true;
+          $timeout(function () {
+            if (counter-- > 0) {
+              loop();
+            } else {
+              isLoop = false;
+              scope.notificationShow = false;
+            }
+          }, 1000);
+        };
+
+        /**
+         * 接收通知
+         * @param  {Object} event
+         * @param  {String} data.type    通知类型
+         * @param  {String} data.message 通知信息
+         */
+        $rootScope.$on('notification', function (event, data) {
+          counter = 3;
+          scope.type = data.type;
+          scope.message = data.message;
+          scope.notificationShow = true;
+          if (!isLoop) loop();
+        });
+      }
+    };
+  }
+]);
+/**
+ * ndPagination Directives
+ */
+angular.module('directives').directive('ndPagination', ['$templateCache',
+  function ($templateCache) {
+    return {
+      restrict: 'E',
+      template: $templateCache.get('pagination.view.html'),
+      scope: {
+        currentPage: '=',
+        totalPages: '='
+      },
+      link: function (scope, element, attrs) {
+        scope.pagesList = [];
+
+        scope.changePage = function () {
+          scope.pagesList = [];
+
+          switch (true) {
+            case scope.totalPages <= 7:
+              for (var i = 0; i < scope.totalPages; i++) {
+                scope.pagesList[i] = {
+                  name: i + 1,
+                  index: i + 1
+                };
+              }
+
+              break;
+            case scope.currentPage <= 3:
+              scope.pagesList = [
+                { name: 1, index: 1 },
+                { name: 2, index: 2 },
+                { name: 3, index: 3 },
+                { name: 4, index: 4 },
+                { name: 5, index: 5 },
+                { name: 6, index: 6 },
+                { name: '...' + scope.totalPages, index: scope.totalPages }
+              ]
+
+              break;
+            case scope.currentPage > 3 && scope.currentPage <= scope.totalPages - 3:
+              scope.pagesList.push({ name: '1...', index: 1 });
+              for (var i = scope.currentPage - 2; i <= scope.currentPage + 2; i++) {
+                scope.pagesList.push({ name: i, index: i });
+              }
+              scope.pagesList.push({ name: '...' + scope.totalPages, index: scope.totalPages });
+
+              break;
+            case scope.currentPage > scope.totalPages - 3:
+              scope.pagesList.push({ name: '1...', index: 1 });
+              for (var i = scope.totalPages - 5; i <= scope.totalPages; i++) {
+                scope.pagesList.push({ name: i, index: i });
+              }
+          }
+
+          $('body,html').scrollTop(0);
+        };
+
+        scope.$watchGroup(['currentPage', 'totalPages'], function () {
+          scope.changePage();
+        });
+      }
+    }
+  }
+]);
+/**
+ * ndSame Directives
+ * 验证两次输入是否相同
+ */
+angular.module('directives').directive('ndSame', function () {
+  return {
+    require: 'ngModel',
+    link: function (scope, element, attrs, ctrl) {
+      element.add(attrs.ndSame).on('input', function () {
+        scope.$apply(function () {
+          var value = element.val() === $(attrs.ndSame).val();
+          ctrl.$setValidity('same', value);
+        });
+      });
+    }
+  }
+});
+/**
+ * ndThumbnail Directives
+ * Thumbnail 上传组件
+ */
+angular.module('directives').directive('ndThumbnail',  ['$templateCache', '$timeout', '$filter', '$http', 'Upload', 'base64ToBlobFile',
+  function ($templateCache, $timeout, $filter, $http, Upload, base64ToBlobFile) {
+    return {
+      restrict: 'E',
+      template: $templateCache.get('thumbnail.view.html'),
+      scope: {
+        thumbnail: '=',
+        disabled: '=',
+        width: '=',
+        height: '='
+      },
+      link: function (scope, element, attrs, ctrl) {
+        'use strict';
+
+        /**
+         * 初始化变量
+         */
+        scope.thumbnail = {
+          _id: scope.thumbnail._id || null,
+          file: null,
+          sourceImage: '',
+          croppedImage: scope.thumbnail.croppedImage || '',
+          uploadStatus: scope.thumbnail.uploadStatus || 'initial'
+        };
+        scope.minWidth = scope.width / 2;
+        scope.minHeight = scope.height / 2;
+
+        /**
+         * 裁剪缩略图
+         * @param files 文件名
+         */
+        scope.cropThumbnail = function (files) {
+          if (_.isEmpty(files)) return false;
+
+          scope.thumbnail.file = files[0];
+
+          Upload.dataUrl(scope.thumbnail.file).then(function (url) {
+            scope.thumbnail.sourceImage = url;
+            $('#corpModal').modal('show');
+          });
+        };
+
+        /**
+         * 关闭裁剪窗后清空 $scope.thumbnail
+         */
+        $('#corpModal').on('hide.bs.modal', function () {
+          if (scope.thumbnail.uploadStatus === 'initial') {
+            scope.$apply(function () {
+              scope.thumbnail = {
+                _id: null,
+                file: null,
+                sourceImage: '',
+                croppedImage: '',
+                uploadStatus: 'initial'
+              };
+            });
+          }
+        });
+
+        /**
+         * 上传缩略图
+         */
+        scope.uploadThumbnail = function () {
+          scope.thumbnail.uploadStatus = 'uploading';
+
+          Upload.upload({
+            url: '/api/media',
+            data: { file: base64ToBlobFile(scope.thumbnail.croppedImage, scope.thumbnail.file.name.replace(/\.\w+$/, '') + '.jpg', 'image/jpeg') }
+          }).then(function (res) {
+            var data = res.data;
+
+            scope.thumbnail.uploadStatus = 'success';
+
+            scope.thumbnail._id = data._id;
+          }, function () {
+            scope.$emit('notification', {
+              type: 'danger',
+              message: '缩略图上传失败'
+            });
+          });
+
+          $('#corpModal').modal('hide');
+        };
+
+        /**
+         * 删除缩略图
+         */
+        scope.removeThumbnail = function () {
+          scope.thumbnail = {
+            _id: null,
+            file: null,
+            sourceImage: '',
+            croppedImage: '',
+            uploadStatus: 'initial'
+          };
+        };
+      }
+    }
+  }
+]);
+/**
+ * ndCallname Directives
+ * 验证调用名是否可用
+ */
+angular.module('directives').directive('ndVcallname', ['$http',
+  function ($http) {
+    'use strict';
+
+    return {
+      require: 'ngModel',
+      link: function (scope, element, attrs, ctrl) {
+        ctrl.$setValidity('vcallname', true);
+
+        function validate () {
+          var callname = element.val();
+          var oldCallname = scope.$eval(attrs.oldCallname);
+
+          if (callname === oldCallname) {
+            return ctrl.$setValidity('vCallname', true);
+          }
+
+          scope.inputing = false;
+          scope.checkCallnameing = true;
+
+          $http.get('/api/models', {
+            params: {
+              type: 'feature',
+              'mixed.callname': callname
+            }
+          }).then(function (res) {
+            if (res.data[0]) {
+              ctrl.$setValidity('vcallname', false);
+            } else {
+              ctrl.$setValidity('vcallname', true);
+            }
+
+            scope.checkCallnameing = false;
+          }, function () {
+            scope.$emit('notification', {
+              type: 'danger',
+              message: '调用名验证未知错误'
+            });
+
+            scope.checkCallnameing = false;
+          });
+        }
+
+        element
+          .on('input', function () {
+            scope.$apply(function () {
+              scope.inputing = true;
+            });
+          })
+          .on('blur', function () {
+            scope.$apply(function () {
+              validate();
+            });
+          });
+      }
+    }
+  }
+]);
+/**
+ * ndVdirectory Directives
+ * 验证目录是否可用
+ */
+angular.module('directives').directive('ndVdirectory', ['$http',
+  function ($http) {
+    'use strict';
+
+    return {
+      require: 'ngModel',
+      scope: {
+        prePath: '=',
+        oldPath: '='
+      },
+      link: function (scope, element, attrs, ctrl) {
+        ctrl.$setValidity('vdirectory', true);
+
+        function validate () {
+          var prePath = scope.prePath;
+          var directory = element.val().toLowerCase();
+          var oldPath = scope.oldPath;
+
+          scope.inputing = false;
+          scope.checkDirectorying = true;
+
+          var filter = [
+            'admin',
+            'api',
+            'openapi',
+            'open',
+            'themes',
+            'media',
+            'assets'
+          ];
+
+          if (!prePath) {
+            for (var i = 0; i < filter.length; i++) {
+              if (directory === filter[i]) {
+                scope.checkDirectorying = false;
+
+                return ctrl.$setValidity('vdirectory', false);
+              }
+            }
+          }
+
+          var paramsPath;
+
+          if (prePath) {
+            paramsPath = prePath + '/' + directory;
+          } else {
+            paramsPath = '/' + directory;
+          }
+
+          if (paramsPath === oldPath) {
+            return ctrl.$setValidity('vdirectory', true);
+          }
+
+          $http.get('/api/categories', {
+            params: { path: paramsPath }
+          }).then(function (res) {
+            var data = res.data;
+
+            if (data) {
+              ctrl.$setValidity('vdirectory', false);
+            } else {
+              ctrl.$setValidity('vdirectory', true);
+            }
+
+            scope.checkDirectorying = false;
+          }, function () {
+            scope.$emit('notification', {
+              type: 'danger',
+              message: '目录名验证未知错误'
+            });
+
+            scope.checkDirectorying = false;
+          });
+        }
+
+        scope.$watch('prePath', function (newValue, oldValue) {
+          if (newValue !== oldValue) validate();
+        });
+
+        element
+          .on('input', function () {
+            scope.$apply(function () {
+              scope.inputing = true;
+            });
+          })
+          .on('blur', function () {
+            scope.$apply(function () {
+              validate();
+            });
+          });
+      }
+    }
+  }
+]);
+/**
+ * ndVemail Directives
+ * 验证邮箱是否已被注册
+ */
+angular.module('directives').directive('ndVemail', ['$http',
+  function ($http) {
+    'use strict';
+
+    return {
+      require: 'ngModel',
+      link: function (scope, element, attrs, ctrl) {
+        element
+          .on('input', function () {
+            scope.$apply(function () {
+              scope.inputing = true;
+            });
+          })
+          .on('blur', function () {
+            if (scope.$eval(attrs.ndVemail)) {
+              scope.$apply(function () {
+                scope.inputing = false;
+                scope.checkEmailing = true;
+
+                $http.get('/api/users', {
+                  params: {
+                    email: element.val()
+                  }
+                }).then(function (res) {
+                  if (res.data) {
+                    ctrl.$setValidity('vemail', false);
+                  } else {
+                    ctrl.$setValidity('vemail', true);
+                  }
+
+                  scope.checkEmailing = false;
+                }, function () {
+                  scope.$emit('notification', {
+                    type: 'danger',
+                    message: '邮箱验证未知错误'
+                  });
+
+                  scope.checkEmailing = false;
+                });
+              });
+            } else {
+              scope.$apply(function () {
+                ctrl.$setValidity('vemail', true);
+              });
+            }
+          });
+      }
+    }
+  }
+]);
+/**
+ * thumbnailSrc Filters
+ * 缩略图转 SRC
+ */
+angular.module('filters').filter('thumbnailSrc', function () {
+  return function (thumbnail) {
+    if (thumbnail) {
+      return '/media/' + moment(thumbnail.date).format('YYYYMM') + '/' + thumbnail._id + '/' + thumbnail.fileName;
+    } else {
+      return;
+    }
+  }
+});
+/**
+ * Translate Filters
+ * 翻译字符串
+ */
+angular.module('filters').filter('translate', function () {
+  return function (input, options) {
+    if (!_.isObject(options) || !options.display || !options.same || !options.source) {
+      return input;
+    }
+
+    var target = _.find(options.source, function (item) {
+        return item[options.same] == input;
+    });
+
+    return target[options.display];
+  }
+});
+/**
+ * Words Filters
+ * 截取字符串
+ */
+angular.module('filters').filter('words', function () {
+  return function (str, words) {
+    if (str && str.length > words) {
+      str = str.substr(0, parseInt(words, 10) - 3) + '...';
+    }
+
+    return str;
+  }
+});

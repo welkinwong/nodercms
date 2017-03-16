@@ -32,6 +32,7 @@ angular.module('controllers').controller('categoriesChange', ['$scope', '$state'
     $scope.name = '';
     $scope.directory = '';
     $scope.pageSize = 15;
+    $scope.homePageSize = 8;
     $scope.url = '';
     $scope.oldPath = '';
     $scope.prePath = '';
@@ -123,10 +124,12 @@ angular.module('controllers').controller('categoriesChange', ['$scope', '$state'
       $scope.views.column = 'column-default';
       $scope.views.content = 'content-default';
       $scope.views.page = 'page-default';
+      $scope.views.homepage = 'home-category-default';
 
       if (results.category) {
         $scope.type = results.category.type;
         $scope.name = results.category.name;
+        $scope.icon = results.category.icon;
         $scope.directory = /[A-z0-9\_\-]+$/.exec(results.category.path)[0];
 
         if ($scope.type === 'link') {
@@ -140,7 +143,10 @@ angular.module('controllers').controller('categoriesChange', ['$scope', '$state'
           $scope.prePath = regexPath ? regexPath[0] : '';
         }
 
-        if (results.category.mixed) $scope.pageSize = results.category.mixed.pageSize;
+        if (results.category.mixed) {
+          $scope.pageSize = results.category.mixed.pageSize;
+          $scope.homePageSize = results.category.mixed.homePageSize;
+        }
         $scope.isShow = results.category.isShow;
         $scope.sort = results.category.sort;
         $scope.model = results.category.model && results.category.model._id || '';
@@ -150,6 +156,7 @@ angular.module('controllers').controller('categoriesChange', ['$scope', '$state'
           $scope.views.column = results.category.views.column || 'column-default';
           $scope.views.content = results.category.views.content || 'content-default';
           $scope.views.page = results.category.views.page || 'page-default';
+          $scope.views.homepage = results.category.views.homepage || 'home-category-default';
         }
         $scope.keywords = results.category.keywords || '';
         $scope.description = results.category.description || '';
@@ -173,7 +180,8 @@ angular.module('controllers').controller('categoriesChange', ['$scope', '$state'
         type: $scope.type,
         name: $scope.name,
         isShow: $scope.isShow,
-        sort: $scope.sort
+        sort: $scope.sort,
+        icon: $scope.icon
       };
 
       switch ($scope.type) {
@@ -181,6 +189,7 @@ angular.module('controllers').controller('categoriesChange', ['$scope', '$state'
           category.path = '/' + $scope.directory.toLowerCase();
           category['views.layout'] = $scope.views.layout;
           category['views.channel'] = $scope.views.channel;
+          category['views.homepage'] = $scope.views.homepage;
           category.keywords = $scope.keywords;
           category.description = $scope.description;
 
@@ -193,9 +202,11 @@ angular.module('controllers').controller('categoriesChange', ['$scope', '$state'
             category.path = '/' + $scope.directory.toLowerCase();
           }
           category['mixed.pageSize'] = $scope.pageSize;
+          category['mixed.homePageSize'] = $scope.homePageSize;
           category['views.layout'] = $scope.views.layout;
           category['views.column'] = $scope.views.column;
           category['views.content'] = $scope.views.content;
+          category['views.homepage'] = $scope.views.homepage;
           category.keywords = $scope.keywords;
           category.description = $scope.description;
 
@@ -208,6 +219,7 @@ angular.module('controllers').controller('categoriesChange', ['$scope', '$state'
           }
           category['views.layout'] = $scope.views.layout;
           category['views.page'] = $scope.views.page;
+          category['views.homepage'] = $scope.views.homepage;
           category['mixed.isEdit'] = $scope.isEdit;
           category.keywords = $scope.keywords;
           category.description = $scope.description;

@@ -18,6 +18,10 @@ var categoriesSchema = new mongoose.Schema({
     required: true
   },
 
+  icon: {
+    type: String
+  },
+
   // 目录
   path: {
     type: String,
@@ -52,7 +56,8 @@ var categoriesSchema = new mongoose.Schema({
     channel: String,
     column: String,
     content: String,
-    page: String
+    page: String,
+    homepage: String,
   },
 
   // 关键字
@@ -65,6 +70,8 @@ var categoriesSchema = new mongoose.Schema({
   mixed: {
     // 栏目条数
     pageSize: Number,
+    // 首页显示条数
+    homePageSize: Number,
     // 单页内容
     pageContent: String,
     // 单页媒体

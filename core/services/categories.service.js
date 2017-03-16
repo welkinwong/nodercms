@@ -17,7 +17,7 @@ exports.all = function (callback) {
     callback(null, _.cloneDeep(categoriesCache));
   } else {
     categoriesModel.find({})
-      .select('type name path isShow sort model views keywords description mixed')
+      .select('type name path isShow sort model views keywords description mixed icon')
       .populate('model', 'type name description mixed system extensions')
       .populate('mixed.pageMedia', 'fileName description date src')
       .lean()
