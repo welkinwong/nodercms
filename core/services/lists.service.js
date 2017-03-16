@@ -4,6 +4,7 @@ var moment = require('moment');
 var categories = require('../models/categories.model');
 var contents = require('../models/contents.model');
 var contentsService = require('../services/contents.service');
+var marked = require('marked');
 
 /**
  * 所有内容列表
@@ -13,8 +14,8 @@ exports.all = function (callback) {
   async.waterfall([
     function (callback) {
       categories
-        .find({ type: { $in: ['channel', 'column'] } })
-        .select('type name path isShow sort')
+        .find({ type: { $in: ['channel', 'column', 'page'] } })
+        .select('type name path isShow sort views mixed icon')
         .sort('sort')
         .lean()
         .exec(callback);
@@ -38,6 +39,11 @@ exports.all = function (callback) {
           }
 
           otherCategories = source[1];
+        }
+        if (category.type === 'page') {
+          if (_.get(category, 'mixed.pageContent')) {
+            category.content = marked(category.mixed.pageContent);
+          }
         }
       });
 
@@ -74,7 +80,7 @@ exports.all = function (callback) {
         } else {
           contents.find({ category: category._id, status: 'pushed', deleted: false, date: { $lte: new Date() } })
             .sort('-date')
-            .limit(50)
+            .limit(category.mixed.homePageSize || 50)
             .select('category title alias user date reading thumbnail')
             .populate('category', 'name path')
             .populate('user', 'nickname email')
@@ -120,7 +126,7 @@ exports.channel = function (options, callback) {
 
       categories
         .find({ path: regex, type: 'column' })
-        .select('name path sort type isShow')
+        .select('name path sort type isShow icon')
         .sort('sort')
         .lean()
         .exec(callback);
@@ -272,7 +278,7 @@ exports.reading = function (options, callback) {
 
         categories
           .find({ path: regex, type: 'column' })
-          .select('name path sort type isShow')
+          .select('name path sort type isShow icon')
           .lean()
           .exec(callback);
       },

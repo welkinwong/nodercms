@@ -26,6 +26,12 @@
           <input ng-model="name" ng-disabled="transmitting" class="form-control" id="name" type="text" name="name" placeholder="请输入{{type | translate: { display: 'name', same: 'type', source: types } }}名" required>
         </div>
       </div>
+      <div ng-class="{ 'has-error': categoryForm.icon.$touched && categoryForm.icon.$invalid }" class="form-group">
+        <label for="icon" class="col-sm-2 control-label">图标：</label>
+        <div class="col-sm-10">
+          <input ng-model="icon" ng-disabled="transmitting" class="form-control" id="icon" type="text" name="icon" placeholder="请输入图标编码">
+        </div>
+      </div>
       <div ng-class="{ 'has-error': categoryForm.sort.$touched && categoryForm.sort.$invalid }" class="form-group">
         <label for="sort" class="col-sm-2 control-label">排序：</label>
         <div class="col-sm-10">
@@ -99,10 +105,22 @@
           <input ng-model="$parent.pageSize" ng-disabled="transmitting" class="form-control" id="pageSize" type="number" min="1" name="pageSize" placeholder="请输入每页条数" required>
         </div>
       </div>
+      <div ng-if="type === 'column'" ng-class="{ 'has-error': categoryForm.homePageSize.$touched && categoryForm.homePageSize.$invalid }" class="form-group">
+        <label for="homePageSize" class="col-sm-2 control-label">* 首页显示条数：</label>
+        <div class="col-sm-10">
+          <input ng-model="$parent.homePageSize" ng-disabled="transmitting" class="form-control" id="homePageSize" type="number" min="1" name="homePageSize" placeholder="请输入首页显示条数" required>
+        </div>
+      </div>
       <div ng-if="type === 'link'" ng-class="{ 'has-error': categoryForm.url.$touched && categoryForm.url.$invalid }" class="form-group">
         <label for="url" class="col-sm-2 control-label">* 网址：</label>
         <div class="col-sm-10">
           <input ng-model="$parent.url" ng-disabled="transmitting" class="form-control" id="url" type="url" name="url" placeholder="请输入 URL" required>
+        </div>
+      </div>
+      <div ng-if="type !== 'link'" ng-class="{ 'has-error': categoryForm.pageView.$touched && categoryForm.pageView.$invalid}" class="form-group">
+        <label for="pageView" class="col-sm-2 control-label">* 首页布局模版：</label>
+        <div class="col-sm-10">
+          <select ng-model="$parent.views.homepage" ng-options="view for view in $parent.viewfiles | filter: 'home-category'" ng-disabled="$parent.transmitting" class="form-control" id="contentView" name="contentView" required></select>
         </div>
       </div>
       <div ng-if="type !== 'link'" ng-class="{ 'has-error': categoryForm.layoutView.$touched && categoryForm.layoutView.$invalid}" class="form-group">

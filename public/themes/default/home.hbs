@@ -3,19 +3,7 @@
     <div class="col-md-9">
       <div class="row">
         {{#foreach lists}}
-          <div class="col-md-6">
-            <div class="panel panel-less">
-              <div class="panel-heading">
-                {{name}}
-                <a class="pull-right" href="{{path}}">更多</a>
-              </div>
-              <div class="list-group list-group-less">
-                {{#foreach contents limit="5"}}
-                  <a href="{{href}}" class="list-group-item text-overflow">{{title}}</a>
-                {{/foreach}}
-              </div>
-            </div>
-          </div>
+          {{> (lookup views 'homepage') this}}
         {{/foreach}}
       </div>
     </div>

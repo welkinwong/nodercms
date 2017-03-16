@@ -161,6 +161,13 @@ exports.create = function (req, res) {
           },
           isNumber: { errorMessage: 'mixed.pageSize 需为数字' }
         },
+        'mixed.homePageSize': {
+          notEmpty: {
+            options: [true],
+            errorMessage: 'mixed.homePageSize 不能为空'
+          },
+          isNumber: { errorMessage: 'mixed.homePageSize 需为数字' }
+        },
         'views.layout': {
           notEmpty: {
             options: [true],
@@ -260,7 +267,8 @@ exports.create = function (req, res) {
     type: req.body.type,
     name: req.body.name,
     isShow: req.body.isShow,
-    sort: req.body.sort
+    sort: req.body.sort,
+    icon: req.body.icon
   };
 
   switch (req.body.type) {
@@ -268,6 +276,7 @@ exports.create = function (req, res) {
       data.path = req.body.path;
       data['views.layout'] = req.body['views.layout'];
       data['views.channel'] = req.body['views.channel'];
+      if (req.body['views.homepage']) data['views.homepage'] = req.body['views.homepage'];
       data.keywords = req.body.keywords;
       data.description = req.body.description;
 
@@ -276,9 +285,11 @@ exports.create = function (req, res) {
       data.model = req.body.model;
       data.path = req.body.path;
       data['mixed.pageSize'] = req.body['mixed.pageSize'];
+      data['mixed.homePageSize'] = req.body['mixed.homePageSize'];
       data['views.layout'] = req.body['views.layout'];
       data['views.column'] = req.body['views.column'];
       data['views.content'] = req.body['views.content'];
+      if (req.body['views.homepage']) data['views.homepage'] = req.body['views.homepage'];
       data.keywords = req.body.keywords;
       data.description = req.body.description;
 
@@ -287,6 +298,7 @@ exports.create = function (req, res) {
       data.path = req.body.path;
       data['views.layout'] = req.body['views.layout'];
       data['views.page'] = req.body['views.page'];
+      if (req.body['views.homepage']) data['views.homepage'] = req.body['views.homepage'];
       data['mixed.isEdit'] = req.body['mixed.isEdit'];
       data['mixed.pageMedia'] = [];
       data.keywords = req.body.keywords;
@@ -385,6 +397,13 @@ exports.update = function (req, res) {
           optional: true,
           isNumber: { errorMessage: 'mixed.pageSize 需为数字' }
         },
+        'mixed.homePageSize': {
+          notEmpty: {
+            options: [true],
+            errorMessage: 'mixed.homePageSize 不能为空'
+          },
+          isNumber: { errorMessage: 'mixed.homePageSize 需为数字' }
+        },
         'views.layout': {
           optional: true,
           isString: { errorMessage: 'views.layout 需为字符串' }
@@ -464,12 +483,14 @@ exports.update = function (req, res) {
   if (req.body.name) data.name = req.body.name;
   if (_.isBoolean(req.body.isShow)) data.isShow = req.body.isShow;
   if (_.isNumber(req.body.sort)) data.sort = req.body.sort;
+  if (req.body.icon) data.icon = req.body.icon;
 
   switch (req.body.type) {
     case 'channel':
       if (req.body.path) data.path = req.body.path;
       if (req.body['views.layout']) data['views.layout'] = req.body['views.layout'];
       if (req.body['views.channel']) data['views.channel'] = req.body['views.channel'];
+      if (req.body['views.homepage']) data['views.homepage'] = req.body['views.homepage'];
       if (req.body.keywords) data.keywords = req.body.keywords;
       if (req.body.description) data.description = req.body.description;
 
@@ -478,9 +499,11 @@ exports.update = function (req, res) {
       if (req.body.model) data.model = req.body.model;
       if (req.body.path) data.path = req.body.path;
       if (req.body['mixed.pageSize']) data['mixed.pageSize'] = req.body['mixed.pageSize'];
+      if (req.body['mixed.homePageSize']) data['mixed.homePageSize'] = req.body['mixed.homePageSize'];
       if (req.body['views.layout']) data['views.layout'] = req.body['views.layout'];
       if (req.body['views.column']) data['views.column'] = req.body['views.column'];
       if (req.body['views.content']) data['views.content'] = req.body['views.content'];
+      if (req.body['views.homepage']) data['views.homepage'] = req.body['views.homepage'];
       if (req.body.keywords) data.keywords = req.body.keywords;
       if (req.body.description) data.description = req.body.description;
 
@@ -489,6 +512,7 @@ exports.update = function (req, res) {
       if (req.body.path) data.path = req.body.path;
       if (req.body['views.layout']) data['views.layout'] = req.body['views.layout'];
       if (req.body['views.page']) data['views.page'] = req.body['views.page'];
+      if (req.body['views.homepage']) data['views.homepage'] = req.body['views.homepage'];
       if (_.isBoolean(req.body['mixed.isEdit'])) data['mixed.isEdit'] = req.body['mixed.isEdit'];
       if (req.body.keywords) data.keywords = req.body.keywords;
       if (req.body.description) data.description = req.body.description;
@@ -497,7 +521,6 @@ exports.update = function (req, res) {
       if (req.body['mixed.prePath']) data['mixed.prePath'] = req.body['mixed.prePath'];
       if (req.body['mixed.url']) data['mixed.url'] = req.body['mixed.url'];
   }
-
   categoriesService.save({ _id: _id, data: data }, function (err) {
     if (err) {
       logger[err.type]().error(__filename, err);
