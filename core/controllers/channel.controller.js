@@ -42,6 +42,8 @@ module.exports = function (req, res, next) {
         listsService.reading({ path: channelPath, sort: '-reading.month' }, callback);
       }
     }, function (err, results) {
+      if (err) return res.status(500).end();
+
       res.render(_.get(category, 'views.channel'), {
         layout: _.get(category, 'views.layout'),
         siteInfo: results.siteInfo,
