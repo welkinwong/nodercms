@@ -130,7 +130,7 @@ exports.channel = function (options, callback) {
         contents.find({ category: column._id, status: 'pushed', deleted: false, date: { $lte: new Date() } })
           .sort('-date')
           .limit(50)
-          .select('category title alias user date reading thumbnail abstract')
+          .select('category title alias user date reading thumbnail abstract extensions')
           .populate('category', 'name path')
           .populate('user', 'nickname email')
           .populate('thumbnail', 'fileName description date')
