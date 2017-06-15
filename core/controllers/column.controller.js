@@ -83,6 +83,8 @@ module.exports = function (req, res, next) {
         listsService.reading({ _id: category._id, sort: '-reading.month' }, callback);
       }
     }, function (err, results) {
+      if (err) return res.status(500).end();
+
       res.render(_.get(category, 'views.column'), {
         layout: _.get(category, 'views.layout'),
         siteInfo: results.siteInfo,
