@@ -130,7 +130,7 @@ exports.list = function (options, callback) {
         .sort('status -date')
         .skip((currentPage - 1) * pageSize)
         .limit(pageSize)
-        .select('status category title alias user date reading thumbnail abstract')
+        .select('status category title alias user date reading thumbnail abstract extensions')
         .populate('category', 'name path')
         .populate('user', 'nickname email')
         .populate('thumbnail', 'fileName description date src')
