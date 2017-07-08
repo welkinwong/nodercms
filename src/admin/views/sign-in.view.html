@@ -21,20 +21,6 @@
               <input ng-model="password" ng-minlength="6" ng-disabled="transmitting" class="form-control" id="password" type="password" name="password" placeholder="请输入密码" aria-describedby="inputIconPwd" required>
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-8">
-              <div ng-class="{ 'has-error': (signInForm.captcha.$touched && signInForm.captcha.$invalid) || wrongCaptcha }" class="form-group clear-bottom-margin">
-                <label class="sr-only" for="captcha">验证码：</label>
-                <div class="input-group">
-                  <span class="input-group-addon" id="inputIconCaptcha"><i class="fa fa-code fa-fw"></i></span>
-                  <input ng-model="captcha" minlength="4" maxlength="4" ng-pattern="/^[A-z0-9]+$/"  ng-disabled="transmitting" class="form-control" id="captcha" type="text" name="captcha" placeholder="请输入验证码" aria-describedby="inputIconCaptcha" required>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <img ng-click="getCaptcha()" ng-src="{{captchaData}}" class="pointer">
-            </div>
-          </div>
           <div class="checkbox">
             <label>
               <input ng-model="autoSignIn" ng-disabled="transmitting" type="checkbox"> 下次自动登陆

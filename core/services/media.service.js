@@ -11,8 +11,6 @@ var mediaModel = require('../models/media.model');
 var contentsModel = require('../models/contents.model');
 var featuresModel = require('../models/features.model');
 var categoriesModel = require('../models/categories.model');
-var Canvas = require('canvas');
-var Image = Canvas.Image;
 
 /**
  * 查询媒体
@@ -215,82 +213,16 @@ exports.save = function (options, callback) {
           callback(null, folder);
         });
       }],
-      // 移动文件或者压缩图片并移动文件
+      // 移动文件
       moveFileOrCompressImage: ['formParse', 'saveModel', 'mkdirFolder', function (callback, results) {
-        var regex = /^image\/(jpeg|png)$/;
-        var isJpgAndPng = regex.test(results.saveModel.type);
+        fs.rename(path.join(__dirname, '../../' + results.formParse.path), path.join(__dirname, results.mkdirFolder + '/' + results.saveModel.fileName), function (err) {
+          if (err) {
+            err.type = 'system';
+            return callback(err);
+          }
 
-        if (isJpgAndPng) {
-          var aftName = _.get(results.saveModel.type.match(regex), '[1]');
-
-          async.waterfall([
-            function (callback) {
-              fs.readFile(path.join(__dirname, '../../' + results.formParse.path), function (err, file) {
-                if (!file) {
-                  var err = {
-                    type: 'system',
-                    error: '没有找到' + path.join(__dirname, '../../' + results.formParse.path)
-                  };
-                  return callback(err);
-                }
-
-                callback(null, file);
-              });
-            },
-            function (file, callback) {
-              var image = new Image;
-              image.src = file;
-
-              var width = image.width;
-              var height = image.height;
-
-              var canvas = new Canvas(width, height);
-              var ctx = canvas.getContext('2d');
-              ctx.drawImage(image, 0, 0, width, height);
-
-              var out = fs.createWriteStream(path.join(__dirname, results.mkdirFolder + '/' + results.saveModel.fileName));
-
-              var stream;
-
-              switch (aftName) {
-                case 'jpg':
-                case 'jpeg':
-                  stream = canvas.jpegStream();
-                  break;
-                case 'png':
-                  stream = canvas.pngStream();
-              }
-
-              stream.on('data', function (chunk) {
-                out.write(chunk);
-              });
-              stream.on('end', function () {
-                callback();
-              });
-            },
-            function (callback) {
-              fs.unlink(path.join(__dirname, '../../' + results.formParse.path), function (err) {
-                callback(err);
-              });
-            }
-          ], function (err) {
-            if (err) {
-              err.type = 'system';
-              return callback(err);
-            }
-
-            callback();
-          });
-        } else {
-          fs.rename(path.join(__dirname, '../../' + results.formParse.path), path.join(__dirname, results.mkdirFolder + '/' + results.saveModel.fileName), function (err) {
-            if (err) {
-              err.type = 'system';
-              return callback(err);
-            }
-
-            callback(null);
-          });
-        }
+          callback(null);
+        });
       }]
     }, function (err, results) {
       if (err) return callback(err);

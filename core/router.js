@@ -36,10 +36,6 @@ module.exports = {
       get: 'account.current',
       put: [109001, 'account.update'],
 
-      '/captcha': {
-        get: 'account.captcha'
-      },
-
       '/sign-in': {
         put: 'account.signIn'
       },
