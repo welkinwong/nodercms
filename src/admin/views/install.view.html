@@ -1,6 +1,6 @@
 <div class="install">
   <img class="brand" src="/assets/admin/images/logo-lg.png" srcset="/assets/admin/images/logo-lg@2x.png 2x">
-  <div ng-class="{ 'lg': page === 'license', 'md': page === 'database' || page === 'siteInfo', 'sm': page === 'installing' || page === 'installed' }" class="content lg">
+  <div ng-class="{ 'lg': page === 'license', 'md': page === 'database' || page === 'siteInfo' || page === 'installed', 'sm': page === 'installing' }" class="content lg">
     <div ng-show="page === 'license'" class="panel panel-default ng-hide install-panel">
       <div class="panel-body">
         <div class="page-header">
@@ -171,8 +171,58 @@
           <div class="heading">安装完成</div>
         </div>
         <hr>
-        <h3 class="text-center text-welcome">欢迎使用 NoderCMS :)</h3>
-        <button ui-sref="signIn" type="button" class="btn btn-success center-block">进入后台管理</button>
+        <h3 class="text-center text-welcome">欢迎使用 NoderCMS</h3>
+        <h5 class="text-center text-muted">本软件为开源软件，项目的发展离不开你的支持，可以请作者吃顿饭来激励一下作者 : )</h5>
+        <br>
+        <div class="btn-group btn-group-justified" role="group">
+          <div class="btn-group" role="group">
+            <button ng-click="sponsor = 99" ng-class="{ 'active': sponsor === 99 }" type="button" class="btn btn-default">请作者一顿饭</button>
+          </div>
+          <div class="btn-group" role="group">
+            <button ng-click="sponsor = 199" ng-class="{ 'active': sponsor === 199 }" type="button" class="btn btn-default">请作者两顿饭</button>
+          </div>
+          <div class="btn-group" role="group">
+            <button ng-click="sponsor = 499" ng-class="{ 'active': sponsor === 499 }" type="button" class="btn btn-default">请作者豪华大餐<span class="badge sponsor-badge">荐</span></button>
+          </div>
+          <div class="btn-group" role="group">
+            <button ng-click="sponsor = 999" ng-class="{ 'active': sponsor === 999 }" type="button" class="btn btn-default">帮作者赢取白富美</button>
+          </div>
+        </div>
+        <br>
+        <div class="row sponsor">
+          <div class="col-md-6">
+            <div class="thumbnail weixin">
+              <img ng-if="sponsor === 99" src="/assets/admin/images/sponsor/weixin99.jpg">
+              <img ng-if="sponsor === 199" src="/assets/admin/images/sponsor/weixin199.jpg">
+              <img ng-if="sponsor === 499" src="/assets/admin/images/sponsor/weixin499.jpg">
+              <img ng-if="sponsor === 999" src="/assets/admin/images/sponsor/weixin999.jpg">
+              <div class="caption">
+                <h3>微信打赏</h3>
+                <p ng-if="sponsor === 99">￥99</p>
+                <p ng-if="sponsor === 199">￥199</p>
+                <p ng-if="sponsor === 499">￥499</p>
+                <p ng-if="sponsor === 999">￥999</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="thumbnail alipay">
+              <img ng-if="sponsor === 99" src="/assets/admin/images/sponsor/alipay99.jpg">
+              <img ng-if="sponsor === 199" src="/assets/admin/images/sponsor/alipay199.jpg">
+              <img ng-if="sponsor === 499" src="/assets/admin/images/sponsor/alipay499.jpg">
+              <img ng-if="sponsor === 999" src="/assets/admin/images/sponsor/alipay999.jpg">
+              <div class="caption">
+                <h3>支付宝打赏</h3>
+                <p ng-if="sponsor === 99">￥99</p>
+                <p ng-if="sponsor === 199">￥199</p>
+                <p ng-if="sponsor === 499">￥499</p>
+                <p ng-if="sponsor === 999">￥999</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <button ui-sref="signIn" type="button" class="btn btn-primary center-block">进入后台管理</button>
         <br>
       </div>
     </div>

@@ -21,6 +21,7 @@ angular.module('controllers').controller('main', ['$scope', '$http',
 		$scope.adminsTotal = '';
 		$scope.readingList = {};
 		$scope.versionIsLatest = true;
+    $scope.sponsor = 99;
 
 		$http.get('/api/dashboard')
 			.then(function (res) {

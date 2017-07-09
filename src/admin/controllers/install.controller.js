@@ -29,6 +29,7 @@ angular.module('controllers').controller('install', ['$scope', '$state', '$http'
     $scope.hasInstall = false;
     $scope.installingTimeout = null;
     $scope.installingPoll = null;
+    $scope.sponsor = 99;
 
     /**
      * 读取主题
