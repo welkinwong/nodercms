@@ -20,7 +20,6 @@ exports.all = function (callback) {
       .select('type name path isShow sort model views keywords description mixed')
       .populate('model', 'type name description mixed system extensions')
       .populate('mixed.pageMedia', 'fileName description date src')
-      .lean()
       .exec(function (err, categories) {
         if (err) {
           err.type = 'database';
@@ -29,7 +28,25 @@ exports.all = function (callback) {
 
         // 删除非单页分类的 pageMedia
         _.map(categories, function (category) {
+
+
           if (category.type !== 'page' && category.mixed) delete category.mixed.pageMedia;
+        });
+
+        categories = _.map(categories, function (category) {
+          if (category.type === 'page' && !_.isEmpty(category.mixed.pageMedia)) var mediaSrc = _.map(category.mixed.pageMedia, 'src');
+
+          category = category.toObject();
+
+          if (category.type === 'page' && !_.isEmpty(category.mixed.pageMedia)) {
+            _.forEach(category.mixed.pageMedia, function (medium, index) {
+              medium.src = mediaSrc[index];
+            });
+          }
+
+          if (category.type !== 'page' && category.mixed) delete category.mixed.pageMedia; // 删除非单页分类的 pageMedia
+
+          return category;
         });
 
         cache.set('categories', categories, 1000 * 60 * 60 * 24);

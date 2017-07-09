@@ -26,6 +26,7 @@ module.exports = function (req, res, next) {
         categoriesService.navigation({ current: page.path }, callback);
       }
     }, function (err, results) {
+      debugger;
       res.render(page.views.page, {
         layout: page.views.layout,
         siteInfo: results.siteInfo,
