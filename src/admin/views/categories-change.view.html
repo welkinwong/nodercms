@@ -14,7 +14,7 @@
       <div ng-class="{ 'has-error': categoryForm.types.$touched && categoryForm.types.$invalid}" class="form-group">
         <label for="types" class="col-sm-2 control-label">* 分类类型：</label>
         <div class="col-sm-10">
-          <div ng-if="action === 'create'" class="btn-group" role="group" aria-label="...">
+          <div ng-if="action === 'create'" class="btn-group" role="group">
             <button ng-repeat="type in $parent.types" ng-click="$parent.$parent.type = type.type" ng-disabled="transmitting" ng-class="{ 'active': $parent.$parent.type === type.type }" class="btn btn-default" id="types" type="button">{{type.name}}</button>
           </div>
           <p ng-if="action === 'update'" class="form-control-static">{{translateType(type)}}</p>
