@@ -1,7 +1,7 @@
 {
   "name": "nodercms",
   "description": "CMS内容管理系统",
-  "version": "1.3.4",
+  "version": "1.3.5",
   "author": {
     "name": "Welkin Wong",
     "email": "welkin.wong@me.com"
@@ -22,7 +22,6 @@
     "async": "^1.5.2",
     "bluebird": "^3.4.6",
     "body-parser": "^1.14.2",
-    "canvas": "^1.4.0",
     "compression": "^1.6.1",
     "connect-mongo": "^1.1.0",
     "cookie-parser": "^1.4.1",
