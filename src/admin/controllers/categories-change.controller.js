@@ -133,7 +133,6 @@ angular.module('controllers').controller('categoriesChange', ['$scope', '$state'
           $scope.oldPath = angular.copy(results.category.mixed.prePath);
           var regexPath = /^\/[A-z0-9\_\-\/]+(?=[\/])/.exec(results.category.mixed.prePath);
           $scope.prePath = regexPath ? regexPath[0] : '';
-          debugger;
         } else {
           $scope.oldPath = angular.copy(results.category.path);
           var regexPath = /^\/[A-z0-9\_\-\/]+(?=[\/])/.exec(results.category.path);
