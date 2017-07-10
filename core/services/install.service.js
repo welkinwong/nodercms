@@ -84,6 +84,18 @@ exports.install = function (options, callback) {
       database.init(databaseDate, callback)
     }],
     connectDatabase: ['databaseInt', database.connect],
+    writeDatabaseVersion: ['connectDatabase', function (callback) {
+      new optionsModel({
+        name: 'database', value: 1
+      }).save(function (err) {
+        if (err) {
+          err.type = 'database';
+          return callback(err);
+        }
+
+        callback(err)
+      });
+    }],
     writeSiteinfo: ['connectDatabase', function (callback) {
       new optionsModel({
         name: 'siteInfo',
