@@ -63,7 +63,7 @@ angular.module('controllers').controller('featuresChange', ['$scope', '$state','
         $scope.sort = feature.sort;
         $scope.title = feature.title;
         $scope.url = feature.url;
-        $scope.extensions = feature.extensions;
+        $scope.extensions = feature.extensions || {};
 
         if (feature.thumbnail) {
           $scope.thumbnail._id = feature.thumbnail._id;
