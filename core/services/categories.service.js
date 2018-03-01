@@ -139,7 +139,7 @@ exports.navigation = function (options, callback) {
             category.current = false;
           }
 
-          if (category.node) {
+          if (category.nodes) {
             category.nodes = loop(category.nodes);
           }
 
