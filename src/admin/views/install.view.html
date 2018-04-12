@@ -45,7 +45,7 @@
           <div ng-class="{ 'has-error': databaseForm.databaseHost.$touched && databaseForm.databaseHost.$invalid }" class="form-group">
             <label for="databaseHost" class="col-sm-3 control-label">* 数据库主机：</label>
             <div class="col-sm-9">
-              <input ng-model="databaseHost" ng-disabled="transmitting" ng-pattern="/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$|^localhost$/" class="form-control" id="databaseHost" type="text" name="databaseHost" aria-describedby="databaseHostHelpBlock" placeholder="请输入数据库主机" required>
+              <input ng-model="databaseHost" ng-disabled="transmitting" ng-pattern="/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$|^localhost$|^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$/" class="form-control" id="databaseHost" type="text" name="databaseHost" aria-describedby="databaseHostHelpBlock" placeholder="请输入数据库主机" required>
               <p ng-show="databaseForm.databaseHost.$touched && databaseForm.databaseHost.$invalid" class="help-block">主机应为为 IP 地址或 localhost</p>
               <span id="databaseHosteHelpBlock" class="help-block">如果数据库与网站是同一台服务器，默认 localhost 即可</span>
             </div>
