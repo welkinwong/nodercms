@@ -120,7 +120,7 @@ angular.module('controllers').controller('contentChange', ['$scope', '$state', '
 
               _.map($scope.category.model.extensions, function (extension) {
                 if (extension.type === 'media') {
-                  if ($scope.extensions[extension.key] && extension.mixed.limit - $scope.extensions[extension.key].length < 1) {
+                  if ($scope.extensions[extension.key] && $scope.extensions[extension.key].length != 0 && extension.mixed.limit - $scope.extensions[extension.key].length < 1) {
                     $scope.disabledExtMediaAdd[extension.key] = true;
                   } else {
                     $scope.disabledExtMediaAdd[extension.key] = false;
