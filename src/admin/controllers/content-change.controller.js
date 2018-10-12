@@ -120,7 +120,7 @@ angular.module('controllers').controller('contentChange', ['$scope', '$state', '
 
               _.map($scope.category.model.extensions, function (extension) {
                 if (extension.type === 'media') {
-                  if ($scope.extensions[extension.key] && $scope.extensions[extension.key].length != 0 && extension.mixed.limit - $scope.extensions[extension.key].length < 1) {
+                  if ($scope.extensions[extension.key] && extension.mixed.limit && extension.mixed.limit - $scope.extensions[extension.key].length < 1) {
                     $scope.disabledExtMediaAdd[extension.key] = true;
                   } else {
                     $scope.disabledExtMediaAdd[extension.key] = false;
@@ -147,7 +147,7 @@ angular.module('controllers').controller('contentChange', ['$scope', '$state', '
     $scope.addExtensionMedia = function (key, limit) {
       $scope.extensions[key] = $scope.extensions[key] || [];
 
-      $scope.mediaSelect({ limit: limit - $scope.extensions[key].length }, function (media) {
+      $scope.mediaSelect({ limit: limit - $scope.extensions[key].length && limit }, function (media) {
         $scope.extensions[key] = _.concat($scope.extensions[key], media);
 
         if (limit - $scope.extensions[key].length < 1) {
@@ -164,7 +164,7 @@ angular.module('controllers').controller('contentChange', ['$scope', '$state', '
     $scope.removeExtensionsMedia = function (key, limit, medium) {
       _.pull($scope.extensions[key], medium);
 
-      if (limit - $scope.extensions[key].lengt < 1) {
+      if (limit - $scope.extensions[key].lengt < 1 && limit) {
         $scope.disabledExtMediaAdd[key] = true;
       } else {
         $scope.disabledExtMediaAdd[key] = false;
