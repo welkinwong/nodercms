@@ -6,7 +6,7 @@
     "name": "Welkin Wong",
     "email": "welkin.wong@me.com"
   },
-  "license": "AGPL-3.0",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/welkinwong/nodercms.git"
