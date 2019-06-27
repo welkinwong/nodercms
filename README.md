@@ -35,5 +35,4 @@ $ npm start
 - [推荐调用使用说明](http://www.nodercms.com/help/themes/features)
 
 ## License
-GNU AFFERO GENERAL PUBLIC LICENSE
-Version 3, 19 November 2007
+NoderCMS is MIT licensed, as found in the LICENSE file.
