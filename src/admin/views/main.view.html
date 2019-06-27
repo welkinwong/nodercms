@@ -4,55 +4,28 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="关闭"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="sponsorModalTitle">捐赠信息</h4>
+        <h4 class="modal-title" id="sponsorModalTitle">打赏作者</h4>
       </div>
       <div class="modal-body">
         <h3 class="text-center text-welcome">感谢您使用 NoderCMS</h3>
-        <h5 class="text-center text-muted">本软件为开源软件，项目的发展离不开你的支持，可以请作者吃顿饭来激励一下作者 : )</h5>
-        <br>
-        <div class="btn-group btn-group-justified" role="group">
-          <div class="btn-group" role="group">
-            <button ng-click="sponsor = 99" ng-class="{ 'active': sponsor === 99 }" type="button" class="btn btn-default">请作者一顿饭</button>
-          </div>
-          <div class="btn-group" role="group">
-            <button ng-click="sponsor = 199" ng-class="{ 'active': sponsor === 199 }" type="button" class="btn btn-default">请作者两顿饭</button>
-          </div>
-          <div class="btn-group" role="group">
-            <button ng-click="sponsor = 499" ng-class="{ 'active': sponsor === 499 }" type="button" class="btn btn-default">请作者豪华大餐<span class="badge sponsor-badge">荐</span></button>
-          </div>
-          <div class="btn-group" role="group">
-            <button ng-click="sponsor = 999" ng-class="{ 'active': sponsor === 999 }" type="button" class="btn btn-default">帮作者赢取白富美</button>
-          </div>
-        </div>
+        <h5 class="text-center text-muted">本软件为开源软件，项目的发展离不开你的支持，可以向作者打赏来鼓励一下作者 : )</h5>
         <br>
         <div class="row sponsor">
           <div class="col-md-6">
             <div class="thumbnail weixin">
-              <img ng-if="sponsor === 99" src="/assets/admin/images/sponsor/weixin99.jpg">
-              <img ng-if="sponsor === 199" src="/assets/admin/images/sponsor/weixin199.jpg">
-              <img ng-if="sponsor === 499" src="/assets/admin/images/sponsor/weixin499.jpg">
-              <img ng-if="sponsor === 999" src="/assets/admin/images/sponsor/weixin999.jpg">
+              <img src="/assets/admin/images/sponsor/weixin.png">
               <div class="caption">
                 <h3>微信打赏</h3>
-                <p ng-if="sponsor === 99">￥99</p>
-                <p ng-if="sponsor === 199">￥199</p>
-                <p ng-if="sponsor === 499">￥499</p>
-                <p ng-if="sponsor === 999">￥999</p>
+                <p>恭喜发财</p>
               </div>
             </div>
           </div>
           <div class="col-md-6">
             <div class="thumbnail alipay">
-              <img ng-if="sponsor === 99" src="/assets/admin/images/sponsor/alipay99.jpg">
-              <img ng-if="sponsor === 199" src="/assets/admin/images/sponsor/alipay199.jpg">
-              <img ng-if="sponsor === 499" src="/assets/admin/images/sponsor/alipay499.jpg">
-              <img ng-if="sponsor === 999" src="/assets/admin/images/sponsor/alipay999.jpg">
+              <img src="/assets/admin/images/sponsor/alipay.png">
               <div class="caption">
                 <h3>支付宝打赏</h3>
-                <p ng-if="sponsor === 99">￥99</p>
-                <p ng-if="sponsor === 199">￥199</p>
-                <p ng-if="sponsor === 499">￥499</p>
-                <p ng-if="sponsor === 999">￥999</p>
+                <p>大吉大利</p>
               </div>
             </div>
           </div>
@@ -171,9 +144,9 @@
         </div>
       </div>
       <div class="panel panel-default">
-        <div class="panel-heading">捐赠信息</div>
+        <div class="panel-heading">打赏作者</div>
         <div class="panel-body">
-          <p>本软件为开源软件，项目的发展离不开你的支持，可以请作者吃顿饭来激励一下作者 : )</p>
+          <p>本软件为开源软件，项目的发展离不开你的支持，可以向作者打赏来鼓励一下作者 : )</p>
           <button data-toggle="modal" data-target="#sponsorModal" type="button" class="btn btn-default btn-block btn-sm">请作者吃饭</button>
         </div>
       </div>
