@@ -15,8 +15,11 @@ NoderCMS 使用 Node.js + MongoDB 开发，拥有灵活的内容模型以及完�
 <br>
 
 超级文档 | 下一代协作文档办公
+
 网址：[https://sdocapp.com](https://sdocapp.com)
+
 QQ群：638440389
+
 介绍：超级文档是一个以文档为核心的协作办公工具，在完整的排版和格式支持之外，还可以在文档中嵌入任务看板、思维导图、表格、表单、投票等等提高办公效率的功能。
 
 [![超级文档 | 下一代协作文档办公](https://github.com/welkinwong/nodercms/blob/master/superdocs-ad.png)](https://sdocapp.com)
