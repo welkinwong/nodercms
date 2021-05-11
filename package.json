@@ -30,7 +30,7 @@
     "express-session": "^1.13.0",
     "express-validator": "^2.20.3",
     "formidable": "^1.0.17",
-    "lodash": "^4.6.1",
+    "lodash": "^4.17.21",
     "log4js": "^0.6.31",
     "lru-cache": "^4.0.0",
     "marked": "^0.3.5",
