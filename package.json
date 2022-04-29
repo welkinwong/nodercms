@@ -19,7 +19,7 @@
     "cms"
   ],
   "dependencies": {
-    "async": "^1.5.2",
+    "async": "^2.6.4",
     "bluebird": "^3.4.6",
     "body-parser": "^1.14.2",
     "compression": "^1.6.1",
