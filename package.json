@@ -26,7 +26,7 @@
     "connect-mongo": "^1.1.0",
     "cookie-parser": "^1.4.1",
     "express": "^4.13.4",
-    "express-hbs": "^0.8.4",
+    "express-hbs": "^2.4.0",
     "express-session": "^1.13.0",
     "express-validator": "^2.20.3",
     "formidable": "^1.0.17",
